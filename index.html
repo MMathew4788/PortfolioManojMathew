@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="description" content="Portfolio of Manoj Mathew (Software Developer)" />
+  <meta name="keywords" content="Manoj Mathew, Portfolio Web Developer, HTML, CSS, JavaScript" />
+  <meta name="author" content="Manoj Mathew" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manoj Mathew</title>
+  <!--Bootstrap CSS CDN-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="CSSdark.css">
+
+</head>
+
+<body>
+  <!-- top menu-->
+  <div class="menu" id="mobile">
+    <div class="topnav">
+      <p class="normal">Menu</p>
+      <div id="myLinks">
+        <a href="#About">1. About</a>
+        <a href="#Skills">2. Skills</a>
+        <a href="#Work">3. Work</a>
+        <a href="#Contact">4. Contact</a>
+      </div>
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="menu" id="desktop">
+    <ol class="row text-center">
+      <li class="col-lg-12 col-md-6 col-sm-6 col-6"><a href="#About">1. About</a></li>
+      <li class="col-lg-12 col-md-6 col-sm-6 col-6"><a href="#Skills">2. Skills</a></li>
+      <li class="col-lg-12 col-md-6 col-sm-6 col-6"><a href="#Work">3. Work</a></li>
+      <li class="col-lg-12 col-md-6 col-sm-6 col-6"><a href="#Contact">4. Contact</a></li>
+    </ol>
+  </div>
+  <!-- About -->
+  <div class="About">
+    <a id="About"></a>
+    <div class="topSpacing">
+      <h3>1. About------------</h3>
+    </div>
+    <h4>Hi my name is</h4>
+    <h1>Manoj Mathew</h1>
+    <p class="LongPara"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis massa in sollicitudin malesuada. Morbi
+      quis mi eget mi finibus scelerisque. Pellentesque vestibulum sem id diam feugiat, non suscipit dui ultricies. In
+      viverra libero ut enim imperdiet maximus. Curabitur ac orci sed enim tincidunt molestie. Sed tincidunt id purus ut
+      vulputate. Integer accumsan neque nec consectetur varius. Nulla pretium, libero in molestie tristique, dui nisi
+      congue libero, sit amet egestas ex dui et mi. Pellentesque lacinia varius laoreet. Curabitur dui purus, tincidunt
+      ac dolor quis, ornare accumsan neque.
+    </p>
+  </div>
+
+  <!--Skills-->
+  <div class="Skills">
+    <a id="Skills"></a>
+    <div class="topSpacing">
+      <h3>2. Skill------------</h3>
+    </div>
+
+    <!-- CAROUSEL-->
+    <div id="Skills-image" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="image/html.png" style="width: 20vw; height:30vh;  alt=" HTML">
+        </div>
+        <div class="carousel-item">
+          <img src="image/CSS.png" style="width: 20vw; height:30vh; alt=" CSS">
+        </div>
+        <div class="carousel-item">
+          <img src="image/JS.gif" style="width: 20vw; height:30vh; alt=" JavaScript">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#Skills-image" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#Skills-image" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+      <!-- CAROUSEL-->
+    </div>
+    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis massa in sollicitudin malesuada. Morbi
+      quis mi eget mi finibus scelerisque. Pellentesque vestibulum sem id diam feugiat, non suscipit dui ultricies. In
+      viverra libero ut enim imperdiet maximus. Curabitur ac orci sed enim tincidunt molestie. Sed tincidunt id purus ut
+      vulputate. Integer accumsan neque nec consectetur varius. Nulla pretium, libero in molestie tristique, dui nisi
+      congue libero, sit amet egestas ex dui et mi. Pellentesque lacinia varius laoreet. Curabitur dui purus, tincidunt
+      ac dolor quis, ornare accumsan neque.
+    </p>
+
+  </div>
+
+  <!-- Work -->
+  <div class="Work">
+    <a id="Work"></a>
+    <div class="topSpacing">
+      <h3>3. Work------------</h3>
+      <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis massa in sollicitudin malesuada.
+        Morbi quis mi eget mi finibus scelerisque. Pellentesque vestibulum sem id diam feugiat, non suscipit dui
+        ultricies. In viverra libero ut enim imperdiet maximus. Curabitur ac orci sed enim tincidunt molestie. Sed
+        tincidunt id purus ut vulputate. Integer accumsan neque nec consectetur varius. Nulla pretium, libero in
+        molestie tristique, dui nisi congue libero, sit amet egestas ex dui et mi. Pellentesque lacinia varius laoreet.
+        Curabitur dui purus, tincidunt ac dolor quis, ornare accumsan neque.
+      </p>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="Contact">
+    <a id="Contact"></a>
+    <div class="topSpacing">
+      <h3>4. Contact------------</h3>
+      <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis massa in sollicitudin malesuada.
+        Morbi quis mi eget mi finibus scelerisque. Pellentesque vestibulum sem id diam feugiat, non suscipit dui
+        ultricies. In viverra libero ut enim imperdiet maximus. Curabitur ac orci sed enim tincidunt molestie. Sed
+        tincidunt id purus ut vulputate. Integer accumsan neque nec consectetur varius. Nulla pretium, libero in
+        molestie tristique, dui nisi congue libero, sit amet egestas ex dui et mi. Pellentesque lacinia varius laoreet.
+        Curabitur dui purus, tincidunt ac dolor quis, ornare accumsan neque.
+      </p>
+    </div>
+  </div>
+  <!--Script-->
+  <!--Bootstrap CDN-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+
+  <!--j.query CDN-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+  <!--external JS file-->
+  <script src="index.js"></script>
+</body>
+
+</html>
