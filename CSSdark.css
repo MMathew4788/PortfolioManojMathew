@@ -1,6 +1,7 @@
 body {
   margin: 0;
-  color: #e94560;
+  color: white;
+  background-color: #0f3460;
 }
 
 a {
@@ -8,25 +9,16 @@ a {
   text-decoration: none;
 }
 
-p {
-  padding: 3rem 5rem 5rem;
-  text-align: justify;
-  color: #edb6bf;
-}
-
-h3 {
-  font-size: larger;
-  font-weight: bold;
-}
 
 .menu {
   height: 100vh;
-  width: 25vw;
+  width: 15vw;
   background-color: #16213e;
   position: fixed;
   left: 0;
   top: 0;
   padding-top: 25vh;
+  margin-top: 0px;
 }
 .menu ol {
   margin: auto 0 0 0;
@@ -35,7 +27,7 @@ h3 {
 .menu ol li {
   display: block;
   text-align: left;
-  padding: 0.75rem 3rem;
+  padding: 0.75rem 1rem;
   color: #e94560;
   font-size: larger;
   font-weight: bold;
@@ -44,7 +36,7 @@ h3 {
 .menu ol li a:hover{
  background-color: #e94560;
   color:#16213e; 
-  padding: 10px 10px 10px 50px;
+  padding: 0.5rem 0.5rem;
   border-radius: 10px;
   transform: scale(0.3, 1);
   transform-origin: left top;
@@ -55,28 +47,124 @@ h3 {
 .Skills,
 .Work,
 .Contact {
-  height: 100vh;
-  width: 75vw;
+  min-height: 100vh;
   background-color: #0f3460;
-  text-align: center;
-  margin-left: 25vw;
+  margin-left: 15vw;
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 
 .topSpacing {
   padding-top: 10vh;
 }
 
-.LongPara {
-  padding: 0 1rem 0;
-  margin: 3rem 5rem 3rem;
-  text-align: justify;
-  color: #edb6bf;
-  height: 4.5rem;
-  overflow-y:scroll ;
+.Glow-button{
+  margin-top:4rem;
+  padding: 1rem 2.5rem;
+  background-color:#e94560;
+  color: white;
+  border:none;
+  font-size:1.125rem;
+  border-radius:3rem;
+  cursor:pointer;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow:0 2px 8px -1px rgba(0,0,0,0.5),
+             0 0 6px #e94560;
+  transition:box-shadow 0.2s ease-in-out;
+}
+.Glow-button:hover {
+  box-shadow:0 2px 8px -1px rgba(0,0,0,0.5),
+             0 0 20px 4px #e94560,
+             0 0 15px 3px #e94560,
+             0 0 6px 2px #e94560;
 }
 
+.Profile-pic{
+  height:13rem; 
+  width:11rem;
+  -webkit-filter: sepia(100%);
+  -moz-filter: sepia(100%);
+  -o-filter: sepia(100%);
+  -ms-filter: sepia(100%);
+	-filter: sepia(100%);
+	-webkit-transition: .3s ease-in-out;
+  -transition: .3s ease-in-out;
+  -webkit-transform: scale(1);
+	transform: scale(1);
+  -webkit-transform: .3s ease-in-out;
+	transform: .3s ease-in-out;
+}
+
+.Profile-pic:hover{
+  -webkit-filter: sepia(0);
+  -moz-filter: sepia(0);
+  -o-filter: sepia(0);
+  -ms-filter: sepia(0);
+	filter: sepia(0);
+  -webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
+
+
+.About h1{
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-align: left;
+  overflow: hidden;
+}
+
+.About h1 span.typed-text{
+  font-weight: bold;
+  color: #e94560;
+  
+} 
+
+.About h1 span.cursor{
+  color:#724fa7;
+  animation: 1s blink step-end infinite;
+}
+
+.About h1 span.cursor.typing{
+  color:#724fa7;
+  animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #724fa7;
+  }
+}
+
+.project{
+margin-top:2rem;
+width: 30rem;
+height:20rem;
+-webkit-filter: sepia(100%);
+-moz-filter: sepia(100%);
+-o-filter: sepia(100%);
+-ms-filter: sepia(100%);
+-filter: sepia(100%);
+-webkit-transition: .3s ease-in-out;
+-transition: .3s ease-in-out;
+}
+
+
+.project:hover{
+  -webkit-filter: sepia(0);
+  -moz-filter: sepia(0);
+  -o-filter: sepia(0);
+  -ms-filter: sepia(0);
+  -filter: sepia(0);
+}
+
+
 /* Code for mobile site*/
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 1050px) {
   #desktop {
     visibility: hidden;
   }
@@ -124,8 +212,8 @@ h3 {
   }
 
   .topnav a:hover {
-    background-color: #533483;
-    color: #e94560;
+    background-color: #e94560;
+    color: #16213e;
   }
 
   .normal {
@@ -143,12 +231,15 @@ h3 {
   .Contact {
     position: relative;
     width: 100vw;
-    text-align: center;
-    margin-left: 0;
+    min-height: 100vh;
+    margin-left: auto;
+    margin-right: auto;
     padding-top: 5rem;
   }
 
   .topSpacing {
     padding-top: 5rem;
+    font-size: 1.75rem;
   }
+
 }
