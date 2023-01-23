@@ -3,13 +3,24 @@ body {
   color: white;
   background-color: #0f3460;
 }
-
 a {
   color: #e94560;
   text-decoration: none;
 }
-
-
+.container {
+  display: flex; 
+  flex-direction: row;
+}
+.About,
+.Skills,
+.Work,
+.Contact {
+  min-height: 100vh;
+  background-color: #0f3460;
+  margin-left: 15vw;
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
 .menu {
   height: 100vh;
   width: 15vw;
@@ -23,7 +34,6 @@ a {
 .menu ol {
   margin: auto 0 0 0;
 }
-
 .menu ol li {
   display: block;
   text-align: left;
@@ -32,7 +42,6 @@ a {
   font-size: larger;
   font-weight: bold;
 }
-
 .menu ol li a:hover{
  background-color: #e94560;
   color:#16213e; 
@@ -42,22 +51,48 @@ a {
   transform-origin: left top;
   transition: color 0.1s;
 }
-
-.About,
-.Skills,
-.Work,
-.Contact {
-  min-height: 100vh;
-  background-color: #0f3460;
-  margin-left: 15vw;
-  padding-left: 5rem;
-  padding-right: 5rem;
-}
-
 .topSpacing {
   padding-top: 10vh;
 }
-
+.About h2{
+  color:#e94560;
+  font-weight: bold; 
+  margin-top: 4rem;
+}
+.About h1{
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-align: left;
+  overflow: hidden;
+  margin-top: 3rem
+}
+.About h1 span.typed-text{
+  font-weight: bold;
+  color: #e94560;
+} 
+.About h1 span.cursor{
+  color:#724fa7;
+  animation: 1s blink step-end infinite;
+}
+.About h1 span.cursor.typing{
+  color:#724fa7;
+  animation: 1s blink step-end infinite;
+}
+.About p{
+  font-size: 1.125rem;
+}
+.About p:first-of-type{
+margin-top: 3rem
+}
+.image-frame{
+  position: relative; 
+  background-color: #e94560; 
+  height: 15rem; 
+  width: 13rem; 
+  margin-top: 4rem; 
+  margin-left: 4rem;
+}
 .Glow-button{
   margin-top:4rem;
   padding: 1rem 2.5rem;
@@ -79,7 +114,6 @@ a {
              0 0 15px 3px #e94560,
              0 0 6px 2px #e94560;
 }
-
 .Profile-pic{
   height:13rem; 
   width:11rem;
@@ -95,7 +129,6 @@ a {
   -webkit-transform: .3s ease-in-out;
 	transform: .3s ease-in-out;
 }
-
 .Profile-pic:hover{
   -webkit-filter: sepia(0);
   -moz-filter: sepia(0);
@@ -105,32 +138,6 @@ a {
   -webkit-transform: scale(1.1);
 	transform: scale(1.1);
 }
-
-
-.About h1{
-  font-size: 3rem;
-  font-weight: bold;
-  letter-spacing: 0.1rem;
-  text-align: left;
-  overflow: hidden;
-}
-
-.About h1 span.typed-text{
-  font-weight: bold;
-  color: #e94560;
-  
-} 
-
-.About h1 span.cursor{
-  color:#724fa7;
-  animation: 1s blink step-end infinite;
-}
-
-.About h1 span.cursor.typing{
-  color:#724fa7;
-  animation: 1s blink step-end infinite;
-}
-
 @keyframes blink {
   from, to {
     color: transparent;
@@ -138,6 +145,23 @@ a {
   50% {
     color: #724fa7;
   }
+}
+
+.side-note{
+position:absolute; 
+letter-spacing: 2px; 
+writing-mode: vertical-rl; 
+right:1rem; 
+bottom: 1rem;
+}
+
+.skill-description{
+  width: 50%; 
+  font-size: 1.125rem;
+}
+.carousel-container{
+  width: 50%; 
+  padding-left: 2rem;
 }
 
 .project{
@@ -162,9 +186,8 @@ height:20rem;
   -filter: sepia(0);
 }
 
-
-/* Code for mobile site*/
-@media only screen and (max-width: 1050px) {
+/* Code for Ipad*/
+@media only screen and (min-width: 480px) and (max-width: 1000px) {
   #desktop {
     visibility: hidden;
   }
@@ -173,58 +196,9 @@ height:20rem;
     width: 100vw;
     position: fixed;
     top: 0;
-    z-index: 2;
+    z-index: 20;
     padding-top: 0%;
   }
-
-  /*Nav Bar*/
-  .topnav {
-    overflow: hidden;
-    background-color: #16213e;
-    position: relative;
-    font-size: larger;
-    font-weight: bold;
-  }
-
-  .topnav #myLinks {
-    display: none;
-  }
-
-  .topnav a {
-    color: #e94560;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-    display: block;
-    font-size: medium;
-    font-weight: bold;
-  }
-
-  .topnav .icon {
-    height: 55.9px;
-   }
-
-  .topnav a.icon {
-    background: #16213e;
-    display: block;
-    position: absolute;
-    top: 0;
-  }
-
-  .topnav a:hover {
-    background-color: #e94560;
-    color: #16213e;
-  }
-
-  .normal {
-    padding: 0.9rem 0px 0rem 0rem;
-    text-decoration: none;
-    font-size: 17px;
-    text-align: center;
-    display: block;
-    background-color: #16213e;
-  }
-
   .About,
   .Skills,
   .Work,
@@ -236,10 +210,230 @@ height:20rem;
     margin-right: auto;
     padding-top: 5rem;
   }
-
   .topSpacing {
     padding-top: 5rem;
     font-size: 1.75rem;
+  }
+  .About p:first-of-type {
+    position:Absolute;
+    bottom: 20rem;
+    left:6rem;
+  }
+  .About p:last-of-type {
+    position:Absolute;
+    bottom:18rem;
+    left:6rem;
+  }
+  .image-frame{
+    position: Absolute; 
+    top: 26rem; 
+    left: 0;
+    right:0;
+    margin:auto;
+  }
+  .Glow-button{
+    position:Absolute;
+    bottom:6rem;
+    left: 0;
+    right:0;
+    margin:auto;
+  }
+  .container {
+    display: flex; 
+    flex-direction: column;
+  }
+
+  .skill-description{
+    width: 100%; 
+    font-size: 1.125rem;
+  }
+  .carousel-container{
+    width: 100%; 
+    padding-left: 2rem;
+    margin-top:2rem;
+  }
+  /*Nav Bar*/
+  .topnav {
+    overflow: hidden;
+    background-color: #16213e;
+    position: relative;
+    font-size: larger;
+    font-weight: bold;
+  }
+  .topnav #myLinks {
+    display: none;
+  }
+  .topnav a {
+    color: #e94560;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+    font-size: medium;
+    font-weight: bold;
+  }
+  .topnav .icon {
+    height: 55.9px;
+   }
+  .topnav a.icon {
+    background: #16213e;
+    display: block;
+    position: absolute;
+    top: 0;
+  }
+  .topnav a:hover {
+    background-color: #e94560;
+    color: #16213e;
+  }
+  .normal {
+    padding: 0.9rem 0px 0rem 0rem;
+    text-decoration: none;
+    font-size: 17px;
+    text-align: center;
+    display: block;
+    background-color: #16213e;
+  }
+
+}
+
+
+/* Code for mobile*/
+@media screen and (max-width: 480px) {
+  #desktop {
+    visibility: hidden;
+  }
+  .About,
+  .Skills,
+  .Work,
+  .Contact {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    margin-left: 0;
+    padding-top: 5rem;
+  }
+  .menu {
+    height: auto;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    z-index: 20;
+    padding-top: 0%;
+  }
+  .topSpacing {
+    padding-top: 5rem;
+    font-size: 1.75rem;
+  }
+  .container {
+    display: flex; 
+    flex-direction: column;
+  }
+  .About h2{
+    position:absolute;
+    color:#e94560;
+    font-weight: bold; 
+    top: 6rem;
+    left: 2rem;
+  }
+  .About h1{
+    position:absolute;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    text-align: left;
+    overflow: hidden;
+    top: 10rem;
+    left: 2rem;
+  }
+  .About p:first-of-type {
+    position:Absolute;
+    width:20rem;
+    bottom: 16rem;
+    left:2rem;
+  }
+  .About p:last-of-type {
+    position:Absolute;
+    width:20rem;
+    bottom:12rem;
+    left:2rem;
+  }
+  .image-frame{
+    position: Absolute; 
+    top: 20rem; 
+    left: 0;
+    right:0;
+    margin:auto;
+  }
+  .Glow-button{
+    position:Absolute;
+    bottom:4rem;
+    left:0;
+    right:0;
+    margin:auto;
+  }
+  .skill-description{
+    position:Absolute;
+    left:2rem;
+    width: 80%; 
+    font-size: 1.125rem;
+  }
+  .carousel-container{
+    position:Absolute;
+    left:0;
+    right:0;
+    margin:auto;
+    width: 100%; 
+    top:25rem;
+  }
+  .project{
+    width: 20rem;
+    height:15rem;
+    position:Absolute;
+    left:0;
+    right:0;
+    margin:auto;
+  }
+    
+  /*Nav Bar*/
+  .topnav {
+    overflow: hidden;
+    background-color: #16213e;
+    position: relative;
+    font-size: larger;
+    font-weight: bold;
+  }
+  .topnav #myLinks {
+    display: none;
+  }
+  .topnav a {
+    color: #e94560;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+    font-size: medium;
+    font-weight: bold;
+  }
+  .topnav .icon {
+    height: 55.9px;
+   }
+  .topnav a.icon {
+    background: #16213e;
+    display: block;
+    position: absolute;
+    top: 0;
+  }
+  .topnav a:hover {
+    background-color: #e94560;
+    color: #16213e;
+  }
+  .normal {
+    padding: 0.9rem 0px 0rem 0rem;
+    text-decoration: none;
+    font-size: 17px;
+    text-align: center;
+    display: block;
+    background-color: #16213e;
   }
 
 }
