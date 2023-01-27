@@ -344,6 +344,7 @@ border-radius: 0.5rem;
   .Work,
   .Contact {
     position: relative;
+    height: 100vh;
     width: 100vw;
     margin-left: 0;
     padding-top: 4rem;
@@ -390,14 +391,9 @@ border-radius: 0.5rem;
     right:0;
     margin:auto;
   }
-  .Glow-button{
-    position:Absolute;
-    width:50%;
-    bottom:6rem;
-    left:0;
-    right:0;
-    margin:auto;
-    padding: 1rem 1.5rem;
+  .Glow-button-container{
+    display: none;
+    visibility: hidden;
   }
   .skill-description{
     position:Absolute;
