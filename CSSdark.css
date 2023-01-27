@@ -358,7 +358,7 @@ border-radius: 0.5rem;
   }
   .topSpacing {
     margin-top: 3rem;
-
+    margin-bottom:2rem;
   }
   .container {
     display: flex; 
@@ -368,19 +368,19 @@ border-radius: 0.5rem;
     margin-top:0;
   }
   .About h1{
-    margin-top:2rem;
+    margin-top:0rem;
     font-size: 1.8rem;
   }
   .About p:first-of-type {
     position:Absolute;
     padding-right:3rem;
-    top: 32rem;
+    top: 30rem;
     left:2rem;
   }
   .About p:last-of-type {
     position:Absolute;
     padding-right:3rem;
-    top:39rem;
+    top:37rem;
     left:2rem;
   }
   .image-frame{
@@ -392,7 +392,8 @@ border-radius: 0.5rem;
   }
   .Glow-button{
     position:Absolute;
-    bottom:4%;
+    width:50%;
+    bottom:6rem;
     left:0;
     right:0;
     margin:auto;
