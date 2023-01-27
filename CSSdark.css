@@ -18,8 +18,8 @@ a {
   min-height: 100vh;
   background-color: #0f3460;
   margin-left: 15vw;
-  padding-left: 5rem;
-  padding-right: 5rem;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 .menu {
   height: 100vh;
@@ -52,12 +52,12 @@ a {
   transition: color 0.1s;
 }
 .topSpacing {
-  padding-top: 10vh;
+  padding-top: 10%;
 }
 .About h2{
   color:#e94560;
   font-weight: bold; 
-  margin-top: 4rem;
+  margin-top: 5vh;
 }
 .About h1{
   font-size: 3rem;
@@ -65,7 +65,7 @@ a {
   letter-spacing: 0.1rem;
   text-align: left;
   overflow: hidden;
-  margin-top: 3rem
+  margin-top: 5vh;
 }
 .About h1 span.typed-text{
   font-weight: bold;
@@ -82,8 +82,8 @@ a {
 .About p{
   font-size: 1.125rem;
 }
-.About p:first-of-type{
-margin-top: 3rem
+.About p:first-of-type{ 
+  margin-top: 3rem
 }
 .image-frame{
   position: relative; 
@@ -146,7 +146,6 @@ margin-top: 3rem
     color: #724fa7;
   }
 }
-
 .side-note{
 position:absolute; 
 letter-spacing: 2px; 
@@ -154,7 +153,6 @@ writing-mode: vertical-rl;
 right:1rem; 
 bottom: 1rem;
 }
-
 .skill-description{
   width: 50%; 
   font-size: 1.125rem;
@@ -163,7 +161,6 @@ bottom: 1rem;
   width: 50%; 
   padding-left: 2rem;
 }
-
 .project{
 margin-top:2rem;
 width: 30rem;
@@ -173,21 +170,62 @@ height:20rem;
 -o-filter: sepia(100%);
 -ms-filter: sepia(100%);
 -filter: sepia(100%);
+opacity: 0.7;
 -webkit-transition: .3s ease-in-out;
 -transition: .3s ease-in-out;
 }
-
-
 .project:hover{
   -webkit-filter: sepia(0);
   -moz-filter: sepia(0);
   -o-filter: sepia(0);
   -ms-filter: sepia(0);
   -filter: sepia(0);
+  opacity:1;
+  -webkit-transform:scale(1.1);
+}
+.project-description{
+  margin-top: auto; 
+  margin-bottom: auto;
+  margin-left: -10rem;
+  z-index: 5;
+  padding: 2rem;
+  background-color: #0f3460; 
+  border-radius: 3rem;
+}
+.contact-me-container {
+  display: flex; 
+  flex-direction: column;
+}
+.contact-input {
+background-color:#0f3460;
+padding : 0.5rem;
+margin: 1rem 0; 
+width:50%;
+border-color:#e94560;
+color:white;
+border-radius: 0.5rem;
+}
+.contact-message:{
+  height:5rem;
+}
+.submit-button{
+  background-color:#e94560;
+  color: white;
+  padding:1rem 1.25rem;
+  margin-top:2rem;
+  width:20%;
+  border:none;
+  font-size:1.125rem;
+  border-radius:1rem;
+  cursor:pointer;
+  font-weight: bold;
+}
+.submit-button:hover{
+  letter-spacing: 2px; 
 }
 
 /* Code for Ipad*/
-@media only screen and (min-width: 480px) and (max-width: 1000px) {
+@media only screen and (min-width: 480px) and (max-width: 1050px) {
   #desktop {
     visibility: hidden;
   }
@@ -203,46 +241,42 @@ height:20rem;
   .Skills,
   .Work,
   .Contact {
-    position: relative;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 5rem;
   }
   .topSpacing {
-    padding-top: 5rem;
-    font-size: 1.75rem;
+    padding-top: 20%;
+  }
+  .About h1{
+    font-size: 2.5rem;
+    margin-top: 5vh;
+  }
+  .About h2{
+    margin-top: 0;
+    
   }
   .About p:first-of-type {
-    position:Absolute;
-    bottom: 20rem;
-    left:6rem;
+    margin-top:40vh;
   }
-  .About p:last-of-type {
-    position:Absolute;
-    bottom:18rem;
-    left:6rem;
-  }
+
   .image-frame{
     position: Absolute; 
-    top: 26rem; 
+    top: 35vh; 
     left: 0;
     right:0;
     margin:auto;
   }
   .Glow-button{
-    position:Absolute;
-    bottom:6rem;
-    left: 0;
-    right:0;
-    margin:auto;
+    display:flex;
+    margin-left:auto;
+    margin-right:auto;
   }
   .container {
     display: flex; 
     flex-direction: column;
   }
-
   .skill-description{
     width: 100%; 
     font-size: 1.125rem;
@@ -251,6 +285,10 @@ height:20rem;
     width: 100%; 
     padding-left: 2rem;
     margin-top:2rem;
+  }
+  .project-description{
+    margin-left: 15rem;
+    margin-top:-16rem;
   }
   /*Nav Bar*/
   .topnav {
@@ -296,7 +334,6 @@ height:20rem;
 
 }
 
-
 /* Code for mobile*/
 @media screen and (max-width: 480px) {
   #desktop {
@@ -307,8 +344,7 @@ height:20rem;
   .Work,
   .Contact {
     position: relative;
-    width: 100%;
-    min-height: 100vh;
+    width: 100vw;
     margin-left: 0;
     padding-top: 5rem;
   }
@@ -321,52 +357,41 @@ height:20rem;
     padding-top: 0%;
   }
   .topSpacing {
-    padding-top: 5rem;
-    font-size: 1.75rem;
+    padding-top: 3rem;
   }
   .container {
     display: flex; 
     flex-direction: column;
   }
   .About h2{
-    position:absolute;
-    color:#e94560;
-    font-weight: bold; 
-    top: 6rem;
-    left: 2rem;
+    margin-top:0;
   }
   .About h1{
-    position:absolute;
-    font-size: 2rem;
-    font-weight: bold;
-    letter-spacing: 0.1rem;
-    text-align: left;
-    overflow: hidden;
-    top: 10rem;
-    left: 2rem;
+    margin-top:2rem;
+    font-size: 1.8rem;
   }
   .About p:first-of-type {
     position:Absolute;
-    width:20rem;
-    bottom: 16rem;
+    padding-right:3rem;
+    top: 32rem;
     left:2rem;
   }
   .About p:last-of-type {
     position:Absolute;
-    width:20rem;
-    bottom:12rem;
+    padding-right:3rem;
+    top:40rem;
     left:2rem;
   }
   .image-frame{
     position: Absolute; 
-    top: 20rem; 
+    top: 18rem; 
     left: 0;
     right:0;
     margin:auto;
   }
   .Glow-button{
     position:Absolute;
-    bottom:4rem;
+    bottom:4%;
     left:0;
     right:0;
     margin:auto;
@@ -386,14 +411,30 @@ height:20rem;
     top:25rem;
   }
   .project{
-    width: 20rem;
-    height:15rem;
+    width: 80%;
+    height: 30%;
     position:Absolute;
     left:0;
     right:0;
     margin:auto;
   }
-    
+  .project:hover{
+    -webkit-transform:scale(1);
+  }
+  .project-description{
+    width: 80%;
+    margin-left: 30%;
+    margin-right:-6rem;
+    margin-top:5rem;
+    padding:1rem;
+    border-radius:3rem;
+  }
+  .contact-input{
+    width:100%;
+  }
+  .submit-button{
+    width:50%;}
+
   /*Nav Bar*/
   .topnav {
     overflow: hidden;
