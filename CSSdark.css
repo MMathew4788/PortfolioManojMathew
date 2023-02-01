@@ -53,12 +53,6 @@ body {
   color: #e94560;
   text-decoration: none;
 }
-.menu-icon-container{
-  display: flex; 
-  flex-direction: column ; 
-  text-align: center; 
-  margin-top: 3rem;
-}
 .menu-icon{
   width:30px;
   height:30px; 
@@ -300,7 +294,7 @@ border-radius: 0.5rem;
     position: absolute;
     top: 0;
   }
-  .topnav a:hover {
+  .links a:hover {
     background-color: #e94560;
     color: #16213e;
   }
@@ -327,5 +321,4 @@ border-radius: 0.5rem;
     margin-left: 0;
     padding-top: 4rem;
   }
-
 }
