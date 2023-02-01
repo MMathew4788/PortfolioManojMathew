@@ -19,7 +19,6 @@
 </head>
 
 <body>
-
   <!-- top menu-->
   <div class="menu" id="mobile">
     <div class="topnav">
@@ -38,83 +37,90 @@
 
   <div class="menu" id="desktop">
     <ol class="row text-center">
-      <li class="col-lg-12 col-md-6 col-sm-6 col-6"><a href="#About">1. About</a></li>
-      <li class="col-lg-12 col-md-6 col-sm-6 col-6"><a href="#Skills">2. Skills</a></li>
-      <li class="col-lg-12 col-md-6 col-sm-6 col-6"><a href="#Work">3. Work</a></li>
-      <li class="col-lg-12 col-md-6 col-sm-6 col-6"><a href="#Contact">4. Contact</a></li>
+      <li><a href="#About">1. About</a></li>
+      <li><a href="#Skills">2. Skills</a></liclass=>
+      <li><a href="#Work">3. Work</a></li>
+      <li><a href="#Contact">4. Contact</a></li>
     </ol>
-    <div style="display: flex; flex-direction: column ; text-align: center; margin-top: 3rem;">
-      <a href="https://github.com/MMathew4788"> <i class="fa fa-github"
-          style="font-size:24px; color:#e94560; margin-bottom:1rem;"></i></a>
-      <a href="https://codepen.io/ManojMathew"> <i class="fa fa-codepen"
-          style="font-size:24px; color:#e94560;margin-bottom:1rem;"></i></a>
-      <a
-        href="https://uk.linkedin.com/in/manoj-m-27b92a2a?trk=public_profile_publication_contributor-image&original_referer=https%3A%2F%2Fwww.google.com%2F">
-        <i class="fa fa-linkedin-square" style="font-size:24px; color:#e94560;"></i></a>
+    <div class="menu-icon-container">
+      <a href="https://github.com/MMathew4788" target="_blank">
+        <img src="./image/github.svg" alt="github" class="menu-icon">
+      </a>
+      <a href="https://codepen.io/ManojMathew" target="_blank">
+        <img src="./image/codepen.svg" alt="codepen" class="menu-icon">
+      </a>
+      <a href="https://uk.linkedin.com/in/manoj-m-27b92a2a" target="_blank">
+        <img src="./image/linkedin.svg" alt="linkedin" class="menu-icon">
+      </a>
+      <a href="https://www.youtube.com/@manojmathew5287" target="_blank">
+        <img src="./image/youtube.svg" alt="linkedin" class="menu-icon">
+      </a>
     </div>
-
 
   </div>
   <!-- About -->
   <div class="About">
     <a id="About"></a>
-    <div class="topSpacing">
+    <div class="top-space">About</div>
+    <div class="row gy-3 align-self-start">
+      <h2>HELLO</h2>
+      <h1>I'm <span class="typed-text"></span><span class="cursor">&nbsp;|</span></h1>
     </div>
-    <div class="container">
-      <div>
-        <h2>HELLO</h2>
-        <h1>I'm <span class="typed-text"></span><span class="cursor">&nbsp;|</span></h1>
-        <p>I always love to learn new techniques and tools and upgrade
-          my skills.</p>
-        <p>I'm from India and currently I'm living in Watford, United Kingdom.</p>
-      </div>
-      <div>
-        <div class="image-frame">
-          <div
-            style="position: absolute; z-index: 10;background-color: #0f3460; height: 14rem; width: 12rem; top: 0.5rem; left:0.5rem;">
-            <div>
-              <img class="Profile-pic" src="./image/image.png" alt="image">
-            </div>
-          </div>
-          <div
-            style="position: absolute; background-color: #0f3460; height: 11rem; width: 9rem; top: 0rem; right:0rem;">
-          </div>
-          <div
-            style="position: absolute; background-color: #0f3460; height: 11rem; width: 9rem; bottom: 0rem; left:0rem;">
+    <div class=" conatiner row gx-0 gy-5 mt-2">
+      <div class="image-frame col-lg-4">
+        <div class="image-frame-layer image-frame-layer-1">
+          <div>
+            <img class="Profile-pic" src="./image/image.png" alt="image">
           </div>
         </div>
+        <div class="image-frame-layer image-frame-layer-2">
+        </div>
+        <div class="image-frame-layer image-frame-layer-3">
+        </div>
       </div>
-      <div class="side-note"> Scroll
-        down to know more <i class="fa fa-long-arrow-down"></i></div>
+      <div class="col-lg-8 align-self-center">
+        <p class="col-11 col-md-12">
+          I always love to learn new techniques and tools and upgrade my skills.
+        </p>
+        <p class="col-11 col-md-12">
+          I'm from India and currently I'm living in Watford, United Kingdom.
+        </p>
+      </div>
     </div>
-    <div class="Glow-button-container">
-      <a href="#Contact"><button class="Glow-button"> Get In Touch</button></a>
+    <a href="#Contact"><button class="Glow-button mt-4"> Get In Touch</button></a>
+    <div class="side-note">
+      Scroll down to know more <i class="fa fa-long-arrow-down"></i>
     </div>
   </div>
- 
+
 
   <!--Skills-->
   <div class="Skills">
     <a id="Skills"></a>
-    <div class="topSpacing">
-    </div>
-    <div class="container">
-      <div class="skill-description">
-        <p>Here are a few technologies I've been working with recently:</p>
-        <div style="display: flex; flex-direction: row; justify-content: space-around;">
-          <ul>
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>Bootstrap</li>
-          </ul>
-          <ul>
-            <li>Tailwind</li>
-            <li>JavaScript (ES6+)</li>
-            <li>React</li>
-          </ul>
+    <div class="top-space">Skills</div>
+    <div class="skill-container">
+      <div class="skill-description col-md-9 col-lg-12">
+        <h3>Here are a few technologies I've been working with recently:</h3>
+        <div class="row ">
+          <div class="col-lg-9 py-3">
+            <div class="d-flex justify-content-around">
+              <button type="button" class="btn btn-outline-light btn-lg ">HTML</button>
+              <button type="button" class="btn btn-outline-light btn-lg ">CSS</button>
+              <button type="button" class="btn btn-outline-light btn-lg ">Bootstrap</button>
+            </div>
+            <div class="d-flex justify-content-evenly my-4">
+              <button type="button" class="btn btn-outline-light btn-lg ">Tailwind</button>
+              <button type="button" class="btn btn-outline-light btn-lg ">JavaScript (ES6+)</button>
+            </div>
+            <div class="d-flex justify-content-around">
+              <button type="button" class="btn btn-outline-light btn-lg ">React</button>
+              <button type="button" class="btn btn-outline-light btn-lg ">Git</button>
+              <button type="button" class="btn btn-outline-light btn-lg ">GitHub</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="carousel-container">
+      <div class="col-md-9">
         <!-- CAROUSEL-->
         <div id="Skills-image" class="carousel slide text-center" data-bs-ride="carousel">
           <div class="carousel-inner">
@@ -143,37 +149,61 @@
   <!-- Work -->
   <div class="Work">
     <a id="Work"></a>
-    <div class="topSpacing">
-    </div>
-    <h3> Here are some of the Things which I've Built</h3>
-    <div class="container">
-      <div style="overflow: hidden;">
-        <a href="https://stellar-llama-6e337b.netlify.app/">
-          <img src="./image/FoodOrder.png" alt="Food App" class="project">
-        </a>
+    <div class="top-space">Work</div>
+    <div class="work-container">
+      <h3> Here are some of the Things which I've Built</h3>
+      <!--Project-1-->
+      <div class="d-sm-flex flex-lg-row flex-column mt-4">
+        <div class=" col-lg-6 col-md-9 overflow-hidden">
+          <a href="https://stellar-llama-6e337b.netlify.app/" target="_blank">
+            <img src="./image/FoodOrder.png" alt="Food App" class="project h-100 w-100">
+          </a>
+        </div>
+        <div class="project-description col-lg-6">
+          <h4 style="color:#e94560; font-weight: bold;">Project Description:</h4>
+          <p><b>A food delivery webapp</b><br>
+            This project interface is built using React and Tailwind.<br>
+            It is responsive in nature.<br>
+            React hooks used: useState, useEffect, useRef, useContext.
+          </p>
+          <p>Click on the image to view the project</p>
+        </div>
       </div>
-      <div class="project-description">
-        <h4 style="color:#e94560; font-weight: bold;">Project Description:</h4>
-        <p>A food delivery webage.<br>
-          The project is built using React and Tailwind.</p>
-        <p> <i class="fa fa-hand-o-left"></i> Click on the image to view the project</p>
+      <!--Project-2-->
+      <div class="d-flex flex-lg-row flex-column-reverse mt-4">
+        <div class="project-description col-lg-6">
+          <h4 style="color:#e94560; font-weight: bold;">Project Description:</h4>
+          <p><b>A To-Do-List webapp</b><br>
+            The project inteface is built using React and Tailwind.<br>
+            You can add Items in the list.<br>
+            Search for Items in the list.<br>
+            Delete items from the list.<br>
+            Even after refreshing the page, the Itmes remain, as the list is stored in Local storage.
+          </p>
+          <p>Click on the image to view the project</p>
+        </div>
+        <div class="col-lg-6 col-md-9 overflow-hidden">
+          <a href="https://beamish-kitsune-917891.netlify.app/" target="_blank">
+            <img src="./image/ToDoList.png" alt="Food App" class="project h-100 w-100">
+          </a>
+        </div>
       </div>
     </div>
-
   </div>
 
   <!-- Contact -->
   <div class="Contact">
     <a id="Contact"></a>
-    <div class="topSpacing">
-    </div>
-    <div class="contact-me-container">
+    <div class="top-space">Contact</div>
+    <div class="contact-me-container row col-12 col-md-9 col-lg-6">
       <h4>Get in touch or send me an email directly on <span
           style="color: #e94560; font-weight: bold;">mmathew4788@gmail.com</span></h4>
-      <input type="text" class="contact-input" placeholder="Enter your Name">
-      <input type="email" class="contact-input" placeholder="Enter your email address">
-      <textarea class="contact-input contact-message" row=5; placeholder="Please Enter your message"></textarea>
-      <button class="submit-button">Submit</button>
+      <form>
+        <input type="text" class="contact-input col-12" placeholder="Enter your Name">
+        <input type="email" class="contact-input col-12" placeholder="Enter your email address">
+        <textarea class="contact-input contact-message col-12" placeholder="Please Enter your message"></textarea><br>
+        <button class="submit-button">Submit</button>
+      </form>
     </div>
   </div>
 
@@ -182,9 +212,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
     crossorigin="anonymous"></script>
-
-  <!--j.query CDN-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
   <!--external JS file-->
   <script src="index.js"></script>
