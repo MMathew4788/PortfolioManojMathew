@@ -62,4 +62,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (textArray.length) setTimeout(type, newTextDelay + 250);
 });
 
-//cursor effect
+//submission Msg
+function submissionMsgDisplay() {
+  document.getElementById("submissionMsg").style.display = "block";
+  setTimeout(function(){document.getElementById("submissionMsg").style.display="none"},3000);
+}

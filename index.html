@@ -198,12 +198,15 @@
     <div class="contact-me-container row col-12 col-md-9 col-lg-6">
       <h4>Get in touch or send me an email directly on <span
           style="color: #e94560; font-weight: bold;">mmathew4788@gmail.com</span></h4>
-      <form>
-        <input type="text" class="contact-input col-12" placeholder="Enter your Name">
-        <input type="email" class="contact-input col-12" placeholder="Enter your email address">
-        <textarea class="contact-input contact-message col-12" placeholder="Please Enter your message"></textarea><br>
-        <button class="submit-button">Submit</button>
+      <form action="https://formsubmit.co/mmathew4788@gmail.com" method="POST" name="myForm">
+        <input type="text" class="contact-input col-12" placeholder="Enter your Name" required>
+        <input type="email" class="contact-input col-12" placeholder="Enter your email address" required>
+        <textarea class="contact-input contact-message col-12" placeholder="Please Enter your message"  required></textarea><br>
+        <button type="submit" onSubmit="submissionMsgDisplay();return false;" class="submit-button">Submit</button>
       </form>
+      <div id="submissionMsg" style="display:none; text-align: center; margin-top: 1rem;"><h3>Thank You!</h3>
+      <p>Your submission has been sent</p>
+      </div>
     </div>
   </div>
 
