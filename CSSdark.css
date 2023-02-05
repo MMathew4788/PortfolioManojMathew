@@ -225,17 +225,30 @@ border-radius: 0.5rem;
   height:5rem;
 }
 .submit-button{
-  background-color:#e94560;
+  padding: 10px 20px;
+  background: linear-gradient(to right, #e94560, #724fa7);
   color: white;
-  padding:1rem 1.25rem;
-  border:none;
-  font-size:1.125rem;
-  border-radius:1rem;
-  cursor:pointer;
+  border: none;
   font-weight: bold;
+  border-radius: 5px;
+  transition: all 0.5s ease;
+  animation: background 1s infinite;
 }
 .submit-button:hover{
-  letter-spacing: 2px; 
+  cursor: pointer;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+@keyframes background {
+  0% {
+    background: linear-gradient(to right, #724fa7, #e94560);
+  }
+  50% {
+    background: linear-gradient(to right, #e94560, #724fa7);
+  }
+  100% {
+    background: linear-gradient(to right, #724fa7, #e94560);
+  }
 }
 /* Code for Ipad*/
 @media (max-width: 1050px) {
