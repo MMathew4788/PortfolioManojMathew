@@ -168,42 +168,58 @@
     <div class="top-space">Work</div>
     <div class="work-container">
       <h3> Here are some of the Things which I've Built</h3>
-      <!--Project-1-->
+      
       <div class="d-sm-flex flex-lg-row flex-column mt-4">
-        <div class=" col-lg-6 col-md-9 overflow-hidden">
-          <a href="https://stellar-llama-6e337b.netlify.app/" target="_blank">
-            <img src="./image/FoodOrder.png" alt="Food App" class="project h-100 w-100">
-          </a>
+        <!--Project-1-->
+        <div class="flipcards">
+          <div class="flip">
+            <div class='front' style="background-image: url(./image/FoodOrder.png)">
+              <div class="front-container">
+                <p class="textshadow" style="color:#fff; font-weight: bold; background-color:#16213e; padding: 1rem;">Food Order WebApp</h2>
+                <p class="textshadow" style="color: #fff; background-color:#16213e; padding: 1rem;">If you are viewing this in mobile/tablet, click me</p>
+              </div>
+            </div>
+            <div class='back'>
+              <div class="back-container">
+                <p style="color: #e94560;font-weight: bold;" >Project Details</h2>
+                <p style="color: #fff;">This project interface is built using React and Tailwind.
+                  It is responsive in nature.
+                  React hooks used: useState, useEffect and useRef. React Context for state management. </p>
+                <div style="display: flex; flex-direction: row; justify-content: center;">
+                  <a href="https://stellar-llama-6e337b.netlify.app/" target="_blank" class="project-button">View Project</a>
+                  <a href="https://github.com/MMathew4788/Food_Order_Webpage" target="_blank" class="project-button">View Code</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="project-description col-lg-6">
-          <h4 style="color:#e94560; font-weight: bold;">Project Description:</h4>
-          <p><b>A food delivery webapp</b><br>
-            This project interface is built using React and Tailwind.<br>
-            It is responsive in nature.<br>
-            React hooks used: useState, useEffect, useRef, useContext.
-          </p>
-          <p>Click on the image to view the project</p>
+        <!--Project-2-->
+        <div class="flipcards">
+          <div class="flip">
+            <div class='front' style="background-image: url(./image/ToDoList.png)">
+              <div class="front-container">
+                <p class="textshadow" style="color:#fff; font-weight: bold; background-color:#16213e; padding: 1rem;">To-Do-List Webapp</h2>
+                <p class="textshadow" style="color: #fff; background-color:#16213e; padding: 1rem;">If you are viewing this in mobile/tablet, click me</p>
+              </div>
+            </div>
+            <div class='back'>
+              <div class="back-container">
+                <p style="color: #e94560;font-weight: bold;" >Project Details</h2>
+                <p style="color: #fff;">The project inteface is built using React and Tailwind.
+                  You can add Items in the list.
+                  Search for Items in the list.
+                  Delete items from the list.
+                  Even after refreshing the page, the Itmes remain, as the list is stored in Local storage. </p>
+                <div style="display: flex; flex-direction: row; justify-content: center;">
+                  <a href="https://beamish-kitsune-917891.netlify.app/" target="_blank" class="project-button">View Project</a>
+                  <a href="https://github.com/MMathew4788/ToDoList" target="_blank" class="project-button">View Code</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <!--Project-2-->
-      <div class="d-flex flex-lg-row flex-column-reverse mt-4">
-        <div class="project-description col-lg-6">
-          <h4 style="color:#e94560; font-weight: bold;">Project Description:</h4>
-          <p><b>A To-Do-List webapp</b><br>
-            The project inteface is built using React and Tailwind.<br>
-            You can add Items in the list.<br>
-            Search for Items in the list.<br>
-            Delete items from the list.<br>
-            Even after refreshing the page, the Itmes remain, as the list is stored in Local storage.
-          </p>
-          <p>Click on the image to view the project</p>
-        </div>
-        <div class="col-lg-6 col-md-9 overflow-hidden">
-          <a href="https://beamish-kitsune-917891.netlify.app/" target="_blank">
-            <img src="./image/ToDoList.png" alt="Food App" class="project h-100 w-100">
-          </a>
-        </div>
-      </div>
+
     </div>
   </div>
 
