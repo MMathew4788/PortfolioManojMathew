@@ -444,7 +444,36 @@ bottom: 1rem;
   display: flex; 
   flex-direction: column;
   min-height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position:relative;
 }
+.contact-me-card{
+  position: relative;
+  margin: auto;
+  z-index: 1;
+  padding:2rem;
+  background: linear-gradient(
+    to bottom right, transparent 10%,
+    rgba(255, 255, 255, 0.6),
+    rgba(233, 233, 233, 0.1)
+  );
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+  border-left: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
+}
+.contact-me-card:before {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 600px;
+  height: 400px;
+}
+.contact-me-card
+
 .contact-input {
 background-color:#0f3460;
 padding : 0.5rem;
