@@ -441,7 +441,8 @@ bottom: 1rem;
 }
 
 .contact-me-container {
-  display: flex; 
+  display: flex;
+  position:relative; 
   flex-direction: column;
   min-height:100vh;
   display: flex;
@@ -472,7 +473,6 @@ bottom: 1rem;
   width: 600px;
   height: 400px;
 }
-.contact-me-card
 
 .contact-input {
 background-color:#0f3460;
@@ -510,6 +510,12 @@ border-radius: 0.5rem;
   100% {
     background: linear-gradient(to right, #724fa7, #e94560);
   }
+}
+.contact-me-img{
+  position: absolute;
+  width:100%;
+  left:92%;
+  top:20%;
 }
 /* Code for Ipad*/
 @media (max-width: 1050px) {
@@ -617,8 +623,15 @@ border-radius: 0.5rem;
     transform: rotateY(0deg) translateZ(300px);
   }
 
-}
+  .contact-me-card{
+    margin-top:65%;
+  }
+  .contact-me-img{
+    left:0;
+    top:5%;
+  }
 
+}
 /* Code for mobile*/
 @media (max-width: 550px) {
   #desktop {
@@ -689,5 +702,9 @@ border-radius: 0.5rem;
     cursor: pointer;
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  }
+
+  .contact-me-img{
+    top:5%;
   }
 }

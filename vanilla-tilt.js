@@ -1,13 +1,6 @@
 var VanillaTilt = (function () {
     'use strict';
     
-    /**
-     * Created by Sergiu Șandor (micku7zu) on 1/27/2017.
-     * Original idea: https://github.com/gijsroge/tilt.js
-     * MIT License.
-     * Version 1.8.0
-     */
-    
     class VanillaTilt {
       constructor(element, settings = {}) {
         if (!(element instanceof Node)) {
@@ -301,68 +294,7 @@ var VanillaTilt = (function () {
     
         this.updateCall = null;
       }
-    
-      /**
-       * Appends the glare element (if glarePrerender equals false)
-       * and sets the default style
-       */
-      prepareGlare() {
-        // If option pre-render is enabled we assume all html/css is present for an optimal glare effect.
-        if (!this.glarePrerender) {
-          // Create glare element
-          const jsTiltGlare = document.createElement("div");
-          jsTiltGlare.classList.add("js-tilt-glare");
-    
-          const jsTiltGlareInner = document.createElement("div");
-          jsTiltGlareInner.classList.add("js-tilt-glare-inner");
-    
-          jsTiltGlare.appendChild(jsTiltGlareInner);
-          this.element.appendChild(jsTiltGlare);
-        }
-    
-        this.glareElementWrapper = this.element.querySelector(".js-tilt-glare");
-        this.glareElement = this.element.querySelector(".js-tilt-glare-inner");
-    
-        if (this.glarePrerender) {
-          return;
-        }
-    
-        Object.assign(this.glareElementWrapper.style, {
-          "position": "absolute",
-          "top": "0",
-          "left": "0",
-          "width": "100%",
-          "height": "100%",
-          "overflow": "hidden",
-          "pointer-events": "none",
-          "border-radius": "inherit"
-        });
-    
-        Object.assign(this.glareElement.style, {
-          "position": "absolute",
-          "top": "50%",
-          "left": "50%",
-          "pointer-events": "none",
-          "background-image": `linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)`,
-          "transform": "rotate(180deg) translate(-50%, -50%)",
-          "transform-origin": "0% 0%",
-          "opacity": "0"
-        });
-    
-        this.updateGlareSize();
-      }
-    
-      updateGlareSize() {
-        if (this.glare) {
-          const glareSize = (this.element.offsetWidth > this.element.offsetHeight ? this.element.offsetWidth : this.element.offsetHeight) * 2;
-    
-          Object.assign(this.glareElement.style, {
-            "width": `${glareSize}px`,
-            "height": `${glareSize}px`,
-          });
-        }
-      }
-    
+      
       updateClientSize() {
         this.clientWidth = window.innerWidth
           || document.documentElement.clientWidth
@@ -374,7 +306,6 @@ var VanillaTilt = (function () {
       }
     
       onWindowResize() {
-        this.updateGlareSize();
         this.updateClientSize();
       }
     
