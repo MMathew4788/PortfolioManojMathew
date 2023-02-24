@@ -3,6 +3,7 @@ body {
   color: white;
   background-color: #0f3460;
 }
+.font {font-family: 'Patua One', cursive;}
 .About,
 .Skills,
 .Work,
@@ -13,6 +14,7 @@ body {
   margin-left: 15vw;
   padding-left: 5%;
   padding-right: 5%;
+  overflow-x: hidden;
 }
 .top-space{
   margin-top:2%;
@@ -77,7 +79,7 @@ body {
   color:#724fa7;
   animation: 1s blink step-end infinite;
 }
-@keyframes blink {
+@-webkit-keyframes blink {
   from, to {
     color: transparent;
   }
@@ -168,9 +170,6 @@ letter-spacing: 2px;
 writing-mode: vertical-rl; 
 right:1rem; 
 bottom: 1rem;
-}
-.skill-container{
- min-height: 100vh;
 }
 
 #slideshow {
@@ -267,7 +266,7 @@ bottom: 1rem;
   transition: all 300ms;
 }
 
-@keyframes rotar {
+@-webkit-keyframes rotar {
   from {
     transform: rotateY(0deg);
   }
@@ -275,7 +274,16 @@ bottom: 1rem;
     transform: rotateY(360deg);
   }
 }
+.skill-text{
+  color: #e94560;
+  font-weight: bold;
+}
 
+.skill-card{
+  padding:1.5rem;
+  border-radius: 1rem;
+  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
+}
 .work-container{
   min-height:100vh;
 }
@@ -283,8 +291,7 @@ bottom: 1rem;
   width: 30rem;
   height: 20rem;
   text-align: center;
-  margin: 0 1rem;
-  margin-top: 2rem;
+  margin: 2rem 1rem;
 }
 .flip { 
   -webkit-perspective: 1000;
@@ -402,7 +409,7 @@ bottom: 1rem;
   z-index: 2;
 }
 .front-container, .back-container{
-  padding: 40px;
+  padding: 1rem;
   text-align: center;
   position: relative;
   top: 50%;
@@ -500,7 +507,7 @@ border-radius: 0.5rem;
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
-@keyframes background {
+@-webkit-keyframes background {
   0% {
     background: linear-gradient(to right, #724fa7, #e94560);
   }
@@ -688,22 +695,23 @@ border-radius: 0.5rem;
     transform: rotateY(0deg) translateZ(200px);
   }
 
-  .flipcards {
-    width: 20rem;
-    height: 20rem;
-  }
-
   .project-button {
     padding: 0.5rem 1rem;
     font-weight:bold;
   }
-
+  
   .submit-button{
     cursor: pointer;
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   }
-
+  .flipcards {
+    width: 25rem;
+  }
+  .flip { 
+    width: 80%;
+  }
+  
   .contact-me-img{
     top:5%;
   }
