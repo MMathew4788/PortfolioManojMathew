@@ -171,6 +171,14 @@ writing-mode: vertical-rl;
 right:1rem; 
 bottom: 1rem;
 }
+.side-note{
+  animation: bounce 1s infinite;
+}
+
+@-webkit-keyframes bounce { 
+  0%,100% {transform: translateY(0);} 
+  50% {transform: translateY(-30px);} 
+}
 
 #slideshow {
   display:flex;
@@ -499,25 +507,13 @@ border-radius: 0.5rem;
   border: none;
   font-weight: bold;
   border-radius: 5px;
-  transition: all 0.5s ease;
-  animation: background 1s infinite;
 }
 .submit-button:hover{
   cursor: pointer;
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
-@-webkit-keyframes background {
-  0% {
-    background: linear-gradient(to right, #724fa7, #e94560);
-  }
-  50% {
-    background: linear-gradient(to right, #e94560, #724fa7);
-  }
-  100% {
-    background: linear-gradient(to right, #724fa7, #e94560);
-  }
-}
+
 .contact-me-img{
   position: absolute;
   width:100%;
