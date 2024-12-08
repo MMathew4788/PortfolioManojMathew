@@ -19,9 +19,13 @@ for (i of btns) {
 const typedTextSpan = document.querySelector(".typed-text");
 const cursorSpan = document.querySelector(".cursor");
 
-const textArray = ["MANOJ MATHEW", "WEB DEVELOPER"];
-const typingDelay = 200;
-const erasingDelay = 100;
+const textArray = [
+  "am a data enthusiast passionate about uncovering insights",
+  "like exploring data to solve problems and support decisions",
+  "turn numbers into stories that inspire action",
+];
+const typingDelay = 100;
+const erasingDelay = 50;
 const newTextDelay = 2000; // Delay between current and next text
 let textArrayIndex = 0;
 let charIndex = 0;
@@ -63,4 +67,3 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 AOS.init();
-
