@@ -24,8 +24,8 @@ const textArray = [
   "like exploring data to solve problems and support decisions",
   "turn numbers into stories that inspire action",
 ];
-const typingDelay = 100;
-const erasingDelay = 50;
+const typingDelay = 120;
+const erasingDelay = 60;
 const newTextDelay = 2000; // Delay between current and next text
 let textArrayIndex = 0;
 let charIndex = 0;
