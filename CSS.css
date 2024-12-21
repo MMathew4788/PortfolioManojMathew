@@ -19,6 +19,7 @@ body {
   padding-left: 5%;
   padding-right: 5%;
   overflow-x: hidden;
+  overflow: hidden;
 }
 .top-space {
   margin-top: 2%;
