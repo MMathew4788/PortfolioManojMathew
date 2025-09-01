@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Core meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Malayalam Movie Data Scraper and Analyzer | Manoj Mathew</title>
+    <meta name="description"
+        content="Detailed overview of the Malayalam Movie Data Scraper and Analyzer project by Manoj Mathew, using Scrapy, MySQL, and Power BI for insights into Malayalam cinema trends." />
+    <meta name="keywords"
+        content="Malayalam Movie Data Scraper, Manoj Mathew, IMDb scraper, Python Scrapy, MySQL, Power BI, data analytics" />
+    <meta name="author" content="Manoj Mathew" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.manojmathew.com/project1.html" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- Social: Open Graph -->
+    <meta property="og:title" content="Malayalam Movie Data Scraper and Analyzer | Manoj Mathew" />
+    <meta property="og:description"
+        content="Scrapy, MySQL, and Power BI project analyzing Malayalam movie trends from IMDb." />
+    <meta property="og:url" content="https://www.manojmathew.com/project1.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.manojmathew.com/image/project1-screenshot.png" />
+
+    <!-- Social: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Malayalam Movie Data Scraper and Analyzer | Manoj Mathew" />
+    <meta name="twitter:description"
+        content="Scrapy, MySQL, and Power BI project analyzing Malayalam movie trends from IMDb." />
+    <meta name="twitter:image" content="https://www.manojmathew.com/image/project1-screenshot.png" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Malayalam Movie Data Scraper and Analyzer",
+      "creator": {
+        "@type": "Person",
+        "name": "Manoj Mathew",
+        "url": "https://www.manojmathew.com"
+      },
+      "description": "A Python Scrapy project that scrapes Malayalam movies from IMDb, stores data in MySQL, and analyzes it in Power BI.",
+      "url": "https://www.manojmathew.com/project1.html",
+      "image": "https://www.manojmathew.com/image/project1-screenshot.png"
+    }
+    </script>
+
+    <!-- Fonts & CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+    <link rel="stylesheet" href="CSS.css" />
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"
+        defer></script>
+    <script src="vanilla-tilt.js" defer></script>
+    <script src="index.js" defer></script>
+</head>
+
+<body>
+    <!-- Mobile nav -->
+    <nav class="menu" id="mobile" aria-label="Primary">
+        <div class="topnav">
+            <p class="normal">Menu</p>
+            <div id="myLinks" aria-hidden="true">
+                <div class="links">
+                    <a href="index.html#About">About</a>
+                    <a href="index.html#Skills">Skills</a>
+                    <a href="index.html#Work">Projects</a>
+                    <a href="index.html#Contact">Contact</a>
+                </div>
+                <div class="d-flex flex-row justify-content-evenly">
+                    <a href="https://github.com/MMathew4788" target="_blank" rel="noopener noreferrer"
+                        aria-label="GitHub Profile">
+                        <img src="./image/github.svg" alt="GitHub" class="menu-icon">
+                    </a>
+                    <a href="https://uk.linkedin.com/in/manoj-m-27b92a2a" target="_blank" rel="noopener noreferrer"
+                        aria-label="LinkedIn Profile">
+                        <img src="./image/linkedin.svg" alt="LinkedIn" class="menu-icon">
+                    </a>
+                    <a href="https://www.youtube.com/@manojmathew5287" target="_blank" rel="noopener noreferrer"
+                        aria-label="YouTube Channel">
+                        <img src="./image/youtube.svg" alt="YouTube" class="menu-icon">
+                    </a>
+                </div>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()" role="button"
+                aria-label="Toggle navigation menu" aria-controls="myLinks" aria-expanded="false">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Desktop nav -->
+    <nav class="menu" id="desktop" aria-label="Primary desktop">
+        <ol class="row text-center">
+            <li><a href="index.html#About">About</a></li>
+            <li><a href="index.html#Skills">Skills</a></li>
+            <li><a href="index.html#Work">Projects</a></li>
+            <li><a href="index.html#Contact">Contact</a></li>
+        </ol>
+        <div class="d-flex flex-column text-center mt-5">
+            <a href="https://github.com/MMathew4788" target="_blank" rel="noopener noreferrer"
+                aria-label="GitHub Profile">
+                <img src="./image/github.svg" alt="GitHub" class="menu-icon">
+            </a>
+            <a href="https://uk.linkedin.com/in/manoj-m-27b92a2a" target="_blank" rel="noopener noreferrer"
+                aria-label="LinkedIn Profile">
+                <img src="./image/linkedin.svg" alt="LinkedIn" class="menu-icon">
+            </a>
+            <a href="https://www.youtube.com/@manojmathew5287" target="_blank" rel="noopener noreferrer"
+                aria-label="YouTube Channel">
+                <img src="./image/youtube.svg" alt="YouTube" class="menu-icon">
+            </a>
+        </div>
+    </nav>
+
+    <!-- Project Content -->
+    <section class="Work" style=" padding:2rem;">
+        <div class="top-space">Project Spotlight</div>
+
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h1 class="font">Malayalam Movie Data Scraper & Analyzer</h1>
+                    <p class="fs-5">A full-stack data pipeline that scrapes Malayalam movie data from IMDb, stores it in
+                        MySQL, and visualizes insights using Power BI. Designed to uncover trends in ratings, votes, and
+                        runtime across regional cinema.</p>
+
+                </div>
+                <div class="col-lg-6 text-center" data-aos="fade-left">
+                    <img src="./image/project-1 dashboard.jpg" alt="Power BI dashboard showing Malayalam movie analysis"
+                        class="img-fluid rounded shadow" style="max-width: 90%;">
+                    <p class="mt-2 text-muted">Power BI dashboard with dynamic weighting of votes and ratings</p>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>🔍 Key Features</h2>
+                    <ul class="fs-5">
+                        <li><strong>Scrapy Spider</strong> to extract movie metadata from IMDb</li>
+                        <li><strong>MySQL Storage</strong> for structured data persistence</li>
+                        <li><strong>Power BI Dashboard</strong> with dynamic sliders and normalized weighted ratings
+                        </li>
+                        <li><strong>DAX Calculations</strong> for vote-weighted ranking logic</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>⚙️ ETL Pipeline Workflow</h2>
+                    <div class="p-4">
+                        <p class="fs-5">From raw IMDb data to interactive dashboards:</p>
+                        <img src="./image/project-1 pipeline.png" alt="Power BI dashboard showing Malayalam movie
+                        analysis" class="img-fluid rounded shadow">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>📐 Normalized Weighted Rating Formula</h2>
+                    <p class="fs-5">To balance IMDb ratings and vote counts, the following DAX formula is used:</p>
+                    <div class="skill-card p-3">
+                        <code style="white-space: pre-wrap; font-size: 0.9rem; color:antiquewhite;">
+Normalised Weighted Rating =
+Parameter[Parameter Value] * DIVIDE(SUM('imdb movies'[votes]), CALCULATE(MAX('imdb movies'[votes]), ALL('imdb movies')), 0) +
+(Parameter[Parameter Value] - 1) * DIVIDE(SUM('imdb movies'[rating]), CALCULATE(MAX('imdb movies'[rating]), ALL('imdb movies')), 0)
+          </code>
+                    </div>
+                    <p class="mt-3">This formula allows users to dynamically adjust the influence of votes vs. ratings
+                        using a slider in Power BI.</p>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2> Power Query Transformation</h2>
+                    <p class="fs-5">The following M script cleans and transforms the raw movie data:</p>
+                    <div class="skill-card p-3" style="overflow-x: auto;">
+                        <code style="white-space: pre-wrap; font-size: 0.8rem; color:antiquewhite;">
+let
+  Source = MySQL.Database("127.0.0.1:3306", "imdb", [ReturnSingleDatabase=true]),
+  imdb_movies = Source{[Schema="imdb", Item="movies"]}[Data],
+  updated_name = Table.TransformColumns(imdb_movies, {
+    {"title", each Text.TrimStart(Text.AfterDelimiter(_, " "), ".")}
+  }),
+  cleaned_votes = Table.TransformColumns(updated_name, {
+    {"votes", each Text.Replace(Text.Replace(_, "(", ""), ")", "")}
+  }),
+  numeric_votes = Table.TransformColumns(cleaned_votes, {
+    {"votes", each
+      try if Text.EndsWith(_, "K")
+        then Number.From(Text.Remove(_, "K")) * 1000
+        else Number.From(_)
+      otherwise null,
+    type number}
+  }),
+  duration_in_minutes = Table.TransformColumns(numeric_votes, {
+    {"duration", each
+      let
+        hours = try Number.From(Text.BeforeDelimiter(_, "h")) otherwise 0,
+        minutesText = Text.AfterDelimiter(_, "h"),
+        minutes = if Text.Contains(minutesText, "m")
+                  then try Number.From(Text.BeforeDelimiter(minutesText, "m")) otherwise 0
+                  else 0
+      in
+        hours * 60 + minutes,
+    type number}
+  }),
+  FinalTable = Table.RenameColumns(duration_in_minutes, {
+    {"title", "Title"}
+  })
+in
+  FinalTable
+          </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-md-12 text-center" data-aos="fade-up">
+                    <p class="fs-5 mb-5">Feel free to contribute by submitting issues or pull requests.</p>
+                    <div class="d-flex flex-column flex-lg-row justify-content-center">
+                        <a href="https://github.com/MMathew4788/IMDB-malayalam-movie-analysis" target="_blank"
+                            class="project-button">View Code on GitHub</a>
+                        <a href="index.html#Work" class="project-button">← Back to Projects</a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Icons (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <noscript>
+        <style>
+            [data-aos] {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        </style>
+    </noscript>
+</body>
+
+</html>
