@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Core meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics Dashboard | Manoj Mathew</title>
+    <meta name="description"
+        content="Detailed overview of SupplyStream, a synthetic retail supply chain simulator and analytics dashboard by Manoj Mathew: Python data generator, Power BI, advanced logistics, and performance analytics." />
+    <meta name="keywords"
+        content="SupplyStream, synthetic retail supply chain, logistics simulator, Power BI, Python, data generator, analytics dashboard, Manoj Mathew, supply chain analytics" />
+    <meta name="author" content="Manoj Mathew" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.manojmathew.com/project1.html" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- Social: Open Graph -->
+    <meta property="og:title"
+        content="SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics Dashboard | Manoj Mathew" />
+    <meta property="og:description"
+        content="Python-based supply chain simulator, Power BI analytics, and dashboard prototyping for Indian retail logistics." />
+    <meta property="og:url" content="https://www.manojmathew.com/project1.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.manojmathew.com/image/supplystream-dashboard.png" />
+
+    <!-- Social: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title"
+        content="SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics Dashboard | Manoj Mathew" />
+    <meta name="twitter:description"
+        content="Python-based supply chain simulator, Power BI analytics, and dashboard prototyping for Indian retail logistics." />
+    <meta name="twitter:image" content="https://www.manojmathew.com/image/supplystream-dashboard.png" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics Dashboard",
+      "creator": {
+        "@type": "Person",
+        "name": "Manoj Mathew",
+        "url": "https://www.manojmathew.com"
+      },
+      "description": "A Python-based supply chain and logistics simulator with data feeds to Power BI dashboards for rapid prototyping and analytics.",
+      "url": "https://www.manojmathew.com/project1.html",
+      "image": "https://www.manojmathew.com/image/supplystream-dashboard.png"
+    }
+    </script>
+
+    <!-- Fonts & CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+    <link rel="stylesheet" href="CSS.css" />
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"
+        defer></script>
+    <script src="vanilla-tilt.js" defer></script>
+    <script src="index.js" defer></script>
+</head>
+
+<body>
+    <!-- Mobile nav -->
+    <nav class="menu" id="mobile" aria-label="Primary">
+        <div class="topnav">
+            <p class="normal">Menu</p>
+            <div id="myLinks" aria-hidden="true">
+                <div class="links">
+                    <a href="index.html#About">About</a>
+                    <a href="index.html#Skills">Skills</a>
+                    <a href="index.html#Work">Projects</a>
+                    <a href="index.html#Contact">Contact</a>
+                </div>
+                <div class="d-flex flex-row justify-content-evenly">
+                    <a href="https://github.com/MMathew4788" target="_blank" rel="noopener noreferrer"
+                        aria-label="GitHub Profile">
+                        <img src="./image/github.svg" alt="GitHub" class="menu-icon">
+                    </a>
+                    <a href="https://uk.linkedin.com/in/manoj-m-27b92a2a" target="_blank" rel="noopener noreferrer"
+                        aria-label="LinkedIn Profile">
+                        <img src="./image/linkedin.svg" alt="LinkedIn" class="menu-icon">
+                    </a>
+                    <a href="https://www.youtube.com/@manojmathew5287" target="_blank" rel="noopener noreferrer"
+                        aria-label="YouTube Channel">
+                        <img src="./image/youtube.svg" alt="YouTube" class="menu-icon">
+                    </a>
+                </div>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()" role="button"
+                aria-label="Toggle navigation menu" aria-controls="myLinks" aria-expanded="false">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Desktop nav -->
+    <nav class="menu" id="desktop" aria-label="Primary desktop">
+        <ol class="row text-center">
+            <li><a href="index.html#About">About</a></li>
+            <li><a href="index.html#Skills">Skills</a></li>
+            <li><a href="index.html#Work">Projects</a></li>
+            <li><a href="index.html#Contact">Contact</a></li>
+        </ol>
+        <div class="d-flex flex-column text-center mt-5">
+            <a href="https://github.com/MMathew4788" target="_blank" rel="noopener noreferrer"
+                aria-label="GitHub Profile">
+                <img src="./image/github.svg" alt="GitHub" class="menu-icon">
+            </a>
+            <a href="https://uk.linkedin.com/in/manoj-m-27b92a2a" target="_blank" rel="noopener noreferrer"
+                aria-label="LinkedIn Profile">
+                <img src="./image/linkedin.svg" alt="LinkedIn" class="menu-icon">
+            </a>
+            <a href="https://www.youtube.com/@manojmathew5287" target="_blank" rel="noopener noreferrer"
+                aria-label="YouTube Channel">
+                <img src="./image/youtube.svg" alt="YouTube" class="menu-icon">
+            </a>
+        </div>
+    </nav>
+
+    <!-- Project Content: SupplyStream (Storytelling) -->
+    <section class="Work" style="padding:2rem;">
+        <div class="top-space">Project Spotlight</div> <!-- [1] -->
+
+        <div class="container">
+            <!-- Hero -->
+            <div class="row mb-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h1 class="font">SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics</h1> <!-- [1] -->
+                    <p class="fs-5">
+                        A realistic, Python-driven simulator of an Indian retail network that generates analytics-ready
+                        CSVs and creation of a Power BI dashboard to explore service, cost, inventory, and returns
+                        trade-offs
+                        end-to-end. <!-- [1] -->
+                    </p>
+
+                    <!-- Executive Summary -->
+                    <div class="mt-5 p-3 border rounded ">
+                        <h2 class="h5 mb-3">🧭 Executive summary</h2> <!-- [2][9] -->
+                        <ul class="mb-0">
+                            <li><strong>Problem</strong>: Often analytics teams need realistic supply chain data to
+                                prototype
+                                dashboards and ML models without relying on sensitive production systems. <!-- [1] -->
+                            </li><br>
+                            <li><strong>Approach</strong>: Simulate a hub-and-spoke network with two-tier transport,
+                                generate clean facts/dims as CSVs, and wire them into a Power BI model for rapid
+                                analysis. <!-- [1] --></li><br>
+                            <li><strong>Outcome</strong>: A plug-and-play dataset and reference dashboard that surface
+                                fulfillment, on-time delivery, stockout risk, transport cost, and returns behavior.
+                                <!-- [1][9] -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 text-center mt-5" data-aos="fade-left">
+                    <!-- Video: SupplyStream demo -->
+                    <div class="ratio ratio-16x9"> <!-- Keeps 16:9 aspect ratio responsively [7] -->
+                        <video class="w-100" controls preload="metadata" playsinline
+                            poster="./image/supplystream-poster.jpg"
+                            aria-label="SupplyStream demo: simulate data and analyze fulfillment, delivery, inventory, transport, returns">
+                            <!-- Provide MP4 and WebM for broad compatibility [5] -->
+                            <source src="./image/Project-2 Dashboard.mp4" type="video/mp4"> <!-- H.264 [5] -->
+                            <!-- Optional subtitles in other languages
+    <track src="./video/supplystream-hi.vtt" kind="subtitles" srclang="hi" label="Hindi subtitles">
+    -->
+
+                            <!-- Fallback text for very old browsers [5] -->
+                            Your browser does not support HTML5 video. Here is a
+                            <a href="./image/Project-2 Dashboard.mp4">link to download the video</a>.
+                        </video>
+                    </div>
+                    <p class="mt-2 text-muted">Video demo of the Power BI dashboard</p> <!-- Descriptive caption [4] -->
+                </div>
+            </div>
+
+            <!-- Problem Statement -->
+            <div class="row mb-5" id="problem-statement">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>❗ Problem statement</h2> <!-- [2] -->
+                    <p class="fs-5">
+                        Building supply chain dashboards and training models often stalls due to scarce, sensitive, or
+                        fragmented operational data, slowing iteration and increasing risk. <!-- [1] -->
+                    </p>
+                    <p class="fs-5">
+                        Young data professional need a safe, configurable data source that mirrors real network behavior
+                        so they can
+                        prototype fast and evaluate trade-offs before touching production. <!-- [1] -->
+                    </p>
+                </div>
+            </div>
+
+            <!-- Decision-making Approach -->
+            <div class="row mb-5" id="approach">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>🛠️ Decision-making approach</h2> <!-- [2][9] -->
+                    <ul class="fs-5">
+                        <li>Model a hub‑and‑spoke network with ~100 stores, three regional hubs, and specialized
+                            suppliers to reflect realistic flows and constraints. <!-- [1] --></li>
+                        <li>Simulate demand with seasonality and lead times, replenish via ROP logic, and generate
+                            shipments, inventory snapshots, and returns with plausible variability. <!-- [1] --></li>
+                        <li>Export tidy facts/dimensions to CSV for immediate ingestion in BI tools using raw GitHub
+                            URLs, minimizing ETL friction. <!-- [1] --></li>
+                        <li>Design the Power BI model to answer core questions first (service, cost, stock risk), then
+                            enable deeper drilldowns by hub, store, product, and time. <!-- [1][9] --></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Architecture in Brief -->
+            <div class="row mb-5" id="architecture">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>🏗️ Architecture in brief</h2> <!-- [1] -->
+                    <p class="fs-5">
+                        Python simulator → SupplyChain_Data/*.csv → GitHub raw links → Power BI data model with DAX
+                        measures and relationships for analysis. <!-- [1] -->
+                    </p>
+                </div>
+            </div>
+
+            <!-- Logistics at a Glance -->
+            <div class="row mb-5" id="logistics">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>🚚 Logistics at a glance</h2> <!-- [1] -->
+                    <ul class="fs-5">
+                        <li>Three regional hubs (DEL, BOM, BLR) route apparel, footwear, and accessories to stores.
+                            <!-- [1] -->
+                        </li>
+                        <li>Two‑tier transport: inter‑hub cross‑dock legs and final‑mile courier deliveries with
+                            realistic costs and distances. <!-- [1] --></li>
+                        <li>Returns are probabilistic by line with reason codes to support reverse logistics analysis.
+                            <!-- [1] -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Outputs -->
+            <div class="row mb-5" id="outputs">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>📂 Outputs</h2> <!-- [1] -->
+                    <ul class="fs-5">
+                        <li>Dimensions: hubs, stores, products, suppliers for clean joins and filters. <!-- [1] --></li>
+                        <li>Facts: orders, shipments, inventory snapshots, inbound, and returns to trace the end‑to‑end
+                            journey. <!-- [1] --></li>
+                        <li>Link table: shipment↔order mapping to attribute costs and service outcomes correctly.
+                            <!-- [1] -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Analytics Layer -->
+            <div class="row mb-5" id="analytics">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>📊 Analytics layer</h2> <!-- [1][9] -->
+                    <ul class="fs-5">
+                        <li>Service: fulfillment rate and on‑time delivery computed from shipment legs and required
+                            dates. <!-- [1] --></li>
+                        <li>Inventory: stockout risk flagged via on‑hand vs ROP; average on hand tracked at SKU level.
+                            <!-- [1] -->
+                        </li>
+                        <li>Cost: total transport and cost per unit tied back through link tables for proper
+                            attribution. <!-- [1] --></li>
+                        <li>Returns: rates and reasons to understand reverse logistics patterns by category and channel.
+                            <!-- [1] -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Key Insights (What this enables) -->
+            <div class="row mb-5" id="insights">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>💡 What this enables</h2> <!-- [2][9] -->
+                    <ul class="fs-5">
+                        <li>Prototype dashboards safely and iterate UX fast, aligning to at‑a‑glance KPIs before live
+                            data is available. <!-- [1][9] --></li>
+                        <li>Run “what‑if” analysis on lead times, reliability, and demand patterns to see service‑cost
+                            trade‑offs. <!-- [1] --></li>
+                        <li>Train and benchmark ML features on consistent, labeled data that mirrors real supply
+                            behavior. <!-- [1] --></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Validation -->
+            <div class="row mb-5" id="validation">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>✅ Validation</h2> <!-- [9][2] -->
+                    <ul class="fs-5">
+                        <li>Validity checks on order volumes, lead times, and cost curves to ensure realistic
+                            ranges and distributions. <!-- [1] --></li>
+                        <li>Model integrity checks: relationship mappings and referential joins verified for facts,
+                            dims, and link tables. <!-- [1] --></li>
+                        <li>Dashboard QA: KPIs align with measure definitions; layouts prioritize clarity and scanning
+                            patterns. <!-- [1][9] --></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- Call to Action -->
+            <div class="row mb-5" id="cta">
+                <div class="col-md-12 text-center" data-aos="fade-up">
+                    <div class="d-flex flex-column flex-lg-row justify-content-center">
+                        <a href="https://github.com/MMathew4788/SupplyStream-Analytics-for-Retail-Logistics"
+                            target="_blank" class="project-button">View Code on GitHub</a> <!-- [1] -->
+                        <a href="index.html#Work" class="project-button">← Back to Projects</a> <!-- [9] -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Icons (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <noscript>
+        <style>
+            [data-aos] {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        </style>
+    </noscript>
+</body>
+
+</html>

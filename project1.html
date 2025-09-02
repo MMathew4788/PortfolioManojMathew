@@ -131,12 +131,13 @@
         <div class="top-space">Project Spotlight</div>
 
         <div class="container">
-            <div class="row mb-5">
+            <div class="row">
                 <div class="col-lg-6" data-aos="fade-right">
                     <h1 class="font">Malayalam Movie Data Scraper & Analyzer</h1>
-                    <p class="fs-5">A full-stack data pipeline that scrapes Malayalam movie data from IMDb, stores it in
+                    <p class="fs-5 mt-5">A full-stack data pipeline that scrapes Malayalam movie data from IMDb, stores
+                        it in
                         MySQL, and visualizes insights using Power BI. Designed to uncover trends in ratings, votes, and
-                        runtime across regional cinema.</p>
+                        runtime in malayalam movie.</p>
 
                 </div>
                 <div class="col-lg-6 text-center" data-aos="fade-left">
@@ -159,11 +160,42 @@
                 </div>
             </div>
 
+            <!-- Problem Statement -->
+            <div class="row mb-5" id="problem-statement">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>🧩 Problem Statement</h2>
+                    <ul class="fs-5">
+                        <li>IMDb ratings alone can mislead rankings because some films have very high ratings but very
+                            few votes, which causes simple averages to overvalue low-sample titles.</li>
+                        <li>This results in unstable “top movies” lists across years and genres, reducing trust in
+                            recommendations and making comparisons unreliable.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Methodology -->
+            <div class="row mb-5" id="methodology">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>🛠️ Methodology</h2> <!-- [web:11][web:12] -->
+                    <ul class="fs-5">
+                        <li>Scrape Malayalam movie metadata from IMDb with Scrapy and store it in MySQL for repeatable
+                            analysis. <!-- [attached_file:1] --></li>
+                        <li>Create a Power BI What-If parameter (slider) to control the weight between votes and ratings
+                            during analysis. <!-- [attached_file:1][web:12] --></li>
+                        <li>Use a DAX measure that combines normalized votes and normalized ratings, driven by the
+                            slider value. <!-- [attached_file:1] --></li>
+                        <li>Apply a minimum vote threshold and compare raw vs weighted results to confirm stability and
+                            interpretability. <!-- [attached_file:1][web:12] --></li>
+                    </ul>
+                </div>
+            </div>
+
+
             <div class="row mb-5">
                 <div class="col-md-12" data-aos="fade-up">
                     <h2>⚙️ ETL Pipeline Workflow</h2>
                     <div class="p-4">
-                        <p class="fs-5">From raw IMDb data to interactive dashboards:</p>
+                        <p class="fs-5">From raw IMDb data to interactive Power BI insights:</p>
                         <img src="./image/project-1 pipeline.png" alt="Power BI dashboard showing Malayalam movie
                         analysis" class="img-fluid rounded shadow">
                     </div>
@@ -188,7 +220,7 @@ Parameter[Parameter Value] * DIVIDE(SUM('imdb movies'[votes]), CALCULATE(MAX('im
 
             <div class="row mb-5">
                 <div class="col-md-12" data-aos="fade-up">
-                    <h2> Power Query Transformation</h2>
+                    <h2>📊 Power Query Transformation</h2>
                     <p class="fs-5">The following M script cleans and transforms the raw movie data:</p>
                     <div class="skill-card p-3" style="overflow-x: auto;">
                         <code style="white-space: pre-wrap; font-size: 0.8rem; color:antiquewhite;">
@@ -231,9 +263,40 @@ in
                 </div>
             </div>
 
+            <!-- Key Insights -->
+            <div class="row mb-5" id="insights">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>💡 Key insights</h2> <!-- [web:11][web:12] -->
+                    <ul class="fs-5">
+                        <li>Vote‑weighted ranking reduces volatility from low‑sample titles and produces consistent
+                            top‑N lists. <!-- [attached_file:1] --></li>
+                        <li>Year and genre slices show newer films often have fewer votes; weighting prevents recency
+                            bias. <!-- [attached_file:1] --></li>
+                        <li>Minimum vote thresholds plus the slider enable context‑specific ranking strategies.
+                            <!-- [attached_file:1] -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Validation -->
+            <div class="row mb-5" id="validation">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>✅ Validation</h2> <!-- [web:12][web:11] -->
+                    <ul class="fs-5">
+                        <li>Spot checks confirm transformed fields (votes, duration, title) match IMDb after cleaning.
+                            <!-- [attached_file:1] -->
+                        </li>
+                        <li>Sensitivity tests: moving the slider shifts rankings as expected between vote‑led and
+                            rating‑led outcomes. <!-- [attached_file:1] --></li>
+                        <li>Applying a sensible minimum vote threshold stabilizes the top 10 across refreshes and
+                            filters. <!-- [attached_file:1] --></li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="row mb-5">
                 <div class="col-md-12 text-center" data-aos="fade-up">
-                    <p class="fs-5 mb-5">Feel free to contribute by submitting issues or pull requests.</p>
                     <div class="d-flex flex-column flex-lg-row justify-content-center">
                         <a href="https://github.com/MMathew4788/IMDB-malayalam-movie-analysis" target="_blank"
                             class="project-button">View Code on GitHub</a>
