@@ -150,13 +150,12 @@
                         <ul class="mb-0">
                             <li><strong>Problem</strong>: Often analytics teams need realistic supply chain data to
                                 prototype
-                                dashboards and ML models without relying on sensitive production systems. <!-- [1] -->
+                                dashboards and ML models without relying on sensitive production data. <!-- [1] -->
                             </li><br>
                             <li><strong>Approach</strong>: Simulate a hub-and-spoke network with two-tier transport,
-                                generate clean facts/dims as CSVs, and wire them into a Power BI model for rapid
+                                generate clean facts/dims as CSVs, and connect them into a Power BI model for rapid
                                 analysis. <!-- [1] --></li><br>
-                            <li><strong>Outcome</strong>: A plug-and-play dataset and reference dashboard that surface
-                                fulfillment, on-time delivery, stockout risk, transport cost, and returns behavior.
+                            <li><strong>Outcome</strong>: A dataset and reference Power BI dashboard.
                                 <!-- [1][9] -->
                             </li>
                         </ul>
@@ -193,9 +192,9 @@
                         fragmented operational data, slowing iteration and increasing risk. <!-- [1] -->
                     </p>
                     <p class="fs-5">
-                        Young data professional need a safe, configurable data source that mirrors real network behavior
-                        so they can
-                        prototype fast and evaluate trade-offs before touching production. <!-- [1] -->
+                        Young data professionals need access to a safe, configurable data source that realistically
+                        mirrors supply chain behavior, enabling them to experiment with dashboards and analytics before
+                        working in production environments. <!-- [1] -->
                     </p>
                 </div>
             </div>
@@ -203,7 +202,7 @@
             <!-- Decision-making Approach -->
             <div class="row mb-5" id="approach">
                 <div class="col-md-12" data-aos="fade-up">
-                    <h2>🛠️ Decision-making approach</h2> <!-- [2][9] -->
+                    <h2>🛠️ Approach</h2> <!-- [2][9] -->
                     <ul class="fs-5">
                         <li>Model a hub‑and‑spoke network with ~100 stores, three regional hubs, and specialized
                             suppliers to reflect realistic flows and constraints. <!-- [1] --></li>
@@ -211,8 +210,7 @@
                             shipments, inventory snapshots, and returns with plausible variability. <!-- [1] --></li>
                         <li>Export tidy facts/dimensions to CSV for immediate ingestion in BI tools using raw GitHub
                             URLs, minimizing ETL friction. <!-- [1] --></li>
-                        <li>Design the Power BI model to answer core questions first (service, cost, stock risk), then
-                            enable deeper drilldowns by hub, store, product, and time. <!-- [1][9] --></li>
+                        <li>Design the Power BI model to answer core supply chain questions. <!-- [1][9] --></li>
                     </ul>
                 </div>
             </div>
@@ -221,25 +219,57 @@
             <div class="row mb-5" id="architecture">
                 <div class="col-md-12" data-aos="fade-up">
                     <h2>🏗️ Architecture in brief</h2> <!-- [1] -->
-                    <p class="fs-5">
-                        Python simulator → SupplyChain_Data/*.csv → GitHub raw links → Power BI data model with DAX
-                        measures and relationships for analysis. <!-- [1] -->
-                    </p>
+                    <img src="./image/project-2 pipeline.png" alt="Architecture in brief"
+                        class="img-fluid rounded shadow">
                 </div>
             </div>
 
             <!-- Logistics at a Glance -->
             <div class="row mb-5" id="logistics">
                 <div class="col-md-12" data-aos="fade-up">
-                    <h2>🚚 Logistics at a glance</h2> <!-- [1] -->
+                    <h2>🚚 Logistics Model at a glance</h2> <!-- [1] -->
                     <ul class="fs-5">
-                        <li>Three regional hubs (DEL, BOM, BLR) route apparel, footwear, and accessories to stores.
-                            <!-- [1] -->
+                        <li>Network Topology
+                            <ul>
+                                <li>
+                                    20 specialized suppliers mapped to key manufacturing clusters
+                                </li>
+                                <li>
+                                    3 regional hubs: HUB-DEL (Apparel), HUB-BOM (Footwear), HUB-BLR (Accessories)
+                                </li>
+                                <li>
+                                    ~100 stores (major/minor) assigned to a “home” hub
+                                </li>
+                            </ul>
                         </li>
-                        <li>Two‑tier transport: inter‑hub cross‑dock legs and final‑mile courier deliveries with
-                            realistic costs and distances. <!-- [1] --></li>
-                        <li>Returns are probabilistic by line with reason codes to support reverse logistics analysis.
-                            <!-- [1] -->
+                        <li>Demand Generation
+                            <ul>
+                                <li>~40 daily orders (Poisson process) over Jan 2022-Jun 2025</li>
+                                <li>Multi-SKU orders (1-5 lines), 3-10 day delivery window</li>
+                                <li>Reorder Point (ROP) = lead-time demand + safety stock (95% service level)</li>
+                                <li>Lead times sampled 3-14 days (μ=7, σ=2)</li>
+                                <li>Single inbound batch per hub when any SKU falls below ROP</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Shipment & Transportation Logic <br>
+                            The model simulates two transport tiers:<br>
+                            <ul>Inter-Hub Shipments
+                                <li>Legs: Dispatch to hub cross-dock, transit 1-3 days by truck.</li>
+                                <li>Cost = ₹300 + ₹15/km + ₹8·chargeable_kg, with 1.2x multiplier for bulk inter-hub.
+                                </li>
+                                <li>Distances for DEL-BOM, DEL-BLR, BOM-BLR are hard-coded; others are randomized.</li>
+                            </ul>
+                            <ul>Final-Mile Shipments
+                                <li>Direct store shipments: local pick if all lines from same hub or cross-docked
+                                    consolidation.</li>
+                                <li>Delivery lead time = 1 day, distance 20-120 km by courier.</li>
+                                <li>Cost uses the same cost function without the inter-hub multiplier.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Returns are simulated with a 3-6% chance per line, random quantity, and category-based
+                            reason probabilities.
                         </li>
                     </ul>
                 </div>
@@ -248,14 +278,29 @@
             <!-- Outputs -->
             <div class="row mb-5" id="outputs">
                 <div class="col-md-12" data-aos="fade-up">
-                    <h2>📂 Outputs</h2> <!-- [1] -->
+                    <h2>📂 Output of Synthetic Data Generator</h2> <!-- [1] -->
                     <ul class="fs-5">
-                        <li>Dimensions: hubs, stores, products, suppliers for clean joins and filters. <!-- [1] --></li>
-                        <li>Facts: orders, shipments, inventory snapshots, inbound, and returns to trace the end‑to‑end
-                            journey. <!-- [1] --></li>
-                        <li>Link table: shipment↔order mapping to attribute costs and service outcomes correctly.
-                            <!-- [1] -->
+                        <li>Dimensions:
+                            <ul>
+                                <li>dim_hubs.csv</li>
+                                <li>dim_stores.csv</li>
+                                <li>dim_products.csv</li>
+                                <li>dim_suppliers.csv</li>
+                            </ul>
                         </li>
+                        <li>Facts:
+                            <ul>
+                                <li>fact_orders.csv</li>
+                                <li>fact_shipments.csv</li>
+                                <li>fact_inventory_snapshot.csv</li>
+                                <li>fact_returns.csv</li>
+                                <li>fact_inbound_shipments.csv</li>
+                            </ul>
+
+                        </li>
+                        <li>Link: link_shipment_orders.csv
+                        </li>
+                        <li>Logs: SupplyChain_Data/data_gen.log</li>
                     </ul>
                 </div>
             </div>
@@ -263,17 +308,23 @@
             <!-- Analytics Layer -->
             <div class="row mb-5" id="analytics">
                 <div class="col-md-12" data-aos="fade-up">
-                    <h2>📊 Analytics layer</h2> <!-- [1][9] -->
+                    <h2>📊 Power BI Dashboard - Analytics Layer</h2> <!-- [1][9] -->
                     <ul class="fs-5">
-                        <li>Service: fulfillment rate and on‑time delivery computed from shipment legs and required
-                            dates. <!-- [1] --></li>
-                        <li>Inventory: stockout risk flagged via on‑hand vs ROP; average on hand tracked at SKU level.
-                            <!-- [1] -->
+                        <li>🔧 Data Import
+                            <ul>
+                                <li>Open Power BI Desktop</li>
+                                <li>Use Get Data → Web</li>
+                                <li>Paste GitHub raw URL for each CSV and import data to power BI power Query</li>
+                                <li>Promote headers and change data type of columns as required</li>
+                            </ul>
                         </li>
-                        <li>Cost: total transport and cost per unit tied back through link tables for proper
-                            attribution. <!-- [1] --></li>
-                        <li>Returns: rates and reasons to understand reverse logistics patterns by category and channel.
-                            <!-- [1] -->
+                        <li>
+                            🗂️ Manage Relationships
+                            <img src="./image/Porject-2 manage relationship.png" alt="manage relationship table"
+                                class="img-fluid rounded shadow mt-5 mb-5">
+
+                            <img src="./image/project-2 ER relationship.png" alt="ER diagram"
+                                class="img-fluid rounded shadow">
                         </li>
                     </ul>
                 </div>
@@ -282,14 +333,11 @@
             <!-- Key Insights (What this enables) -->
             <div class="row mb-5" id="insights">
                 <div class="col-md-12" data-aos="fade-up">
-                    <h2>💡 What this enables</h2> <!-- [2][9] -->
+                    <h2>💡 Key Insights</h2> <!-- [2][9] -->
                     <ul class="fs-5">
-                        <li>Prototype dashboards safely and iterate UX fast, aligning to at‑a‑glance KPIs before live
-                            data is available. <!-- [1][9] --></li>
-                        <li>Run “what‑if” analysis on lead times, reliability, and demand patterns to see service‑cost
-                            trade‑offs. <!-- [1] --></li>
-                        <li>Train and benchmark ML features on consistent, labeled data that mirrors real supply
-                            behavior. <!-- [1] --></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
                     </ul>
                 </div>
             </div>
