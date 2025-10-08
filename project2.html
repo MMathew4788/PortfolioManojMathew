@@ -136,26 +136,46 @@
             <!-- Hero -->
             <div class="row mb-5">
                 <div class="col-lg-6" data-aos="fade-right">
-                    <h1 class="font">SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics</h1> <!-- [1] -->
+                    <h2 class="font">SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics</h2> <!-- [1] -->
                     <p class="fs-5">
-                        A realistic, Python-driven simulator of an Indian retail network that generates analytics-ready
-                        CSVs and creation of a Power BI dashboard to explore service, cost, inventory, and returns
-                        trade-offs
-                        end-to-end. <!-- [1] -->
+                        A realistic, Python-driven simulator that creates a production-style retail supply chain dataset
+                        for an Indian retail (apparel, footwear, and
+                        accessories) network built on a hub-and-spoke topology with cross-docking, designed to feed
+                        directly into a professional Power BI dashboard for analysis across orders, deliveries, costs,
+                        inventory, suppliers, and returns <!-- [1] -->
                     </p>
 
                     <!-- Executive Summary -->
                     <div class="mt-5 p-3 border rounded ">
                         <h2 class="h5 mb-3">🧭 Executive summary</h2> <!-- [2][9] -->
                         <ul class="mb-0">
-                            <li><strong>Problem</strong>: Often analytics teams need realistic supply chain data to
-                                prototype
-                                dashboards and ML models without relying on sensitive production data. <!-- [1] -->
+                            <li><strong>Problem</strong>: As data enthusiasts, we often need access to realistic supply
+                                chain data to explore ideas, build dashboards, and train machine learning models.
+                                However, getting sensitive production data can raise privacy concerns and compliance
+                                issues, creating barriers to experimentation and slowing down the pace of innovation.
                             </li><br>
-                            <li><strong>Approach</strong>: Simulate a hub-and-spoke network with two-tier transport,
-                                generate clean facts/dims as CSVs, and connect them into a Power BI model for rapid
-                                analysis. <!-- [1] --></li><br>
-                            <li><strong>Outcome</strong>: A dataset and reference Power BI dashboard.
+                            <li><strong>Approach</strong>: Drawing on my industrial experience, I designed a simulated
+                                hub-and-spoke supply chain network with a two-tier transport model—specifically tailored
+                                for data enthusiasts.
+
+                                This simulation enabled the generation of clean, well-structured fact and dimension
+                                tables in CSV format, making them ideal for analytical exploration and machine learning
+                                experimentation.
+
+                                These datasets were then integrated into a Power BI model, allowing for rapid
+                                prototyping, visualization, and storytelling.
+
+                                This setup also facilitated thorough validation of data integrity and quality, ensuring
+                                the synthetic data is both reliable and realistic for practical use.</li><br>
+                            <li><strong>Outcome</strong>: The result is a rich, synthetic dataset and a reference Power
+                                BI dashboard, purpose-built for data enthusiasts.
+
+                                This solution empowers users to test hypotheses, iterate on visualizations, and develop
+                                machine learning models in a secure, flexible, and compliant environment.
+
+                                Beyond technical experimentation, it also provides a valuable tool for understanding
+                                supply chain dynamics—enabling deeper insights into network behaviour, transport flows,
+                                and performance metrics without the constraints of real-world data access.
                                 <!-- [1][9] -->
                             </li>
                         </ul>
@@ -240,6 +260,8 @@
                                 <li>
                                     ~100 stores (major/minor) assigned to a “home” hub
                                 </li>
+                                <li>Suppliers mapped to key Indian manufacturing clusters (Tiruppur, Kanpur, Jaipur) by
+                                    specialty</li>
                             </ul>
                         </li>
                         <li>Demand Generation
@@ -341,9 +363,9 @@
                             by month, origin-destination, and mode, guiding carrier and lane optimizations ?</li>
                         <li>Which destinations, hubs, or lanes drive the highest transportation cost, and how do
                             distance and chargeable weight explain cost variance for targeted savings ?</li>
-                        <li>How do current on‑hand levels and average on‑hand per SKU trend relative to demand, and
+                        <li>How do current on-hand levels and average on-hand per SKU trend relative to demand, and
                             which categories or hubs risk stockouts under the current ROP and target policies ?</li>
-                        <li>What is the inbound supplier lead‑time profile and on‑time rate by specialty, and how do
+                        <li>What is the inbound supplier lead-time profile and on-time rate by specialty, and how do
                             delay distributions impact hub availability and service levels downstream ?</li>
                         <li>What are the top return reasons and categories, and how do return rates move over time to
                             inform product, fit, color, or quality actions with suppliers ?</li>
