@@ -206,15 +206,126 @@
             <!-- Decision-making Approach -->
             <div class="row mb-5 mt-5" id="approach">
                 <div class="col-md-12" data-aos="fade-up">
-                    <h2>🛠️ Approach</h2> <!-- [2][9] -->
+                    <h2>From Warehouse to Customer: A Complete Order Journey</h2> <!-- [2][9] -->
                     <ul class="fs-5">
-                        <li>Model a hub-and-spoke network with ~100 stores, three regional hubs, and specialized
-                            suppliers to reflect realistic flows and constraints. <!-- [1] --></li>
-                        <li>Simulate demand with seasonality and lead times, replenish via ROP logic, and generate
-                            shipments, inventory snapshots, and returns with plausible variability. <!-- [1] --></li>
-                        <li>Export tidy facts/dimensions to CSV for immediate ingestion in BI tools using raw GitHub
-                            URLs, minimizing ETL friction. <!-- [1] --></li>
-                        <li>Design the Power BI model to answer core supply chain questions. <!-- [1][9] --></li>
+                        Lets follow a single order through the entire supply chain to understand how the simulation
+                        models
+                        real-world logistics complexity. This example traces an Order from Store ST045 associated with
+                        Bangalore hub, revealing the coordination required when products come from multiple distribution
+                        hubs
+                        <li>Stage 1: Inventory Positioning
+                            <ul>
+                                <li>Before any customer order exists, the hubs (HUB-DEL, HUB-BOM, HUB-BLR) are stocked
+                                    by suppliers:<br>
+                                    Tiruppur → HUB-DEL (Dresses)<br>
+                                    Kanpur → HUB-BOM (Shoes)<br>
+                                    Jaipur → HUB-BLR (Accessories)</li>
+                                <li>Behind the code:The gen_suppliers() function creates supplier profiles
+                                    with
+                                    reliability scores between 85-98%, while seed_inventory() initializes hub stock
+                                    levels based on target inventory and reorder points calculated in gen_products().
+                                    Daily replenishment logic in main() triggers inbound shipments whenever inventory
+                                    falls below the reorder point, simulating realistic procurement cycles</li>
+                            </ul>
+                        </li>
+                        <li> Stage 2: Order Creation
+                            <ul>
+                                <li>Store ST045 places an order requiring three items from different hubs: <br>
+                                    1 Silk Anarkali 👗 (Dress → HUB-DEL)<br>
+                                    1 Leather Loafers 👞 (Shoes → HUB-BOM)<br>
+                                    1 Silver Jhumkas 📿 (Accessory → HUB-BLR)</li>
+                                Since the store's home hub is HUB-BLR, only the accessories are locally available—the
+                                other items (shoes and dresse) must come from different hub before consolidation.
+                                <li>Behind the code: Daily order generation in the main() loop applies multiplicative
+                                    demand factors based on quarter (Diwali season +80%), month, weekday, and store
+                                    type. A flagship store in Mumbai generates 2.5x baseline demand compared to a small
+                                    town outlet, creating realistic geographic demand patterns.</li>
+                            </ul>
+                        </li>
+                        <li>Stage 3: Inventory Allocation
+                            <ul>
+                                <li>HUB-DEL has the Dress ✅<br>
+                                    HUB-BOM has the Shoes ✅<br>
+                                    Store ST045 home hub is HUB-BLR so order will be fulfilled from HUB-BLR, Dress and
+                                    shoe needs inter-hub shipments.<br>
+                                    HUB-BLR → Accessory ✅<br>
+                                    If any hub lacks sufficient stock, the system triggers track_backorder() to log
+                                    unfulfilled demand and queue the order for the next replenishment cycle.<br>
+                                </li>
+                                <li>Behind the code: Inventory checks happen at order line creation, comparing requested
+                                    quantity against current inv_levels for each product-hub combination. Partial
+                                    fulfillments are tracked separately from complete backorders, enabling analysis of
+                                    service level performance by category and time period</li>
+                            </ul>
+                        </li>
+                        <li>Stage 4: Inter-Hub Consolidation
+                            <ul>
+                                <li>The dress begins a 2,200 km journey from Delhi to Bangalore, while the shoes travel
+                                    985 km from Mumbai. <br>
+                                    🚚HUB-DEL → HUB-BLR (Dress)<br>
+                                    🚚HUB-BOM → HUB-BLR (Shoes)<br>
+                                    The TruckLoadManager class queues both items, waiting
+                                    until
+                                    accumulated shipments reach 30% of truck capacity (3,000 kg minimum) before
+                                    dispatching. Express orders flagged for 3-day delivery bypass this consolidation
+                                    rule and ship immediately despite lower truck utilization.<br>
+                                    Accessory is already at HUB-BLR (home hub), so it does not need inter-hub transfer.
+                                </li>
+                                <li>Behind the code: TruckLoadManager.add_shipment_item() queues pending shipments by
+                                    destination hub, tracking cumulative weight and volume. When process_ready_trucks()
+                                    executes, it creates shipment legs with transit times calculated from distance ÷ 500
+                                    km/day truck speed, and costs based on maximum of actual weight or volumetric weight
+                                    (volume x 200 kg/m³). Inter-hub transfers incur a 20% cost premium versus final-mile
+                                    courier rates</li>
+                            </ul>
+                        </li>
+                        <li> Stage 5: Cross-Dock Processing
+                            <ul>
+                                <li>Both items arrive at HUB-BLR.<br>
+                                    Accessory waits at HUB-BLR until other items arrive.<br>
+                                    Cross-docking adds 1 day processing before final dispatch.</li>
+                                <li>Behind the code: Order lines are tracked in the pending crossdock dictionary grouped
+                                    by order ID and destination store. Once all items arrive (len(pending) ==
+                                    total_lines_for_order), the system creates a single final-mile shipment leg
+                                    consolidating all products. This mimics real warehouse operations where partial
+                                    orders await completion before customer dispatch.</li>
+                            </ul>
+                        </li>
+                        <li>Stage 6: Final Delivery
+                            <ul>
+                                <li>A courier departs HUB-BLR with the complete order, delivering to Store ST045 within
+                                    1-2 days based on the 45 km distance. Total elapsed time from order placement to
+                                    delivery: 7 days. Direct shipments (when products are at the store's home hub)
+                                    deliver in 1-2 days, while this multi-hub order required longer duration due to
+                                    consolidation and cross-dock delays</li>
+                                <li>Behind the code: Final-mile shipments log to fact_shipments.csv with shipment type
+                                    "final" and courier service details. The link_shipment_orders.csv table connects
+                                    each shipment leg to specific order lines, enabling drill-down analysis of delivery
+                                    performance by product category, hub, and urgency flag.</li>
+                            </ul>
+                        </li>
+                        <li>Stage 7: Returns Processing
+                            <ul>
+                                <li>Fourteen days after delivery, the store returns the shoes due to wrong size — a
+                                    common issue accounting for footwear returns in the dataset. The return
+                                    travels back to HUB-BLR, undergoes inspection, and re-enters available inventory.
+                                </li>
+                                <li>Behind the code: handle_returns() applies product-category-specific return
+                                    probabilities (footwear 6%, apparel 5%, accessories 3%) and assigns reasons weighted
+                                    by category (Wrong Size, Damaged, Changed Mind). Each return logs to
+                                    fact_returns.csv with return date, reason, processing time, and restocking status.
+                                    The quantity adds back to inv_levels at the return destination hub, updating
+                                    available stock for future orders.</li>
+                            </ul>
+                        </li>
+                        <li>Data Capture<br>
+                            Every step writes to fact tables:<br>
+                            ➔ fact_orders.csv → Order lines<br>
+                            ➔ fact_shipments.csv → Shipment legs<br>
+                            ➔ fact_returns.csv → Returns<br>
+                            ➔ fact_inventory_snapshot.csv → Daily inventory<br>
+                            ➔ fact_backorders.csv → Unfulfilled demand
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -326,6 +437,763 @@
                         </li>
                         <li>Logs: SupplyChain_Data/data_gen.log</li>
                     </ul>
+
+                    <!-- DIMENSION TABLES -->
+                    <!-- DIMENSION: dim_hubs.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px; ">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">DIMENSION</span>
+                            <h2 style="margin:0; font-size:22px;">dim_hubs.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">Distribution hub master data containing
+                            specialization and
+                            location details for the three primary fulfillment centers.</p>
+
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Hub_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Unique hub identifier</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Hub_Name</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Full descriptive hub name</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Specialty</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Product category specialization</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Referenced by fact_orders.Source_Hub_ID</li>
+                                <li>Referenced by dim_stores.Home_Hub_ID</li>
+                                <li>Referenced by fact_shipments.Origin / Destination</li>
+                                <li>Referenced by fact_inventory_snapshot.Hub_ID</li>
+                                <li>Referenced by fact_inbound_shipments.Destination_Hub_ID</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- DIMENSION: dim_stores.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">DIMENSION</span>
+                            <h2 style="margin:0; font-size:22px;">dim_stores.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">
+                            Store master data for 100 retail outlets, including home hub assignment, city, and store
+                            type (major/minor).
+                        </p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Store_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Unique store identifier</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Home_Hub_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Assigned distribution hub</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">City</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Store location city</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Store_Type</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Major or minor store classification
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Links to dim_hubs via Home_Hub_ID</li>
+                                <li>Referenced by fact_orders.Store_ID</li>
+                                <li>Referenced by fact_shipments.Destination (for final-mile delivery)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- DIMENSION: dim_product.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">DIMENSION</span>
+                            <h2 style="margin:0; font-size:22px;">dim_products.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">Product catalog with 500 SKUs including physical
+                            attributes, demand patterns, and inventory planning parameters.</p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">SKU <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Stock keeping unit identifier</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Product_Name</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Full product name</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Category</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Primary product category</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Sub_Category</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Detailed product subcategory</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Weight_kg</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Float</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Product weight in kilograms</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Volume_cbm</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Float</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Product volume in cubic meters</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Base_Demand_Min</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Minimum daily demand baseline</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Base_Demand_Max</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Maximum daily demand baseline</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Avg_Daily_Demand</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Float</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Calculated average daily demand</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">ROP</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Reorder point (safety stock)</td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Target_Level</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Target inventory level</td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Referenced by fact_orders.SKU</li>
+                                <li>Referenced by fact_inbound_shipments.SKU</li>
+                                <li>Referenced by fact_inventory_snapshot.SKU</li>
+                                <li>Referenced by fact_returns.SKU</li>
+                                <li>Referenced by fact_backorders.SKU</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- DIMENSION: dim_suppliers.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">DIMENSION</span>
+                            <h2 style="margin:0; font-size:22px;">dim_suppliers.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">
+                            Supplier master data with 20 vendors across specialized manufacturing regions in India.
+                        </p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Supplier_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Unique supplier identifier</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">City</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Supplier location city</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Specialty</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Manufacturing specialization</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Referenced by fact_inbound_shipments.Supplier_ID</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- FACT TABLES -->
+                    <!-- FACT: fact_orders.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">FACT</span>
+                            <h2 style="margin:0; font-size:22px;">fact_orders.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">Granular order line data representing 50,000+
+                            customer orders with fulfillment details and delivery requirements.</p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Order_Line_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Unique order line identifier</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Order_ID</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Parent order identifier</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Store_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Destination store</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">SKU <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Product ordered</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Source_Hub_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Fulfillment hub for this SKU</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Order_Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Order placement date</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Required_Delivery_Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Customer requested delivery date
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity_Ordered</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity customer requested</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity_Shipped</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity actually fulfilled</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Is_Express</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Boolean</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Express shipping flag (≤3 days)</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Links to dim_stores via Store_ID</li>
+                                <li>Links to dim_products via SKU</li>
+                                <li>Links to dim_hubs via Source_Hub_ID</li>
+                                <li>Referenced by link_shipment_orders.Order_Line_ID</li>
+                                <li>Referenced by fact_returns.Order_Line_ID</li>
+                                <li>Referenced by fact_backorders.Order_Line_ID</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- FACT: fact_shipments.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">FACT</span>
+                            <h2 style="margin:0; font-size:22px;">fact_shipments.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">Individual shipment legs tracking both inter-hub
+                            consolidation and final-mile delivery with transportation costs.</p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Shipment_Leg_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Unique shipment leg identifier</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Leg_Type</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Shipment classification</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Transport_Mode</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Transportation method</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Origin</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Shipment starting location</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Destination</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Shipment ending location</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Dispatch_Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Shipment departure date</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Arrival_Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Shipment arrival date</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Transportation_Cost</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Float</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Total shipment cost (INR)</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Referenced by link_shipment_orders.Shipment_Leg_ID</li>
+                                <li>Links to dim_hubs and dim_stores via Origin/Destination</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- fact_inventory_snapshot.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">FACT</span>
+                            <h2 style="margin:0; font-size:22px;">fact_inventory_snapshot.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">
+                            Daily inventory levels capturing stock-on-hand for each SKU at each hub, enabling
+                            time-series analysis and stockout detection.
+                        </p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Snapshot_Date <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Inventory snapshot date</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Hub_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">PK FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Hub location</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">SKU <span
+                                            style="color:#2dba4e; font-weight:bold;">PK FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Product SKU</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity_On_Hand</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Available inventory units</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Composite key: (Snapshot_Date, Hub_ID, SKU)</li>
+                                <li>Links to dim_hubs via Hub_ID</li>
+                                <li>Links to dim_products via SKU</li>
+                                <li>Enables turnover analysis and stockout trending</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- fact returns.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">FACT</span>
+                            <h2 style="margin:0; font-size:22px;">fact_returns.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">
+                            Customer return transactions with reason codes and restocking details, tracking 3-6% return
+                            rate across product categories.
+                        </p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Return_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Unique return identifier</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Order_Line_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Original order line reference</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">SKU <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Returned product SKU</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity_Returned</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Units returned</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Return_Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Return processed date</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Return_Reason</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Customer return reason</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Links to fact_orders via Order_Line_ID</li>
+                                <li>Links to dim_products via SKU</li>
+                                <li>Enables return rate analysis by category/reason</li>
+                                <li>Tracks reverse logistics impact on inventory</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- fact_inbound_shipments.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">FACT</span>
+                            <h2 style="margin:0; font-size:22px;">fact_inbound_shipments.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">
+                            Supplier replenishment shipments tracking purchase orders, lead times, and stock arrivals at
+                            distribution hubs.
+                        </p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Inbound_Shipment_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Unique inbound shipment identifier
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Supplier_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Source supplier</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Destination_Hub_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Receiving hub</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">SKU <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Product being replenished</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity_Received</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Units received</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Expected_Arrival_Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Promised delivery date</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Actual_Arrival_Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Actual delivery date</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Links to dim_suppliers via Supplier_ID</li>
+                                <li>Links to dim_hubs via Destination_Hub_ID</li>
+                                <li>Links to dim_products via SKU</li>
+                                <li>Enables supplier performance analysis (on-time delivery)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- fact_backorders.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">FACT</span>
+                            <h2 style="margin:0; font-size:22px;">fact_backorders.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">
+                            Unfulfilled demand tracking partial and complete order failures due to stockouts, enabling
+                            service level analysis.
+                        </p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Backorder_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Unique backorder identifier</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Order_Line_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Affected order line</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Order_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Parent order reference</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">SKU <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Backordered product</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity_Backordered</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Unfulfilled quantity</td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Backorder_Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Date</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Backorder creation date</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Status</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Backorder status</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Links to fact_orders via Order_Line_ID and Order_ID</li>
+                                <li>Links to dim_products via SKU</li>
+                                <li>Enables fill rate and service level calculations</li>
+                                <li>Tracks stockout patterns by hub and product category</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Link-->
+                    <!-- link_shipment_orders.csv -->
+                    <div style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+                        <div style="display:flex; align-items:center; margin-bottom:10px;">
+                            <span
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">LINK</span>
+                            <h2 style="margin:0; font-size:22px;">link_shipment_orders.csv</h2>
+                        </div>
+                        <p style="font-size:16px; margin-bottom:15px;">
+                            Bridge table connecting shipment legs to order lines, enabling many-to-many relationships
+                            and multi-leg fulfillment tracking.
+                        </p>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                            <thead>
+                                <tr style="background:#2dba4e; color:#fff;">
+                                    <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                                    <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Shipment_Leg_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Shipment leg reference</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Order_Line_ID <span
+                                            style="color:#2dba4e; font-weight:bold;">FK</span></td>
+                                    <td style="padding:8px; border:1px solid #ccc;">String</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Order line reference</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity_Shipped</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                                    <td style="padding:8px; border:1px solid #ccc;">Quantity in this shipment leg</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top:10px;">
+                            <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                            <ul style="margin-left:20px; font-size:16px;">
+                                <li>Links fact_shipments to fact_orders</li>
+                                <li>Composite key: (Shipment_Leg_ID, Order_Line_ID)</li>
+                                <li>Enables drill-down from shipment to order details</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -343,9 +1211,7 @@
                             </ul>
                         </li>
                         <li>
-                            🗂️ Manage Relationships
-                            <img src="./image/Porject-2 manage relationship.png" alt="manage relationship table"
-                                class="img-fluid rounded shadow mt-5 mb-5">
+                            🗂️ Model View
 
                             <img src="./image/project-2 ER relationship.png" alt="ER diagram"
                                 class="img-fluid rounded shadow">

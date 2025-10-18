@@ -1,0 +1,758 @@
+<div class="row mb-5" id="outputs">
+    <div class="col-md-12" data-aos="fade-up">
+        <h2>📂 Output of Synthetic Data Generator</h2> <!-- [1] -->
+        <ul class="fs-5">
+            <li>Dimensions:
+                <ul>
+                    <li>dim_hubs.csv</li>
+                    <li>dim_stores.csv</li>
+                    <li>dim_products.csv</li>
+                    <li>dim_suppliers.csv</li>
+                </ul>
+            </li>
+            <li>Facts:
+                <ul>
+                    <li>fact_orders.csv</li>
+                    <li>fact_shipments.csv</li>
+                    <li>fact_inventory_snapshot.csv</li>
+                    <li>fact_returns.csv</li>
+                    <li>fact_inbound_shipments.csv</li>
+                    <li>fact_backorders.csv</li>
+                </ul>
+
+            </li>
+            <li>Link: link_shipment_orders.csv
+            </li>
+            <li>Logs: SupplyChain_Data/data_gen.log</li>
+        </ul>
+
+        <!-- DIMENSION TABLES -->
+        <!--hub-->
+        <div
+            style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+            <div style="display:flex; align-items:center; margin-bottom:10px;">
+                <span
+                    style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">DIMENSION</span>
+                <h2 style="margin:0; font-size:22px;">dim_hubs.csv</h2>
+            </div>
+            <p style="font-size:16px; margin-bottom:15px;">Distribution hub master data containing specialization and
+                location details for the three primary fulfillment centers.</p>
+
+            <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                <thead>
+                    <tr style="background:#2dba4e; color:#fff;">
+                        <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                        <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                        <th style="padding:8px; border:1px solid #ccc;">Description</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Hub_ID <span
+                                style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Unique hub identifier</td>
+
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Hub_Name</td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Full descriptive hub name</td>
+
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Specialty</td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Product category specialization</td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top:10px;">
+                <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                <ul style="margin-left:20px; font-size:16px;">
+                    <li>Referenced by fact_orders.Source_Hub_ID</li>
+                    <li>Referenced by dim_stores.Home_Hub_ID</li>
+                    <li>Referenced by fact_shipments.Origin / Destination</li>
+                    <li>Referenced by fact_inventory_snapshot.Hub_ID</li>
+                </ul>
+            </div>
+        </div>
+
+        <!--  Product  -->
+        <div
+            style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+            <div style="display:flex; align-items:center; margin-bottom:10px;">
+                <span
+                    style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">DIMENSION</span>
+                <h2 style="margin:0; font-size:22px;">dim_products.csv</h2>
+            </div>
+            <p style="font-size:16px; margin-bottom:15px;">Product catalog with 500 SKUs including physical attributes,
+                demand patterns, and inventory planning parameters.</p>
+
+            <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                <thead>
+                    <tr style="background:#2dba4e; color:#fff;">
+                        <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                        <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                        <th style="padding:8px; border:1px solid #ccc;">Description</th>
+                        <th style="padding:8px; border:1px solid #ccc;">Sample Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">SKU <span
+                                style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Stock keeping unit identifier</td>
+                        <td style="padding:8px; border:1px solid #ccc;">SKU0001, SKU0234, SKU0500</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Product_Name</td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Full product name</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Aanya Silk Anarkali, Nova Leather Loafers</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Category</td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Primary product category</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Dress, Shoes, Accessories</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Sub_Category</td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Detailed product subcategory</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Silk Anarkali, Leather Loafers, Silver Jhumkas
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Weight_kg</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Float</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Product weight in kilograms</td>
+                        <td style="padding:8px; border:1px solid #ccc;">0.3 - 1.5 (varies by category)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Volume_cbm</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Float</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Product volume in cubic meters</td>
+                        <td style="padding:8px; border:1px solid #ccc;">0.001 - 0.020 (varies by category)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Base_Demand_Min</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Minimum daily demand baseline</td>
+                        <td style="padding:8px; border:1px solid #ccc;">3 - 25 (varies by category)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Base_Demand_Max</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Maximum daily demand baseline</td>
+                        <td style="padding:8px; border:1px solid #ccc;">10 - 25 (varies by category)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Avg_Daily_Demand</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Float</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Calculated average daily demand</td>
+                        <td style="padding:8px; border:1px solid #ccc;">(Min + Max) / 2 * 0.80</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">ROP</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Reorder point (safety stock)</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Calculated: Avg_Demand * LT_Mean + Safety_Stock
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Target_Level</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Integer</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Target inventory level</td>
+                        <td style="padding:8px; border:1px solid #ccc;">ROP + (7 days * Avg_Daily_Demand)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top:10px;">
+                <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                <ul style="margin-left:20px; font-size:16px;">
+                    <li>Referenced by fact_orders.SKU</li>
+                    <li>Referenced by fact_inbound_shipments.SKU</li>
+                    <li>Referenced by fact_inventory_snapshot.SKU</li>
+                    <li>Referenced by fact_returns.SKU</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Supplier -->
+
+        <div
+            style="margin-bottom:40px; padding:20px; border:1px solid #ccc; border-radius:8px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+            <div style="display:flex; align-items:center; margin-bottom:10px;">
+                <span
+                    style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:12px; margin-right:10px;">DIMENSION</span>
+                <h2 style="margin:0; font-size:22px;">dim_suppliers.csv</h2>
+            </div>
+            <p style="font-size:16px; margin-bottom:15px;">Supplier master data with 20 vendors across specialized
+                manufacturing regions in India.</p>
+
+            <table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
+                <thead>
+                    <tr style="background:#2dba4e; color:#fff;">
+                        <th style="padding:8px; border:1px solid #ccc;">Column Name</th>
+                        <th style="padding:8px; border:1px solid #ccc;">Data Type</th>
+                        <th style="padding:8px; border:1px solid #ccc;">Description</th>
+                        <th style="padding:8px; border:1px solid #ccc;">Sample Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Supplier_ID <span
+                                style="color:#2dba4e; font-weight:bold;">PK</span></td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Unique supplier identifier</td>
+                        <td style="padding:8px; border:1px solid #ccc;">SUP001, SUP010, SUP020</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">City</td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Supplier location city</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Tiruppur, Kanpur, Jaipur</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px; border:1px solid #ccc;">Specialty</td>
+                        <td style="padding:8px; border:1px solid #ccc;">String</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Manufacturing specialization</td>
+                        <td style="padding:8px; border:1px solid #ccc;">Cotton Apparel, Leather Goods, Jewellery</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top:10px;">
+                <h3 style="font-size:18px; margin-bottom:10px;">Relationships</h3>
+                <ul style="margin-left:20px; font-size:16px;">
+                    <li>Referenced by fact_inbound_shipments.Supplier_ID</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- FACT TABLES -->
+
+        <div class="table-section" id="orders">
+            <div class="table-header">
+                <span class="table-type fact">FACT</span>
+                <h2>fact_orders.csv</h2>
+            </div>
+            <p>Granular order line data representing 50,000+ customer orders with fulfillment details and
+                delivery
+                requirements.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Sample Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="column-name">Order_Line_ID</span><span class="key-indicator pk">PK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Unique order line identifier</td>
+                        <td>OL00001, OL12547, OL99999</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Order_ID</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Parent order identifier</td>
+                        <td>ORD00001, ORD12345, ORD50000</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Store_ID</span><span class="key-indicator fk">FK</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Destination store</td>
+                        <td>ST001, ST045, ST100</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">SKU</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Product ordered</td>
+                        <td>SKU0123, SKU0456</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Source_Hub_ID</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Fulfillment hub for this SKU</td>
+                        <td>HUB-DEL, HUB-BOM, HUB-BLR</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Order_Date</span></td>
+                        <td><span class="data-type">Date</span></td>
+                        <td>Order placement date</td>
+                        <td>2022-01-01 to 2025-06-30</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Required_Delivery_Date</span></td>
+                        <td><span class="data-type">Date</span></td>
+                        <td>Customer requested delivery date</td>
+                        <td>Order_Date + 3 to 10 days</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Quantity_Ordered</span></td>
+                        <td><span class="data-type">Integer</span></td>
+                        <td>Quantity customer requested</td>
+                        <td>1 - 50 (varies by demand factors)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Quantity_Shipped</span></td>
+                        <td><span class="data-type">Integer</span></td>
+                        <td>Quantity actually fulfilled</td>
+                        <td>0 to Quantity_Ordered</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Is_Express</span></td>
+                        <td><span class="data-type">Boolean</span></td>
+                        <td>Express shipping flag (≤3 days)</td>
+                        <td>True, False</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="relationships">
+                <h3>Relationships</h3>
+                <ul>
+                    <li>Links to dim_stores via Store_ID</li>
+                    <li>Links to dim_products via SKU</li>
+                    <li>Links to dim_hubs via Source_Hub_ID</li>
+                    <li>Referenced by link_shipment_orders.Order_Line_ID</li>
+                    <li>Referenced by fact_returns.Order_Line_ID</li>
+                    <li>Referenced by fact_backorders.Order_Line_ID</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-section" id="shipments">
+            <div class="table-header">
+                <span class="table-type fact">FACT</span>
+                <h2>fact_shipments.csv</h2>
+            </div>
+            <p>Individual shipment legs tracking both inter-hub consolidation and final-mile delivery with
+                transportation costs.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Sample Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="column-name">Shipment_Leg_ID</span><span class="key-indicator pk">PK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Unique shipment leg identifier</td>
+                        <td>SL000001, SL123456, SL999999</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Leg_Type</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Shipment classification</td>
+                        <td>Inter-Hub, Final-Mile</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Transport_Mode</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Transportation method</td>
+                        <td>Truck, Courier</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Origin</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Shipment starting location</td>
+                        <td>HUB-DEL, HUB-BOM, HUB-BLR</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Destination</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Shipment ending location</td>
+                        <td>HUB-BLR, ST045 (hub or store)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Dispatch_Date</span></td>
+                        <td><span class="data-type">Date</span></td>
+                        <td>Shipment departure date</td>
+                        <td>2022-01-01 to 2025-06-30</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Arrival_Date</span></td>
+                        <td><span class="data-type">Date</span></td>
+                        <td>Shipment arrival date</td>
+                        <td>Dispatch_Date + transit days</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Transportation_Cost</span></td>
+                        <td><span class="data-type">Float</span></td>
+                        <td>Total shipment cost (INR)</td>
+                        <td>Calculated: 300 + (15*dist) + (8*chg_weight)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="relationships">
+                <h3>Relationships</h3>
+                <ul>
+                    <li>Referenced by link_shipment_orders.Shipment_Leg_ID</li>
+                    <li>Links to dim_hubs and dim_stores via Origin/Destination</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-section" id="links">
+            <div class="table-header">
+                <span class="table-type link">LINK</span>
+                <h2>link_shipment_orders.csv</h2>
+            </div>
+            <p>Bridge table connecting shipment legs to order lines, enabling many-to-many relationships and
+                multi-leg fulfillment tracking.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Sample Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="column-name">Shipment_Leg_ID</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Shipment leg reference</td>
+                        <td>SL000123, SL012345</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Order_Line_ID</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Order line reference</td>
+                        <td>OL00123, OL12345</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Quantity_Shipped</span></td>
+                        <td><span class="data-type">Integer</span></td>
+                        <td>Quantity in this shipment leg</td>
+                        <td>1 - 50</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="relationships">
+                <h3>Relationships</h3>
+                <ul>
+                    <li>Links fact_shipments to fact_orders</li>
+                    <li>Composite key: (Shipment_Leg_ID, Order_Line_ID)</li>
+                    <li>Enables drill-down from shipment to order details</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-section" id="inbound">
+            <div class="table-header">
+                <span class="table-type fact">FACT</span>
+                <h2>fact_inbound_shipments.csv</h2>
+            </div>
+            <p>Supplier replenishment shipments tracking purchase orders, lead times, and stock arrivals at
+                distribution hubs.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Sample Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="column-name">Inbound_Shipment_ID</span><span class="key-indicator pk">PK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Unique inbound shipment identifier</td>
+                        <td>INB00001, INB12345, INB99999</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Supplier_ID</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Source supplier</td>
+                        <td>SUP001, SUP010, SUP020</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Destination_Hub_ID</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Receiving hub</td>
+                        <td>HUB-DEL, HUB-BOM, HUB-BLR</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">SKU</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Product being replenished</td>
+                        <td>SKU0123, SKU0456</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Quantity_Received</span></td>
+                        <td><span class="data-type">Integer</span></td>
+                        <td>Units received</td>
+                        <td>Target_Level - Current_Stock</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Expected_Arrival_Date</span></td>
+                        <td><span class="data-type">Date</span></td>
+                        <td>Promised delivery date</td>
+                        <td>Order_Date + LT - random(0,5)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Actual_Arrival_Date</span></td>
+                        <td><span class="data-type">Date</span></td>
+                        <td>Actual delivery date</td>
+                        <td>Order_Date + sample_lead_time()</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="relationships">
+                <h3>Relationships</h3>
+                <ul>
+                    <li>Links to dim_suppliers via Supplier_ID</li>
+                    <li>Links to dim_hubs via Destination_Hub_ID</li>
+                    <li>Links to dim_products via SKU</li>
+                    <li>Enables supplier performance analysis (on-time delivery)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-section" id="inventory">
+            <div class="table-header">
+                <span class="table-type fact">FACT</span>
+                <h2>fact_inventory_snapshot.csv</h2>
+            </div>
+            <p>Daily inventory levels capturing stock-on-hand for each SKU at each hub, enabling time-series
+                analysis and stockout detection.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Sample Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="column-name">Snapshot_Date</span><span class="key-indicator pk">PK</span>
+                        </td>
+                        <td><span class="data-type">Date</span></td>
+                        <td>Inventory snapshot date</td>
+                        <td>2022-01-01 to 2025-06-30</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Hub_ID</span><span class="key-indicator pk">PK</span><span
+                                class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Hub location</td>
+                        <td>HUB-DEL, HUB-BOM, HUB-BLR</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">SKU</span><span class="key-indicator pk">PK</span><span
+                                class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Product SKU</td>
+                        <td>SKU0001, SKU0500</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Quantity_On_Hand</span></td>
+                        <td><span class="data-type">Integer</span></td>
+                        <td>Available inventory units</td>
+                        <td>0 to Target_Level + buffer</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="relationships">
+                <h3>Relationships</h3>
+                <ul>
+                    <li>Composite key: (Snapshot_Date, Hub_ID, SKU)</li>
+                    <li>Links to dim_hubs via Hub_ID</li>
+                    <li>Links to dim_products via SKU</li>
+                    <li>Enables turnover analysis and stockout trending</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-section" id="returns">
+            <div class="table-header">
+                <span class="table-type fact">FACT</span>
+                <h2>fact_returns.csv</h2>
+            </div>
+            <p>Customer return transactions with reason codes and restocking details, tracking 3-6% return
+                rate
+                across product categories.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Sample Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="column-name">Return_ID</span><span class="key-indicator pk">PK</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Unique return identifier</td>
+                        <td>RET00001, RET12345, RET99999</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Order_Line_ID</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Original order line reference</td>
+                        <td>OL00123, OL12345</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">SKU</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Returned product SKU</td>
+                        <td>SKU0123, SKU0456</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Quantity_Returned</span></td>
+                        <td><span class="data-type">Integer</span></td>
+                        <td>Units returned</td>
+                        <td>1 to Quantity_Shipped</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Return_Date</span></td>
+                        <td><span class="data-type">Date</span></td>
+                        <td>Return processed date</td>
+                        <td>Delivery_Date + 1 to 21 days</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Return_Reason</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Customer return reason</td>
+                        <td>Wrong Size, Wrong Colour, Damaged, Changed Mind</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="relationships">
+                <h3>Relationships</h3>
+                <ul>
+                    <li>Links to fact_orders via Order_Line_ID</li>
+                    <li>Links to dim_products via SKU</li>
+                    <li>Enables return rate analysis by category/reason</li>
+                    <li>Tracks reverse logistics impact on inventory</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="table-section" id="backorders">
+            <div class="table-header">
+                <span class="table-type fact">FACT</span>
+                <h2>fact_backorders.csv</h2>
+            </div>
+            <p>Unfulfilled demand tracking partial and complete order failures due to stockouts, enabling
+                service
+                level analysis.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Sample Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="column-name">Backorder_ID</span><span class="key-indicator pk">PK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Unique backorder identifier</td>
+                        <td>BO00001, BO12345, BO99999</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Order_Line_ID</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Affected order line</td>
+                        <td>OL00123, OL12345</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Order_ID</span><span class="key-indicator fk">FK</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Parent order reference</td>
+                        <td>ORD00123, ORD12345</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">SKU</span><span class="key-indicator fk">FK</span>
+                        </td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Backordered product</td>
+                        <td>SKU0123, SKU0456</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Quantity_Backordered</span></td>
+                        <td><span class="data-type">Integer</span></td>
+                        <td>Unfulfilled quantity</td>
+                        <td>Quantity_Ordered - Quantity_Shipped</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Backorder_Date</span></td>
+                        <td><span class="data-type">Date</span></td>
+                        <td>Backorder creation date</td>
+                        <td>Same as Order_Date</td>
+                    </tr>
+                    <tr>
+                        <td><span class="column-name">Status</span></td>
+                        <td><span class="data-type">String</span></td>
+                        <td>Backorder status</td>
+                        <td>Pending, Fulfilled, Cancelled</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="relationships">
+                <h3>Relationships</h3>
+                <ul>
+                    <li>Links to fact_orders via Order_Line_ID and Order_ID</li>
+                    <li>Links to dim_products via SKU</li>
+                    <li>Enables fill rate and service level calculations</li>
+                    <li>Tracks stockout patterns by hub and product category</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
