@@ -149,23 +149,15 @@
                 <div class="col-lg-6 text-center mt-5" data-aos="fade-left">
                     <!-- Video: SupplyStream demo -->
                     <div class="ratio ratio-16x9"> <!-- Keeps 16:9 aspect ratio responsively [7] -->
-                        <video class="w-100" controls preload="metadata" playsinline
-                            poster="./image/supplystream-poster.jpg"
-                            aria-label="SupplyStream demo: simulate data and analyze fulfillment, delivery, inventory, transport, returns">
-                            <!-- Provide MP4 and WebM for broad compatibility [5] -->
-                            <source src="./image/Project-2 Dashboard.mp4" type="video/mp4"> <!-- H.264 [5] -->
-                            <!-- Optional subtitles in other languages
-    <track src="./video/supplystream-hi.vtt" kind="subtitles" srclang="hi" label="Hindi subtitles">
-    -->
-
-                            <!-- Fallback text for very old browsers [5] -->
-                            Your browser does not support HTML5 video. Here is a
-                            <a href="./image/Project-2 Dashboard.mp4">link to download the video</a>.
-                        </video>
+                        <iframe title="Analysis" width="600" height="450"
+                            src="https://app.powerbi.com/view?r=eyJrIjoiZWM1ZjcwYjgtODVlMy00ZDYzLWJlYmUtNDBkYjBkZDZkN2JiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9"
+                            frameborder="0" allowFullScreen="true"></iframe>
                     </div>
-                    <p class="mt-2 text-muted">Video demo of the Power BI dashboard</p> <!-- Descriptive caption [4] -->
+                    <p class="mt-2 text-muted">Live interactive demo of the Power BI dashboard</p>
+                    <!-- Descriptive caption [4] -->
                 </div>
             </div>
+
 
             <!-- Executive Summary -->
             <div class="mt-5 p-3 border rounded ">
@@ -1231,6 +1223,151 @@
                 </div>
             </div>
 
+            <!-- DAX Measures for KPI and Visualization -->
+            <div class="row mb-5" id="insights">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>📐 DAX Measures for KPI and Visualization</h2>
+                    <ul>
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Avg
+                                Inbound Lead Time</strong><br>
+                            Calculates the average number of days between expected and actual arrival dates for inbound
+                            shipments:
+                            <pre><code>Avg Inbound Lead Time =
+AVERAGEX(
+    fact_inbound_shipments,
+    DATEDIFF(
+        fact_inbound_shipments[Expected_Arrival_Date],
+        fact_inbound_shipments[Actual_Arrival_Date],
+        DAY
+    )
+)</code></pre>
+                            <strong>Purpose:</strong> <br>Helps monitor supplier performance and logistics
+                            efficiency.<br>
+                            Supports KPI
+                            dashboards for lead time analysis. <br><br>
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">On-Time
+                                Delivery Rate</strong><br>
+                            Percentage of shipments delivered on time:
+                            <pre><code>OnTimeDeliveryRate =
+DIVIDE(
+    COUNTROWS(
+        FILTER(fact_inbound_shipments, fact_inbound_shipments[Delay Days] = 0)
+    ),
+    COUNTROWS(fact_inbound_shipments)
+)</code></pre>
+                            <strong>Purpose:</strong><br> Monitors delivery performance and supplier
+                            reliability.<br><br>
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Average
+                                Product On Hand per SKU</strong><br>
+                            Average quantity on hand for each SKU:
+                            <pre><code>Average Product On Hand per SKU =
+AVERAGEX(
+    VALUES(fact_inventory_snapshot[SKU]),
+    CALCULATE(AVERAGE(fact_inventory_snapshot[Quantity_On_Hand]))
+)</code></pre>
+                            <strong>Purpose:</strong><br> Supports inventory optimization and stock level
+                            analysis.<br><br>
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Qty
+                                On Hand (Latest Snapshot)</strong><br>
+                            Total quantity on hand for the most recent snapshot:
+                            <pre><code>Qty On Hand (Latest Snapshot) =
+VAR MaxDate = LASTDATE('fact_inventory_snapshot'[Snapshot_Date])
+RETURN
+    CALCULATE(
+        SUM('fact_inventory_snapshot'[Quantity_On_Hand]),
+        'fact_inventory_snapshot'[Snapshot_Date] = MaxDate
+    )</code></pre>
+                            <strong>Purpose:</strong><br> Provides real-time inventory status for dashboards.<br><br>
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Order
+                                Fulfillment Rate %</strong><br>
+                            Percentage of ordered quantity shipped:
+                            <pre><code>Order Fulfillment Rate % =
+DIVIDE(
+    SUM('fact_orders'[Quantity_Shipped]),
+    SUM('fact_orders'[Quantity_Ordered]),
+    0
+)</code></pre>
+                            <strong>Purpose:</strong><br> Tracks order fulfillment efficiency and customer service
+                            level.<br><br>
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Total
+                                Backordered Quantity</strong><br>
+                            Total quantity ordered but not shipped:
+                            <pre><code>Total Backordered Quantity =
+SUMX(fact_orders, fact_orders[Quantity_Ordered] - fact_orders[Quantity_Shipped])</code></pre>
+                            <em>Purpose:</em><br> Identifies backlog for fulfillment planning.<br><br>
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Return
+                                Rate %</strong><br>
+                            Percentage of shipped items returned:
+                            <pre><code>Return Rate % =
+DIVIDE(
+    SUM('fact_returns'[Quantity_Returned]),
+    SUM('fact_orders'[Quantity_Shipped]),
+    0
+) * 100</code></pre>
+                            <strong>Purpose:</strong><br> Tracks product quality and customer satisfaction.<br><br>
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Avg
+                                Delivery Lead Time (Inter-Hub)</strong><br>
+                            Average days for inter-hub shipments:
+                            <pre><code>Avg Delivery Lead Time (Inter-Hub) =
+AVERAGEX(
+    FILTER('fact_shipments', 'fact_shipments'[Leg_Type] = "Inter-Hub"),
+    DATEDIFF('fact_shipments'[Dispatch_Date], 'fact_shipments'[Arrival_Date], DAY)
+)</code></pre>
+                            <strong>Purpose:</strong><br> Measures hub-to-hub transfer efficiency.<br><br>
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">On-Time
+                                Delivery % (Final-Mile)</strong><br>
+                            Percentage of final-mile deliveries completed on time:
+                            <pre><code>On-Time Delivery % =
+VAR FinalMileDeliveries =
+    ADDCOLUMNS(
+        FILTER(link_shipment_orders, RELATED(fact_shipments[Leg_Type]) = "Final-Mile"),
+        "ArrivalDate", RELATED(fact_shipments[Arrival_Date]),
+        "RequiredDate", RELATED(fact_orders[In_Store_Required_Delivery_Date])
+    )
+VAR OnTimeDeliveries =
+    FILTER(FinalMileDeliveries, [ArrivalDate] <= [RequiredDate])
+RETURN
+    DIVIDE(COUNTROWS(OnTimeDeliveries), COUNTROWS(FinalMileDeliveries), 0)</code></pre>
+                            <strong>Purpose:</strong><br> Tracks last-mile delivery performance.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- Key Insights (What this enables) -->
             <div class="row mb-5" id="insights">
                 <div class="col-md-12" data-aos="fade-up">
@@ -1250,21 +1387,6 @@
                             inform product, fit, color, or quality actions with suppliers ?</li>
                         <li>How well do shipped quantities align with orders across categories and stores, and where are
                             fulfillment gaps indicating inventory or sourcing constraints to address ?</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Validation -->
-            <div class="row mb-5" id="validation">
-                <div class="col-md-12" data-aos="fade-up">
-                    <h2>✅ Validation</h2> <!-- [9][2] -->
-                    <ul>
-                        <li>Validity checks on order volumes, lead times, and cost curves to ensure realistic
-                            ranges and distributions. <!-- [1] --></li>
-                        <li>Model integrity checks: relationship mappings and referential joins verified for facts,
-                            dims, and link tables. <!-- [1] --></li>
-                        <li>Dashboard QA: KPIs align with measure definitions; layouts prioritize clarity and scanning
-                            patterns. <!-- [1][9] --></li>
                     </ul>
                 </div>
             </div>
