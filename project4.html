@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Core meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics Dashboard | Manoj Mathew</title>
+    <meta name="description"
+        content="Detailed overview of SupplyStream, a synthetic retail supply chain simulator and analytics dashboard by Manoj Mathew: Python data generator, Power BI, advanced logistics, and performance analytics." />
+    <meta name="keywords"
+        content="SupplyStream, synthetic retail supply chain, logistics simulator, Power BI, Python, data generator, analytics dashboard, Manoj Mathew, supply chain analytics" />
+    <meta name="author" content="Manoj Mathew" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.manojmathew.com/project1.html" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- Social: Open Graph -->
+    <meta property="og:title"
+        content="SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics Dashboard | Manoj Mathew" />
+    <meta property="og:description"
+        content="Python-based supply chain simulator, Power BI analytics, and dashboard prototyping for Indian retail logistics." />
+    <meta property="og:url" content="https://www.manojmathew.com/project1.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.manojmathew.com/image/supplystream-dashboard.png" />
+
+    <!-- Social: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title"
+        content="SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics Dashboard | Manoj Mathew" />
+    <meta name="twitter:description"
+        content="Python-based supply chain simulator, Power BI analytics, and dashboard prototyping for Indian retail logistics." />
+    <meta name="twitter:image" content="https://www.manojmathew.com/image/supplystream-dashboard.png" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics Dashboard",
+      "creator": {
+        "@type": "Person",
+        "name": "Manoj Mathew",
+        "url": "https://www.manojmathew.com"
+      },
+      "description": "A Python-based supply chain and logistics simulator with data feeds to Power BI dashboards for rapid prototyping and analytics.",
+      "url": "https://www.manojmathew.com/project1.html",
+      "image": "https://www.manojmathew.com/image/supplystream-dashboard.png"
+    }
+    </script>
+
+    <!-- Fonts & CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+    <link rel="stylesheet" href="CSS.css" />
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"
+        defer></script>
+    <script src="vanilla-tilt.js" defer></script>
+    <script src="index.js" defer></script>
+</head>
+
+<body>
+    <!-- Mobile nav -->
+    <nav class="menu" id="mobile" aria-label="Primary">
+        <div class="topnav">
+            <p class="normal">Menu</p>
+            <div id="myLinks" aria-hidden="true">
+                <div class="links">
+                    <a href="index.html#About">About</a>
+                    <a href="index.html#Skills">Skills</a>
+                    <a href="index.html#Work">Projects</a>
+                    <a href="index.html#Contact">Contact</a>
+                </div>
+                <div class="d-flex flex-row justify-content-evenly">
+                    <a href="https://github.com/MMathew4788" target="_blank" rel="noopener noreferrer"
+                        aria-label="GitHub Profile">
+                        <img src="./image/github.svg" alt="GitHub" class="menu-icon">
+                    </a>
+                    <a href="https://uk.linkedin.com/in/manoj-m-27b92a2a" target="_blank" rel="noopener noreferrer"
+                        aria-label="LinkedIn Profile">
+                        <img src="./image/linkedin.svg" alt="LinkedIn" class="menu-icon">
+                    </a>
+                    <a href="https://www.youtube.com/@manojmathew5287" target="_blank" rel="noopener noreferrer"
+                        aria-label="YouTube Channel">
+                        <img src="./image/youtube.svg" alt="YouTube" class="menu-icon">
+                    </a>
+                </div>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()" role="button"
+                aria-label="Toggle navigation menu" aria-controls="myLinks" aria-expanded="false">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Desktop nav -->
+    <nav class="menu" id="desktop" aria-label="Primary desktop">
+        <ol class="row text-center">
+            <li><a href="index.html#About">About</a></li>
+            <li><a href="index.html#Skills">Skills</a></li>
+            <li><a href="index.html#Work">Projects</a></li>
+            <li><a href="index.html#Contact">Contact</a></li>
+        </ol>
+        <div class="d-flex flex-column text-center mt-5">
+            <a href="https://github.com/MMathew4788" target="_blank" rel="noopener noreferrer"
+                aria-label="GitHub Profile">
+                <img src="./image/github.svg" alt="GitHub" class="menu-icon">
+            </a>
+            <a href="https://uk.linkedin.com/in/manoj-m-27b92a2a" target="_blank" rel="noopener noreferrer"
+                aria-label="LinkedIn Profile">
+                <img src="./image/linkedin.svg" alt="LinkedIn" class="menu-icon">
+            </a>
+            <a href="https://www.youtube.com/@manojmathew5287" target="_blank" rel="noopener noreferrer"
+                aria-label="YouTube Channel">
+                <img src="./image/youtube.svg" alt="YouTube" class="menu-icon">
+            </a>
+        </div>
+    </nav>
+
+    <!-- Project Content: SupplyStream (Storytelling) -->
+    <section class="Work" style="padding:1rem;">
+        <div class="top-space">Project Spotlight</div> <!-- [1] -->
+
+        <div class="container">
+            <!-- Hero -->
+            <div class="row mb-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h2 class="font">Maven Return to Space Challenge - Power BI Dashboard</h2> <!-- [1] -->
+                    <p class="fs-5">
+                        This project is part of the maven-return-to-space-challenge. The goal is to create a single-page
+                        Power BI dashboard that answers:<br>
+                        The Ultimate Rocket Ranking: Which rocket (by name, cost, or size) is the true champion of
+                        space? <br>The Golden Era of Space: Which decade had the highest success rate, most launches, or
+                        best cost efficiency? <br> The Winning Team: Which country or organization has dominated the
+                        space race, and what does their strategy look like? <!-- [1] -->
+                    </p>
+                </div>
+
+                <div class="col-lg-6 text-center mt-5" data-aos="fade-left">
+                    <!-- Video: SupplyStream demo -->
+                    <div class="ratio ratio-16x9"> <!-- Keeps 16:9 aspect ratio responsively [7] -->
+                        <iframe title="Analysis" width="600" height="400"
+                            src="https://app.powerbi.com/view?r=eyJrIjoiYWJiMTAzMmUtMzI4MC00OTVhLWI0ZTEtYzljYWU1ZTBmOGFmIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9"
+                            frameborder="0" allowFullScreen="true"></iframe>
+                    </div>
+                    <p class="mt-2 text-muted">Live interactive demo of the Power BI dashboard</p>
+                    <!-- Descriptive caption [4] -->
+                </div>
+            </div>
+
+
+            <!-- Detailed Analysis of Issues and Solutions -->
+            <div class="row mb-5 mt-5" id="approach">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>Detailed Analysis of Issues and Solutions</h2> <!-- [2][9] -->
+                    <ul style="margin-left: -12px;">
+                        This section outlines key data issues in analysis and provides practical solutions to ensure
+                        accurate, unbiased comparisons
+                        <li><strong>Price Data Missing</strong>
+                            <ul style="margin-left: -12px;">
+                                <li><strong>Issue:</strong> A large portion of rows have no price information, making
+                                    cost-based rankings unreliable.</li>
+                                <li><strong>Why it matters:</strong> Missing data reduces accuracy and biases analysis.
+                                </li>
+                                <li><strong>Implemented Solution:</strong> Impute missing values using machine learning
+                                    model (Random Forest Regressor)</li>
+                            </ul><br>
+                        </li>
+                        <li><strong> Outliers in Price</strong>
+                            <ul style="margin-left: -12px;">
+                                <li><strong>Issue:</strong> Extreme values for price in some rows.</li>
+                                <li><strong>Why it matters:</strong> Outliers distort predicted price and reduce
+                                    accuracy in comparisons and rankings.</li>
+                                <li><strong>Implemented Solution:</strong> The code uses the Interquartile Range (IQR)
+                                    to identify outliers, delete those outliers, considering them as missing.</li>
+                            </ul><br>
+                        </li>
+                        <li><strong> Time Format Issues</strong>
+                            <ul style="margin-left: -12px;">
+                                <li><strong>Issue:</strong> Time stored as fractional values or inconsistent formats and
+                                    missing values.</li>
+                                <li><strong>Why it matters:</strong> Having time in the dataset doesn’t provide any
+                                    value to the data and increases the size of dataset</li>
+                                <li><strong>Implemented Solution:</strong> Remove Time from the dataset</li>
+                            </ul><br>
+                        </li>
+                        <li><strong> Success Rate Bias</strong>
+                            <ul style="margin-left: -12px;">
+                                <li><strong>Issue:</strong> Rockets with very few launches (e.g., 1 with 1 success) show
+                                    misleading success rates.</li>
+                                <li><strong>Why it matters:</strong> Small sample sizes exaggerate performance.</li>
+                                <li><strong>Implemented Solution:</strong> Apply Bayesian adjustment because one launch
+                                    vs. >1000 launches creates very different certainty levels.
+                                    <br>Based on the Beta-binomial model with a uniform prior (α = 1, β = 1).
+                                    <br>Bayesian Estimate= (Success Count+α)/(Launch Count +α + β)
+                                </li>
+                            </ul><br>
+                        </li>
+                        <li><strong> Era Bias</strong>
+                            <ul style="margin-left: -12px;">
+                                <li><strong>Issue:</strong> Older rockets dominate launch count due to historical
+                                    context</li>
+                                <li><strong>Why it matters:</strong> Historical dominance can overshadow modern
+                                    efficiency.</li>
+                                <li><strong>Implemented Solution:</strong> Segment analysis by era (1950s, 1960s, etc.).
+                                    Compute era-adjusted scores combined with data for fair comparison.</li>
+                            </ul><br>
+                        </li>
+                        <li><strong> Duplicate Records</strong>
+                            <ul style="margin-left: -12px;">
+                                <li><strong>Issue:</strong> Duplicate rows can distort analysis.</li>
+                                <li><strong>Why it matters:</strong> Duplicates inflate counts and skew metrics.</li>
+                                <li><strong>Implemented Solution:</strong> Remove or consolidate duplicates before
+                                    analysis. </li>
+                            </ul><br>
+                        </li>
+                        <li><strong> Price Comparability Across Time</strong>
+                            <ul style="margin-left: -12px;">
+                                <li><strong>Issue:</strong> Prices from different decades are not comparable due to
+                                    inflation, technological changes, and mission complexity.</li>
+                                <li><strong>Why it matters:</strong> Comparing raw prices across eras misrepresents cost
+                                    efficiency and can lead to incorrect rankings.</li>
+                                <li><strong>Implemented Solution:</strong> Apply inflation adjustment using CPI or GDP
+                                    deflator to normalize costs to present-day values.
+                                    <br>Formula: Adjusted Price = Original Price × Inflation Factor.
+                                    <br>➔ Pulls data from World Bank API for GDP Deflator or CPI.
+                                    <br>➔ Calculates Inflation Factor using 2022 as the base year.
+                                    <br>➔ Inflation Factor available from 1960 onwards so for 1957-1959 the inflation
+                                    factor of 1960 was considered
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Random Forest-Based Price Imputation and Outlier Handling -->
+            <div class="row mb-5 mt-5" id="approach">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>Random Forest-Based Price Imputation and Outlier Handling</h2> <!-- [2][9] -->
+                    <ul style="margin-left: -12px;">
+                        This section demonstrates a Python-based solution for cleaning and preparing rocket launch data.
+                        The script detects and handles outliers, imputes missing price values using a Random Forest
+                        Regressor, and ensures categorical variables are properly encoded for modeling. By automating
+                        these steps, the process improves data quality and enables accurate, unbiased analysis. <br>
+                        The full code is available in my GitHub repository under the file "Random forest resgressor.py"
+                        <li><strong>1. Copy dataset</strong>
+                            <ul style="margin-left: -12px;">
+                                data = dataset.copy()
+                            </ul><br>
+                        </li>
+                        <li><strong> 2. Detect outliers using IQR</strong>
+                            <ul style="margin-left: -12px;">
+
+                                Q1 = data['Price'].quantile(0.25)<br>
+                                Q3 = data['Price'].quantile(0.75)<br>
+                                IQR = Q3 - Q1<br>
+                                lower_bound = Q1 - 1.5 * IQR<br>
+                                upper_bound = Q3 + 1.5 * IQR
+
+                            </ul><br>
+                        </li>
+                        <li><strong> 3. Mark and remove outlier</strong>
+                            <ul style="margin-left: -12px;">
+
+                                outlier_mask = (data['Price'] < lower_bound) | (data['Price']> upper_bound)<br>
+                                    data.loc[outlier_mask, 'Price'] = None
+
+                            </ul><br>
+                        </li>
+                        <li><strong> 4. Encode categorical variables and train Random Forest</strong>
+                        </li>
+                        <li><strong> 5. Predict missing prices and restore categories</strong>
+                        </li>
+                    </ul>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+            <!-- Python Script for Inflation Adjustment Using World Bank API -->
+            <div class="row mb-5 mt-5" id="approach">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>Python Script for Inflation Adjustment Using World Bank API</h2> <!-- -->
+                    <ul style="margin-left: -12px;">
+                        This section shows how to fetch historical inflation data from the World Bank API and compute
+                        inflation adjustment factors for rocket launch prices. The script retrieves GDP Deflator or CPI
+                        values for a given country and time range, calculates inflation factors using a base year
+                        (2022), and saves the results as a CSV file for further analysis or visualization in tools like
+                        Power BI. <br>
+                        The full code is available in my GitHub repository under the file "Inflation data.py"
+                        <li><strong>Import Required Libraries</strong>
+
+                        </li>
+                        <li><strong> Define Parameters</strong>
+                        </li>
+                        <li><strong> Fetch Data from World Bank API</strong>
+                        </li>
+                        <li><strong> Convert API Data to DataFrame</strong>
+                        </li>
+                        <li><strong> Compute Inflation Factor</strong>
+                        </li>
+                        <li><strong> Save Results as CSV</strong>
+                        </li>
+                    </ul>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+            <!-- DAX Measures for KPI and Visualization -->
+            <div class="row mb-5" id="insights">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>📐 DAX Measures for KPI and Visualization</h2><br>
+                    <ul>
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Golden
+                                Era of Space</strong><br><br>
+                            Calculates key metrics for each decade, including launch count, success count, success rate,
+                            and average adjusted price. Normalizes these metrics for fair comparison.
+                            <pre><code>
+GoldenEraSpace =
+VAR SummaryTable =
+    ADDCOLUMNS(
+        SUMMARIZE(
+            space_mission,
+            space_mission[Decade]
+        ),
+        "Launch Count",
+            CALCULATE(
+                COUNT(space_mission[Mission]),
+                FILTER(space_mission, space_mission[Decade] = EARLIER(space_mission[Decade]))
+            ),
+        "Success Count",
+            CALCULATE(
+                COUNT(space_mission[MissionStatus]),
+                space_mission[MissionStatus] = "Success",
+                FILTER(space_mission, space_mission[Decade] = EARLIER(space_mission[Decade]))
+            ),
+        "Success Rate",
+            DIVIDE(
+                CALCULATE(
+                    COUNT(space_mission[MissionStatus]),
+                    space_mission[MissionStatus] = "Success",
+                    FILTER(space_mission, space_mission[Decade] = EARLIER(space_mission[Decade]))
+                ),
+                CALCULATE(
+                    COUNT(space_mission[Mission]),
+                    FILTER(space_mission, space_mission[Decade] = EARLIER(space_mission[Decade]))
+                )
+            ),
+        "Avg Adjusted Price",
+            CALCULATE(
+                AVERAGE(space_mission[Adjusted Price]),
+                FILTER(space_mission, space_mission[Decade] = EARLIER(space_mission[Decade]))
+            )
+    )
+
+VAR MaxLaunchCount = MAXX(SummaryTable, [Launch Count])
+VAR MaxSuccessCount = MAXX(SummaryTable, [Success Count])
+VAR MinAvgAdjPrice = MINX(SummaryTable, [Avg Adjusted Price])
+
+RETURN
+    ADDCOLUMNS(
+        SummaryTable,
+        "Normalized Launch Count", DIVIDE([Launch Count], MaxLaunchCount),
+         "Normalized Success Count", DIVIDE([Success Count], MaxSuccessCount),
+        "Normalized Avg Adjusted Price", DIVIDE(MinAvgAdjPrice, [Avg Adjusted Price])
+    )</code></pre>
+
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Ultimate
+                                Rocket Ranking</strong><br><br>
+                            Ranks rockets by launch count, average adjusted price, and success rate, with normalization
+                            for fair comparison.
+                            <pre><code>
+Ultimate Rocket Ranking =
+VAR SummaryTable= FILTER(
+    SUMMARIZE(
+        space_mission,
+        space_mission[Rocket],
+        "Launch Count", COUNT(space_mission[Rocket]),
+        "Avg Adjusted Price", AVERAGE(space_mission[Adjusted Price]),
+        "Success Count", CALCULATE(COUNT(space_mission[MissionStatus]), space_mission[MissionStatus] = "Success"),
+        "Success Rate", DIVIDE(
+            CALCULATE(COUNT(space_mission[MissionStatus]), space_mission[MissionStatus] = "Success"),
+            COUNT(space_mission[Mission])
+        )
+    ),
+    [Success Count] > 0
+)
+VAR MaxLaunchCount = MAXX(SummaryTable, [Launch Count])
+VAR MaxSuccessCount = MAXX(SummaryTable, [Success Count])
+VAR MinAvgAdjPrice = MINX(SummaryTable, [Avg Adjusted Price])
+
+RETURN
+    ADDCOLUMNS(
+        SummaryTable,
+        "Normalized Launch Count", DIVIDE([Launch Count], MaxLaunchCount),
+         "Normalized Success Count", DIVIDE([Success Count], MaxSuccessCount),
+        "Normalized Avg Adjusted Price", DIVIDE(MinAvgAdjPrice, [Avg Adjusted Price])
+    )
+
+			    </code></pre>
+
+                        </li>
+
+                        <li>
+                            <strong
+                                style="background:#2dba4e; color:#fff; padding:5px 10px; border-radius:4px; font-size:16px; margin-right:10px;">Winning
+                                Team Ranking</strong><br><br>
+                            Evaluates countries and organizations by launch count, success rate (Bayesian estimate), and
+                            cost efficiency, then combines these into a final score for ranking.
+                            <pre><code>
+Winning Team Ranking =
+VAR SummaryTable =
+    SUMMARIZE(
+        space_mission,
+        space_mission[Company],
+        space_mission[Country],
+        "Launch Count", COUNT(space_mission[Mission]),
+        "Success Count", CALCULATE(
+            COUNT(space_mission[MissionStatus]),
+            space_mission[MissionStatus] = "Success"
+        ),
+        "Avg Adjusted Price", AVERAGE(space_mission[Adjusted Price])
+    )
+VAR MaxLaunchCount = MAXX(SummaryTable, [Launch Count])
+VAR MinAvgAdjPrice = MINX(SummaryTable, [Avg Adjusted Price])
+
+RETURN
+    ADDCOLUMNS(
+        SummaryTable,
+        "Bayesian Estimate", DIVIDE([Success Count] + 1, [Launch Count] + 2),
+        "Normalized Launch Count", DIVIDE([Launch Count], MaxLaunchCount),
+        "Normalized Avg Adjusted Price", DIVIDE(MinAvgAdjPrice, [Avg Adjusted Price]),
+        "Final Score",
+            0.3 * DIVIDE([Success Count] + 1, [Launch Count] + 2) +
+            0.3 * DIVIDE([Launch Count], MaxLaunchCount) +
+            0.3 * DIVIDE(MinAvgAdjPrice, [Avg Adjusted Price])
+    )
+			    </code></pre>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Key Insights (What this enables) -->
+            <div class="row mb-5" id="insights">
+                <div class="col-md-12" data-aos="fade-up">
+                    <h2>💡 Key Insights from Dashboard</h2> <!-- [2][9] -->
+                    <ul>
+                        <li><strong>Ultimate Rocket Ranking:</strong><br>
+                            Cosmos-3M (11K65M) dominates with 406 launches and a 93.95% success rate, ranking #1.<br>
+                            Other notable rockets:
+                            Vostok: 226 launches, 94.40% success.<br>
+                            Molniya-M: 125 launches, 95.11% success.<br>
+
+                            <strong>Insight:</strong> High launch counts correlate with strong reliability, but
+                            Cosmos-3M leads in both volume and success.
+                        </li><br>
+                        <li>
+                            <strong>Top 5 Winning Countries</strong>
+                            Russia leads with 36.8% share of total scores.<br>
+                            USA follows at 20.8%, then China (15.4%), France (12.3%), and Kazakhstan (15.4%).<br>
+                            <strong>Insight:</strong> Russia remains the dominant player historically, with USA and
+                            China as strong contenders
+                        </li><br>
+                        <li>
+                            <strong>Top Winning Companies</strong>
+                            RVSN USSR ranks #1 with a Bayesian score of 1.00.<br>
+                            Other top companies: NASA (USA), Astra (USA), Galactic Energy (China).<br>
+                            <strong>Insight:</strong> Soviet-era organizations still hold top positions due to
+                            historical dominance.
+                        </li><br>
+                        <li>
+                            <strong>Golden Era of Space</strong>
+                            1960s had the highest launch count (780.27) and success rate (31.57% era score).<br>
+                            Decline in launches after 1980s, but success rates improved.<br>
+                            <strong>Insight:</strong> The 1960s were the most active decade, marking the space race
+                            peak.
+                        </li><br>
+                        <li>
+                            <strong>Overall Patterns</strong>
+                            Historical dominance by Russia and USSR-era rockets.<br>
+                            USA and China emerging strongly in modern times.<br>
+                            1960s = peak activity; modern era = fewer launches but higher reliability.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- Call to Action -->
+            <div class="row mb-5" id="cta">
+                <div class="col-md-12 text-center" data-aos="fade-up">
+                    <div class="d-flex flex-column flex-lg-row justify-content-center">
+                        <a href="https://github.com/MMathew4788/Maven-Return-to-Space-Challenge" target="_blank"
+                            class="project-button">View Code on GitHub</a> <!-- [1] -->
+                        <a href="index.html#Work" class="project-button">← Back to Projects</a> <!-- [9] -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Icons (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <noscript>
+        <style>
+            [data-aos] {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        </style>
+    </noscript>
+</body>
+
+</html>
