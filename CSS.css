@@ -6,6 +6,17 @@ body {
 .font {
   font-family: "Poppins", sans-serif;
   line-height: 1.6;
+
+  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
+  -webkit-background-clip: text; /* Clips the gradient to the text */
+  -webkit-text-fill-color: transparent; /* Makes the text transparent so gradient shows */
+  font-weight: bold;
+}
+
+.gradient-text {
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
 }
 
 .About,
@@ -48,8 +59,8 @@ body {
   font-weight: bold;
 }
 .menu ol li a:hover {
-  background-color: #2dba4e;
-  color: #16213e;
+  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
+  color: #24292e;
   padding: 0.5rem 0.5rem;
   border-radius: 10px;
   transform: scale(0.3, 1);
@@ -70,7 +81,10 @@ body {
 }
 .About h2 {
   font-weight: bold;
-  color: #2dba4e;
+  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
+  -webkit-background-clip: text; /* Clips the gradient to the text */
+  -webkit-text-fill-color: transparent; /* Makes the text transparent so gradient shows */
+  font-weight: bold;
 }
 .About h1 {
   font-weight: bold;
@@ -153,8 +167,8 @@ body {
 }
 .Glow-button {
   padding: 1rem 2.5rem;
-  background-color: #2dba4e;
-  color: white;
+  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
+  color: #24292e;
   border: none;
   font-size: 1.125rem;
   border-radius: 3rem;
@@ -191,7 +205,9 @@ body {
 }
 
 .skill-text {
-  color: #2dba4e;
+  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
+  -webkit-background-clip: text; /* Clips the gradient to the text */
+  -webkit-text-fill-color: transparent; /* Makes the text transparent so gradient shows */
   font-weight: bold;
 }
 
@@ -358,15 +374,16 @@ body {
 .project-button {
   padding: 1rem 2rem;
   font-weight: bold;
-  color: #fff;
+  color: #24292e;
   border-radius: 1rem;
   text-decoration: none;
   margin: 1rem;
-  background: linear-gradient(to right, #2dba4e, #2dba4e);
+  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
   transition: transform 0.4s ease-out;
 }
 .project-button:hover {
-  transform: scale(1.1);
+  background: linear-gradient(90deg, #f0ec7e, #26e2d8);
+  color: #24292e;
 }
 
 .contact-me-container {
@@ -387,13 +404,13 @@ body {
   background: linear-gradient(
     to bottom right,
     transparent 10%,
-    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.4),
     rgba(233, 233, 233, 0.1)
   );
   backdrop-filter: blur(12px);
   border-radius: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.6);
-  border-left: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 1px solid #26e2d8;
+  border-left: 1px solid #f0ec7e;
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
 }
 .contact-me-card:before {
@@ -416,8 +433,8 @@ body {
 }
 .submit-button {
   padding: 10px 20px;
-  background: #2dba4e;
-  color: white;
+  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
+  color: #24292e;
   border: none;
   font-weight: bold;
   border-radius: 5px;
@@ -489,7 +506,7 @@ body {
     top: 0;
   }
   .links a:hover {
-    background-color: #2dba4e;
+    background: linear-gradient(90deg, #26e2d8, #f0ec7e);
     color: #24292e;
   }
   .normal {
