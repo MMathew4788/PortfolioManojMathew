@@ -2,6 +2,9 @@ body {
   margin: 0;
   color: #fafbfc;
   background-color: #2b3137;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px; /* Base size for readability */
+  line-height: 1.6;
 }
 .font {
   font-family: "Poppins", sans-serif;
@@ -87,7 +90,8 @@ body {
   font-weight: bold;
 }
 .About h1 {
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-weight: 700;
   letter-spacing: 0.1rem;
 }
 .About h1 span.typed-text {
@@ -165,24 +169,7 @@ body {
   text-align: justify;
   font-size: 1.2rem;
 }
-.Glow-button {
-  padding: 1rem 2.5rem;
-  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
-  color: #24292e;
-  border: none;
-  font-size: 1.125rem;
-  border-radius: 3rem;
-  cursor: pointer;
-  font-weight: bold;
-  letter-spacing: 1px;
-  decoration: none;
-  box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.5), 0 0 6px #2dba4e;
-  transition: box-shadow 0.2s ease-in-out;
-}
-.Glow-button:hover {
-  box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.5), 0 0 20px 4px #2dba4e,
-    0 0 15px 3px #2dba4e, 0 0 6px 2px #2dba4e;
-}
+
 .side-note {
   position: absolute;
   letter-spacing: 2px;
