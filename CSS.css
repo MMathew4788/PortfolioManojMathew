@@ -367,7 +367,6 @@ body {
   margin: 1rem;
   background: linear-gradient(90deg, #26e2d8, #f0ec7e);
   transition: transform 0.4s ease-out;
-  height: 80px;
 }
 .project-button:hover {
   background: linear-gradient(90deg, #f0ec7e, #26e2d8);
@@ -534,7 +533,6 @@ body {
   .project-button {
     padding: 0.5rem 1rem;
     font-weight: bold;
-    height: 100px;
   }
 
   .submit-button {
