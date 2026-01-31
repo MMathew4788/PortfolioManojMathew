@@ -211,6 +211,11 @@ body {
   height: 20rem;
   text-align: center;
   margin: 2rem 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease-out;
+}
+.flipcards:hover {
+  transform: scale(1.02);
 }
 .flip {
   -webkit-perspective: 1000;
@@ -438,8 +443,38 @@ body {
   left: 92%;
   top: 20%;
 }
+.desktop-affordance {
+  display: block;
+}
+.mobile-affordance {
+  display: none !important;
+}
+
+/* Code for Tablet */
+@media (max-width: 1050px) and (min-width: 768px) {
+  .flipcards {
+    width: 22rem;
+    height: 17rem;
+    margin: 1.5rem 1rem;
+  }
+  .front-container,
+  .back-container {
+    padding: 0.8rem;
+  }
+  .back-container p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+}
+
 /* Code for Ipad*/
 @media (max-width: 1050px) {
+  .desktop-affordance {
+    display: none;
+  }
+  .mobile-affordance {
+    display: block !important;
+  }
   #desktop {
     visibility: hidden;
   }
@@ -512,7 +547,47 @@ body {
     left: 0;
     top: 5%;
   }
+  }
 }
+
+/* Code for mobile medium (551-767px) */
+@media (max-width: 767px) and (min-width: 551px) {
+  .flipcards {
+    width: 18rem;
+    height: 14rem;
+    margin: 1.5rem 0.5rem;
+  }
+  .front-container,
+  .back-container {
+    padding: 0.6rem;
+  }
+  .back-container p {
+    font-size: 0.75rem;
+    line-height: 1.3;
+  }
+  .back-container p.skill-text {
+    font-size: 0.8rem;
+  }
+  .flip:hover .front-container {
+    transform: translateY(-50%) translateX(-350px) scale(0.88);
+  }
+  .back-container {
+    transform: translateY(-50%) translateX(350px) translateZ(60px) scale(0.88);
+  }
+  .flip:hover .back-container {
+    transform: translateY(-50%) translateX(0px) translateZ(0px) scale(1);
+  }
+  .project-button {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+  }
+  .back-container > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
 /* Code for mobile*/
 @media (max-width: 550px) {
   #desktop {
@@ -531,8 +606,10 @@ body {
   }
 
   .project-button {
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
     font-weight: bold;
+    font-size: 0.9rem;
+    margin: 0.4rem;
   }
 
   .submit-button {
@@ -541,10 +618,39 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   }
   .flipcards {
-    width: 25rem;
+    width: 16rem;
+    height: 12rem;
+    margin: 1rem 0.5rem;
   }
   .flip {
-    width: 80%;
+    width: 95%;
+  }
+  .front-container,
+  .back-container {
+    padding: 0.4rem;
+  }
+  .back-container p {
+    font-size: 0.7rem;
+    line-height: 1.2;
+    margin: 0.2rem 0;
+  }
+  .back-container p.skill-text {
+    font-size: 0.75rem;
+    margin-bottom: 0.3rem;
+  }
+  .flip:hover .front-container {
+    transform: translateY(-50%) translateX(-300px) scale(0.88);
+  }
+  .back-container {
+    transform: translateY(-50%) translateX(300px) translateZ(60px) scale(0.88);
+  }
+  .flip:hover .back-container {
+    transform: translateY(-50%) translateX(0px) translateZ(0px) scale(1);
+  }
+  .back-container > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
   }
 
   .contact-me-img {
