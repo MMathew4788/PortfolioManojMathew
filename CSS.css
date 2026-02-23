@@ -452,6 +452,22 @@ body {
 
 /* Code for Tablet */
 @media (max-width: 1050px) and (min-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+  .About h1 {
+    font-size: 2rem;
+  }
+  .About h2 {
+    font-size: 1.5rem;
+  }
+  .About p,
+  h5 {
+    font-size: 1rem;
+  }
+  h4 {
+    font-size: 1.1rem;
+  }
   .flipcards {
     width: 22rem;
     height: 17rem;
@@ -465,10 +481,25 @@ body {
     font-size: 0.85rem;
     line-height: 1.4;
   }
+  .menu ol li {
+    font-size: 1rem;
+  }
 }
 
 /* Code for Ipad*/
 @media (max-width: 1050px) {
+  body {
+    font-size: 14px;
+  }
+  .About h1 {
+    font-size: 1.8rem;
+  }
+  .About h2 {
+    font-size: 1.3rem;
+  }
+  .About p {
+    font-size: 0.9rem;
+  }
   .desktop-affordance {
     display: none;
   }
@@ -547,15 +578,36 @@ body {
     left: 0;
     top: 5%;
   }
-  }
+}
 }
 
 /* Code for mobile medium (551-767px) */
 @media (max-width: 767px) and (min-width: 551px) {
+  body {
+    font-size: 14px;
+  }
+  .About h1 {
+    font-size: 1.75rem;
+  }
+  .About h2 {
+    font-size: 1.25rem;
+  }
+  .About p,
+  h5,
+  .fs-5 {
+    font-size: 0.85rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  .gradient-text {
+    font-size: 1.5rem;
+  }
   .flipcards {
-    width: 18rem;
+    width: 100%;
     height: 14rem;
-    margin: 1.5rem 0.5rem;
+    margin: 1.5rem auto;
+    max-width: 25rem;
   }
   .front-container,
   .back-container {
@@ -580,6 +632,10 @@ body {
   .project-button {
     padding: 0.5rem 1rem;
     margin: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .menu ol li {
+    font-size: 0.95rem;
   }
   .back-container > div {
     display: flex;
@@ -590,6 +646,9 @@ body {
 
 /* Code for mobile*/
 @media (max-width: 550px) {
+  body {
+    font-size: 13px;
+  }
   #desktop {
     visibility: hidden;
   }
@@ -600,15 +659,40 @@ body {
     position: relative;
     margin-left: 0;
     padding-top: 4rem;
+    padding-left: 3%;
+    padding-right: 3%;
+  }
+  .About h1 {
+    font-size: 1.5rem;
+  }
+  .About h2 {
+    font-size: 1.1rem;
+  }
+  .About p,
+  h5,
+  .fs-5 {
+    font-size: 0.75rem;
+  }
+  h4 {
+    font-size: 0.9rem;
+  }
+  .gradient-text {
+    font-size: 1.2rem;
   }
   .content-carrousel figure {
     height: 80px;
   }
-
+  .menu ol li {
+    font-size: 0.9rem;
+  }
+  h5,
+  .fs-5 {
+    font-size: 0.8rem !important;
+  }
   .project-button {
     padding: 0.4rem 0.8rem;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin: 0.4rem;
   }
 
@@ -616,14 +700,23 @@ body {
     cursor: pointer;
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    font-size: 0.9rem;
   }
   .flipcards {
-    width: 16rem;
+    width: 100%;
     height: 12rem;
-    margin: 1rem 0.5rem;
+    margin: 1rem auto;
+    max-width: 22rem;
+    padding: 0 0.5rem;
   }
   .flip {
-    width: 95%;
+    width: 100%;
+  }
+  .d-sm-flex {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
   }
   .front-container,
   .back-container {
@@ -652,8 +745,81 @@ body {
     flex-direction: column;
     gap: 0.3rem;
   }
-
+  .skill-card {
+    padding: 1rem;
+  }
+  .contact-me-card {
+    padding: 1.5rem;
+  }
   .contact-me-img {
     top: 5%;
+  }
+}
+
+/* Code for very small mobile (max-width: 380px) */
+@media (max-width: 380px) {
+  body {
+    font-size: 12px;
+  }
+  .About h1 {
+    font-size: 1.3rem;
+  }
+  .About h2 {
+    font-size: 1rem;
+  }
+  .About p,
+  h5,
+  .fs-5 {
+    font-size: 0.7rem;
+  }
+  h4 {
+    font-size: 0.85rem;
+  }
+  .gradient-text {
+    font-size: 1rem;
+  }
+  .flipcards {
+    width: 100%;
+    height: 11rem;
+    margin: 0.8rem auto;
+    max-width: 20rem;
+    padding: 0 0.5rem;
+  }
+  .d-sm-flex {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .front-container,
+  .back-container {
+    padding: 0.3rem;
+  }
+  .back-container p {
+    font-size: 0.65rem;
+    line-height: 1.15;
+  }
+  .project-button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+    margin: 0.3rem;
+  }
+  .menu ol li {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+  }
+  h5,
+  .fs-5 {
+    font-size: 0.75rem !important;
+  }
+  .menu-icon {
+    width: 25px;
+    height: 25px;
+  }
+  .skill-card {
+    padding: 0.8rem;
+  }
+  .contact-me-card {
+    padding: 1rem;
   }
 }
