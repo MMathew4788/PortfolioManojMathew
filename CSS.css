@@ -1,7 +1,36 @@
+:root {
+  /* Colors */
+  --primary-color: #26e2d8;
+  --secondary-color: #f0ec7e;
+  --bg-dark: #2b3137;
+  --bg-darker: #24292e;
+  --text-light: #fafbfc;
+  --text-dark: #2b3137;
+  --accent-green: #2dba4e;
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 5%;
+  
+  /* Layout */
+  --sidebar-width: 15vw;
+  --border-radius-sm: 0.5rem;
+  --border-radius-md: 1rem;
+  --border-radius-lg: 2rem;
+  
+  /* Transitions */
+  --transition-fast: 0.3s ease-in-out;
+  --transition-normal: 1s cubic-bezier(0.5, 0.3, 0.3, 1);
+  --transition-slow: 0.4s ease-out;
+}
+
 body {
   margin: 0;
-  color: #fafbfc;
-  background-color: #2b3137;
+  color: var(--text-light);
+  background-color: var(--bg-dark);
   font-family: "Poppins", sans-serif;
   font-size: 16px; /* Base size for readability */
   line-height: 1.6;
@@ -9,17 +38,17 @@ body {
 .font {
   font-family: "Poppins", sans-serif;
   line-height: 1.6;
-
-  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
-  -webkit-background-clip: text; /* Clips the gradient to the text */
-  -webkit-text-fill-color: transparent; /* Makes the text transparent so gradient shows */
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-weight: bold;
 }
 
 .gradient-text {
   font-size: 2rem;
   font-weight: bold;
-  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
 }
 
 .About,
@@ -28,27 +57,27 @@ body {
 .Contact {
   height: 100%;
   min-height: 100vh;
-  background-color: #2b3137;
-  margin-left: 15vw;
-  padding-left: 5%;
-  padding-right: 5%;
+  background-color: var(--bg-dark);
+  margin-left: var(--sidebar-width);
+  padding-left: var(--spacing-xl);
+  padding-right: var(--spacing-xl);
   overflow-x: hidden;
   overflow: hidden;
 }
 .top-space {
   margin-top: 2%;
   margin-bottom: 5%;
-  color: #2b3137;
+  color: var(--text-dark);
 }
 .menu {
   height: 100%;
-  width: 15vw;
-  background-color: #24292e;
+  width: var(--sidebar-width);
+  background-color: var(--bg-darker);
   position: fixed;
   left: 0;
   top: 0;
   padding-top: 25vh;
-  margin-top: 0px;
+  margin-top: 0;
 }
 .menu ol {
   margin: auto 0 0 0;
@@ -56,14 +85,14 @@ body {
 .menu ol li {
   display: block;
   text-align: left;
-  padding: 0.75rem 1rem;
-  color: #fafbfc;
+  padding: 0.75rem var(--spacing-sm);
+  color: var(--text-light);
   font-size: larger;
   font-weight: bold;
 }
 .menu ol li a:hover {
-  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
-  color: #24292e;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  color: var(--bg-darker);
   padding: 0.5rem 0.5rem;
   border-radius: 10px;
   transform: scale(0.3, 1);
@@ -71,7 +100,7 @@ body {
   transition: color 0.1s;
 }
 .menu a {
-  color: #fafbfc;
+  color: var(--text-light);
   text-decoration: none;
 }
 .menu-icon {
@@ -81,13 +110,14 @@ body {
 }
 .menu-icon:hover {
   transform: rotate(-10deg);
+  transition: transform var(--transition-fast);
 }
 .About h2 {
   font-weight: bold;
-  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
-  -webkit-background-clip: text; /* Clips the gradient to the text */
-  -webkit-text-fill-color: transparent; /* Makes the text transparent so gradient shows */
-  font-weight: bold;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .About h1 {
   font-size: 2.5rem;
@@ -96,31 +126,41 @@ body {
 }
 .About h1 span.typed-text {
   font-weight: bold;
-  color: #2dba4e;
+  color: var(--accent-green);
 }
 .About h1 span.cursor,
 .About h1 span.cursor.typing {
-  color: #2dba4e;
+  color: var(--accent-green);
   animation: 0.5s blink infinite;
 }
 @-webkit-keyframes blink {
   from,
   to {
-    color: #24292e;
+    color: var(--bg-darker);
   }
   50% {
-    color: #2dba4e;
+    color: var(--accent-green);
+  }
+}
+
+@keyframes blink {
+  from,
+  to {
+    color: var(--bg-darker);
+  }
+  50% {
+    color: var(--accent-green);
   }
 }
 .image-frame {
   position: relative;
-  background-color: #24292e;
+  background-color: var(--bg-darker);
   height: 15rem;
   width: 13rem;
 }
 .image-frame-layer {
   position: absolute;
-  background-color: #2b3137;
+  background-color: var(--bg-dark);
 }
 .image-frame-layer-1 {
   z-index: 10;
@@ -144,25 +184,12 @@ body {
 .Profile-pic {
   height: 13rem;
   width: 11rem;
-  -webkit-filter: sepia(100%);
-  -moz-filter: sepia(100%);
-  -o-filter: sepia(100%);
-  -ms-filter: sepia(100%);
-  -filter: sepia(100%);
-  -webkit-transition: 0.3s ease-in-out;
-  -transition: 0.3s ease-in-out;
-  -webkit-transform: scale(1);
+  filter: sepia(100%);
+  transition: var(--transition-fast);
   transform: scale(1);
-  -webkit-transform: 0.3s ease-in-out;
-  transform: 0.3s ease-in-out;
 }
 .Profile-pic:hover {
-  -webkit-filter: sepia(0);
-  -moz-filter: sepia(0);
-  -o-filter: sepia(0);
-  -ms-filter: sepia(0);
   filter: sepia(0);
-  -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
 .About p {
@@ -192,15 +219,16 @@ body {
 }
 
 .skill-text {
-  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
-  -webkit-background-clip: text; /* Clips the gradient to the text */
-  -webkit-text-fill-color: transparent; /* Makes the text transparent so gradient shows */
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-weight: bold;
 }
 
 .skill-card {
-  padding: 1.5rem;
-  border-radius: 1rem;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
 }
 .work-container {
@@ -210,33 +238,22 @@ body {
   width: 30rem;
   height: 20rem;
   text-align: center;
-  margin: 2rem 1rem;
+  margin: var(--spacing-lg) var(--spacing-sm);
   cursor: pointer;
-  transition: transform 0.3s ease-out;
+  transition: transform var(--transition-slow);
 }
 .flipcards:hover {
   transform: scale(1.02);
 }
 .flip {
-  -webkit-perspective: 1000;
-  -moz-perspective: 1000;
-  -o-perspective: 1000;
-  -ms-perspective: 1000;
   perspective: 1000;
-  -webkit-transform: perspective(1000px);
-  -moz-transform: perspective(1000px);
-  -o-transform: perspective(1000px);
-  -ms-transform: perspective(1000px);
   transform: perspective(1000px);
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
   transform-style: preserve-3d;
   position: relative;
   float: center;
   width: 100%;
   height: 100%;
-  border-radius: 2rem;
+  border-radius: var(--border-radius-lg);
 }
 
 .front,
@@ -246,90 +263,58 @@ body {
 }
 
 .front {
-  border-radius: 2rem;
+  border-radius: var(--border-radius-lg);
   background-size: cover;
   background-position: center center;
   overflow: hidden;
   position: absolute;
   top: 0;
-  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
 .flip .front {
-  -webkit-transform: rotateY(0deg);
-  -moz-transform: rotateY(0deg);
-  -o-transform: rotateY(0deg);
-  -ms-transform: rotateY(0deg);
   transform: rotateY(0deg);
   transform-style: preserve-3d;
   z-index: 1;
 }
 
 .flip:hover .front {
-  -webkit-transform: rotateY(-180deg);
-  -moz-transform: rotateY(-180deg);
-  -o-transform: rotateY(-180deg);
-  -ms-transform: rotateY(-180deg);
   transform: rotateY(-180deg);
   transform-style: preserve-3d;
 }
 
 .back {
-  background: #24292e;
-  border-radius: 2rem;
+  background: var(--bg-darker);
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
   position: absolute;
   top: 0;
-  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
 .flip .back {
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  -o-transform: rotateY(180deg);
-  -ms-transform: rotateY(180deg);
   transform: rotateY(180deg);
   transform-style: preserve-3d;
   z-index: 1;
 }
 
 .flip:hover .back {
-  -webkit-transform: rotateY(0deg);
-  -moz-transform: rotateY(0deg);
-  -o-transform: rotateY(0deg);
-  -ms-transform: rotateY(0deg);
   transform: rotateY(0deg);
   transform-style: preserve-3d;
 }
 
 .front-container {
-  -webkit-transform: translateY(-50%) translateX(0px) scale(1);
-  -moz-transform: translateY(-50%) translateX(0px) scale(1);
-  -o-transform: translateY(-50%) translateX(0px) scale(1);
-  -ms-transform: translateY(-50%) translateX(0px) scale(1);
-  transform: translateY(-50%) translateX(0px) scale(1);
+  transform: translateY(-50%) translateX(0) scale(1);
   transform-style: preserve-3d;
   z-index: 2;
 }
 
 .flip:hover .front-container {
-  -webkit-transform: translateY(-50%) translateX(-650px) scale(0.88);
-  -moz-transform: translateY(-50%) translateX(-650px) scale(0.88);
-  -o-transform: translateY(-50%) translateX(-650px) scale(0.88);
-  -ms-transform: translateY(-50%) translateX(-650px) scale(0.88);
   transform: translateY(-50%) translateX(-650px) scale(0.88);
   transform-style: preserve-3d;
 }
 
 .back-container {
-  -webkit-transform: translateY(-50%) translateX(650px) translateZ(60px)
-    scale(0.88);
-  -ms-transform: translateY(-50%) translateX(650px) translateZ(60px) scale(0.88);
-  -moz-transform: translateY(-50%) translateX(650px) translateZ(60px)
-    scale(0.88);
-  -o-transform: translateY(-50%) translateX(650px) translateZ(60px) scale(0.88);
   transform: translateY(-50%) translateX(650px) translateZ(60px) scale(0.88);
   transform-style: preserve-3d;
   z-index: 2;
@@ -343,11 +328,7 @@ body {
 }
 
 .flip:hover .back-container {
-  -webkit-transform: translateY(-50%) translateX(0px) translateZ(0px) scale(1);
-  -ms-transform: translateY(-50%) translateX(0px) translateZ(0px) scale(1);
-  -moz-transform: translateY(-50%) translateX(0px) translateZ(0px) scale(1);
-  -o-transform: translateY(-50%) translateX(0px) translateZ(0px) scale(1);
-  transform: translateY(-50%) translateX(0px) translateZ(0px) scale(1);
+  transform: translateY(-50%) translateX(0) translateZ(0) scale(1);
   transform-style: preserve-3d;
 }
 
@@ -355,35 +336,28 @@ body {
 .front-container,
 .back,
 .back-container {
-  -webkit-transition: transform 1s cubic-bezier(0.5, 0.3, 0.3, 1);
-  -ms-transition: transform 1s cubic-bezier(0.5, 0.3, 0.3, 1);
-  -moz-transition: transform 1s cubic-bezier(0.5, 0.3, 0.3, 1);
-  -o-transition: transform 1s cubic-bezier(0.5, 0.3, 0.3, 1);
-  transition: transform 1s cubic-bezier(0.5, 0.3, 0.3, 1);
-  -webkit-transition: transform 1s cubic-bezier(0.5, 0.3, 0.3, 1);
+  transition: transform var(--transition-normal);
 }
 
 .project-button {
-  padding: 1rem 2rem;
+  padding: var(--spacing-sm) var(--spacing-lg);
   font-weight: bold;
-  color: #24292e;
-  border-radius: 1rem;
+  color: var(--bg-darker);
+  border-radius: var(--border-radius-md);
   text-decoration: none;
-  margin: 1rem;
-  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
-  transition: transform 0.4s ease-out;
+  margin: var(--spacing-sm);
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  transition: transform var(--transition-slow);
 }
 .project-button:hover {
-  background: linear-gradient(90deg, #f0ec7e, #26e2d8);
-  color: #24292e;
+  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+  color: var(--bg-darker);
 }
 
 .contact-me-container {
   display: flex;
-  position: relative;
   flex-direction: column;
   min-height: 100vh;
-  display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -392,7 +366,7 @@ body {
   position: relative;
   margin: auto;
   z-index: 1;
-  padding: 2rem;
+  padding: var(--spacing-lg);
   background: linear-gradient(
     to bottom right,
     transparent 10%,
@@ -400,9 +374,9 @@ body {
     rgba(233, 233, 233, 0.1)
   );
   backdrop-filter: blur(12px);
-  border-radius: 1rem;
-  border-top: 1px solid #26e2d8;
-  border-left: 1px solid #f0ec7e;
+  border-radius: var(--border-radius-md);
+  border-top: 1px solid var(--primary-color);
+  border-left: 1px solid var(--secondary-color);
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
 }
 .contact-me-card:before {
@@ -414,27 +388,28 @@ body {
 }
 
 .contact-input {
-  background-color: #2b3137;
-  padding: 0.5rem;
-  margin: 1rem 0;
+  background-color: var(--bg-dark);
+  padding: var(--spacing-xs);
+  margin: var(--spacing-sm) 0;
   color: white;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-sm);
 }
 .contact-message {
   height: 5rem;
 }
 .submit-button {
   padding: 10px 20px;
-  background: linear-gradient(90deg, #26e2d8, #f0ec7e);
-  color: #24292e;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  color: var(--bg-darker);
   border: none;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: var(--border-radius-sm);
 }
 .submit-button:hover {
   cursor: pointer;
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  transition: transform var(--transition-fast);
 }
 
 .contact-me-img {
