@@ -104,4 +104,21 @@ if (!typedTextSpan || !cursorSpan) {
   });
 }
 
+// Animate proficiency bars on page load
+document.addEventListener("DOMContentLoaded", function () {
+  const proficiencyFills = document.querySelectorAll(".proficiency-fill");
+
+  proficiencyFills.forEach((fill) => {
+    // Store the target width from the inline style
+    const targetWidth = fill.style.width;
+    // Reset to 0 width
+    fill.style.width = "0%";
+
+    // Animate to target width after a short delay
+    setTimeout(() => {
+      fill.style.width = targetWidth;
+    }, 100);
+  });
+});
+
 AOS.init();

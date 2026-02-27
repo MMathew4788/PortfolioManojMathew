@@ -30,7 +30,11 @@
 body {
   margin: 0;
   color: var(--text-light);
-  background-color: var(--bg-dark);
+  background-image: 
+    linear-gradient(0deg, rgba(38, 226, 216, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38, 226, 216, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-color: #2b3137;
   font-family: "Poppins", sans-serif;
   font-size: 16px; /* Base size for readability */
   line-height: 1.6;
@@ -57,7 +61,11 @@ body {
 .Contact {
   height: 100%;
   min-height: 100vh;
-  background-color: var(--bg-dark);
+  background-image: 
+    linear-gradient(0deg, rgba(38, 226, 216, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38, 226, 216, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-color: #2b3137;
   margin-left: var(--sidebar-width);
   padding-left: var(--spacing-xl);
   padding-right: var(--spacing-xl);
@@ -425,6 +433,68 @@ body {
   display: none !important;
 }
 
+/* Proficiency Level Indicators */
+.proficiency-indicators {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.proficiency-item {
+  background: rgba(38, 226, 216, 0.05);
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid rgba(38, 226, 216, 0.2);
+  transition: all var(--transition-fast);
+}
+
+.proficiency-item:hover {
+  background: rgba(38, 226, 216, 0.08);
+  border-color: rgba(38, 226, 216, 0.4);
+  transform: translateY(-2px);
+}
+
+.proficiency-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.proficiency-label {
+  font-weight: 600;
+  color: #fafbfc;
+  font-size: 0.95rem;
+}
+
+.proficiency-percent {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-width: 50px;
+  text-align: right;
+}
+
+.proficiency-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(38, 226, 216, 0.2);
+}
+
+.proficiency-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(38, 226, 216, 0.4);
+  border-radius: 10px;
+}
+
 /* Code for Tablet */
 @media (max-width: 1050px) and (min-width: 768px) {
   body {
@@ -458,6 +528,16 @@ body {
   }
   .menu ol li {
     font-size: 1rem;
+  }
+  .proficiency-indicators {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .proficiency-item {
+    padding: 0.8rem;
+  }
+  .proficiency-label {
+    font-size: 0.85rem;
   }
 }
 
@@ -617,6 +697,20 @@ body {
     flex-direction: column;
     gap: 0.5rem;
   }
+  .proficiency-indicators {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .proficiency-item {
+    padding: 0.8rem;
+  }
+  .proficiency-label {
+    font-size: 0.8rem;
+  }
+  .proficiency-bar {
+    height: 6px;
+  }
 }
 
 /* Code for mobile*/
@@ -720,6 +814,20 @@ body {
     flex-direction: column;
     gap: 0.3rem;
   }
+  .proficiency-indicators {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .proficiency-item {
+    padding: 0.8rem;
+  }
+  .proficiency-label {
+    font-size: 0.85rem;
+  }
+  .proficiency-bar {
+    height: 6px;
+  }
   .skill-card {
     padding: 1rem;
   }
@@ -796,5 +904,22 @@ body {
   }
   .contact-me-card {
     padding: 1rem;
+  }
+  .proficiency-indicators {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .proficiency-item {
+    padding: 0.6rem;
+  }
+  .proficiency-label {
+    font-size: 0.75rem;
+  }
+  .proficiency-header {
+    margin-bottom: 0.5rem;
+  }
+  .proficiency-bar {
+    height: 5px;
   }
 }
