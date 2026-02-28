@@ -47,6 +47,120 @@
   }
   </script>
 
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.manojmathew.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About",
+        "item": "https://www.manojmathew.com#About"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Skills",
+        "item": "https://www.manojmathew.com#Skills"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Projects",
+        "item": "https://www.manojmathew.com#Work"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "Contact",
+        "item": "https://www.manojmathew.com#Contact"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Projects Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "CreativeWork",
+          "name": "Malayalam Movie Data Scraper and Analyzer",
+          "description": "A Python Scrapy project that scrapes Malayalam movies from IMDb, stores data in MySQL, and analyzes trends in Power BI.",
+          "url": "https://www.manojmathew.com/project1.html",
+          "creator": {
+            "@type": "Person",
+            "name": "Manoj Mathew"
+          },
+          "keywords": "Scrapy, Python, MySQL, Power BI, data analytics",
+          "image": "https://www.manojmathew.com/image/project1-screenshot.png"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "CreativeWork",
+          "name": "SupplyStream: Synthetic Retail Supply Chain Simulator + Analytics Dashboard",
+          "description": "A Python-based supply chain simulator that generates realistic retail datasets and feeds them into Power BI dashboards for advanced analytics.",
+          "url": "https://www.manojmathew.com/project2.html",
+          "creator": {
+            "@type": "Person",
+            "name": "Manoj Mathew"
+          },
+          "keywords": "supply chain, logistics, Python, Power BI, data analytics",
+          "image": "https://www.manojmathew.com/image/supplystream-dashboard.png"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "CreativeWork",
+          "name": "AHP Excel Template",
+          "description": "An Excel-based template for implementing the Analytic Hierarchy Process (AHP), a macro-enabled workbook for multi-criteria decision-making.",
+          "url": "https://www.manojmathew.com/project3.html",
+          "creator": {
+            "@type": "Person",
+            "name": "Manoj Mathew"
+          },
+          "keywords": "AHP, decision-making, Excel, MCDM",
+          "image": "https://www.manojmathew.com/image/ahp-template.png"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "CreativeWork",
+          "name": "Maven Return to Space Challenge: Power BI Dashboard",
+          "description": "A Power BI dashboard analyzing rocket rankings, success rates, and cost efficiency using machine learning models and Bayesian analysis.",
+          "url": "https://www.manojmathew.com/project4.html",
+          "creator": {
+            "@type": "Person",
+            "name": "Manoj Mathew"
+          },
+          "keywords": "Power BI, data analytics, space exploration, machine learning",
+          "image": "https://www.manojmathew.com/image/maven-space-challenge.png"
+        }
+      }
+    ]
+  }
+  </script>
+
   <!-- Performance hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
