@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced ABC Analysis Tool</title>
+    <link rel="stylesheet" href="../../CSS.css">
+    <link rel="stylesheet" href="ABC_Analysis.css">
+    <!-- Site theme: fonts and core CSS from main site -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- site CSS already loaded above -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="../../vanilla-tilt.js" defer></script>
+    <script src="../../index.js" defer></script>
+</head>
+
+<body class="abc-page">
+
+    <nav class="abc-topnav">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wide">ABC Inventory Analysis Tool</h1>
+            <div>
+                <a href="../tools.html" class="project-button" aria-label="Back to Tools and utilities">Back to Tools and utilities</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white themed-card p-6 rounded-xl shadow-xs border border-gray-100">
+                    <h2 class="text-lg font-semibold mb-4 text-gray-700">1. Data Import</h2>
+                    <div id="drop-zone"
+                        class="border-2 border-dashed border-indigo-300 bg-indigo-50/30 hover:bg-indigo-50 hover:border-indigo-400 transition-all rounded-xl p-8 text-center cursor-pointer flex flex-col items-center justify-center group">
+                        <svg class="w-12 h-12 text-indigo-400 group-hover:text-indigo-600 mb-3 transition-colors"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                            </path>
+                        </svg>
+                        <p class="text-sm text-gray-100 font-medium">Drag & drop your <span
+                                class="font-semibold text-indigo-600">Excel (.xlsx, .xls)</span> or <span
+                                class="font-semibold text-indigo-600">CSV</span> here</p>
+                        <p class="text-xs text-gray-100 mt-1">Or click to browse files from your computer</p>
+                        <input type="file" id="file-input" class="hidden" accept=".csv, .xlsx, .xls">
+                    </div>
+
+                    <div id="mapping-section"
+                        class="hidden mt-6 pt-6 border-t border-transparent p-4 rounded-lg themed-card">
+                        <h3 class="text-sm font-semibold mb-3">Map Your Columns</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium mb-1">Item Identifier /
+                                    Name</label>
+                                <select id="map-item" class="w-full themed-input px-2 py-1.5 text-sm"></select>
+                            </div>
+                            <div>
+                                <label id="formula-label-1" class="block text-xs font-medium mb-1">Value
+                                    Column (or Qty)</label>
+                                <select id="map-val1" class="w-full themed-input px-2 py-1.5 text-sm"></select>
+                            </div>
+                            <div id="mapping-val2-container" class="hidden">
+                                <label class="block text-xs font-medium mb-1">Unit Price Column</label>
+                                <select id="map-val2" class="w-full themed-input px-2 py-1.5 text-sm"></select>
+                            </div>
+                        </div>
+                        <button id="btn-process-file" class="mt-4 w-full project-button">Process Uploaded Data</button>
+                    </div>
+                </div>
+
+                <div class="bg-white themed-card p-6 rounded-xl shadow-xs border border-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-700">2. Quick Manual Entry</h2>
+                        <button id="btn-add-row"
+                            class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100 px-3 py-1 rounded font-medium transition-colors">+
+                            Add Row</button>
+                    </div>
+                    <div class="max-h-60 overflow-y-auto border border-gray-200 rounded-lg">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead class="bg-gray-50 sticky top-0 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-3 text-xs font-semibold text-gray-200 tracking-wider">Item Name / SKU
+                                    </th>
+                                    <th id="manual-th-val1"
+                                        class="p-3 text-xs font-semibold text-gray-200 tracking-wider">Value</th>
+                                    <th id="manual-th-val2"
+                                        class="p-3 text-xs font-semibold text-gray-200 tracking-wider hidden">Unit Price
+                                    </th>
+                                    <th class="p-3 w-16"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="manual-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white themed-card p-6 rounded-xl shadow-xs border border-gray-100 h-fit space-y-6">
+                <h2 class="text-lg font-semibold text-gray-700">3. Parameters & Settings</h2>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Calculation Method</label>
+                    <select id="calc-method" class="w-full themed-input p-2.5 text-sm outline-none">
+                        <option value="single">Direct Value (Single Column)</option>
+                        <option value="multiply">Multiplication (Quantity x Unit Price)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-2">ABC Cumulative Thresholds</label>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-8 text-center font-bold text-emerald-600 text-sm">Class A</span>
+                            <span class="text-xs text-gray-400">Up to</span>
+                            <input type="number" id="threshold-a" value="80" min="1" max="99"
+                                class="w-20 border border-gray-300 rounded p-1.5 text-center text-sm font-semibold">
+                            <span class="text-sm text-gray-500">&nbsp; %</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="w-8 text-center font-bold text-amber-500 text-sm">Class B</span>
+                            <span class="text-xs text-gray-400">Up to</span>
+                            <input type="number" id="threshold-b" value="95" min="2" max="100"
+                                class="w-20 border border-gray-300 rounded p-1.5 text-center text-sm font-semibold">
+                            <span class="text-sm text-gray-500">&nbsp;%</span>
+                        </div>
+                        <div
+                            class="text-xs text-gray-400 bg-gray-50 p-2.5 rounded border border-gray-100 leading-relaxed">
+                            <strong>Class C</strong> accounts for everything remaining from Class B threshold up to
+                            100%.
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-calculate" class="w-full project-button">Calculate ABC Analysis</button>
+            </div>
+        </div>
+
+        <div id="output-dashboard" class="hidden space-y-8 animate-fadeIn">
+            <hr class="border-gray-200">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="themed-card p-5 rounded-xl border border-gray-700 shadow-2xs">
+                    <p class="text-xs font-semibold text-muted uppercase tracking-wider">Total Evaluated Value</p>
+                    <p id="stat-total-value" class="text-2xl font-bold text-light mt-1">$0.00</p>
+                </div>
+                <div class="themed-card p-5 rounded-xl border border-emerald-100 shadow-2xs">
+                    <p class="text-xs font-semibold text-emerald-200 uppercase tracking-wider">Class A Count / Value %
+                    </p>
+                    <p id="stat-class-a" class="text-2xl font-bold text-emerald-200 mt-1">0 (0%)</p>
+                </div>
+                <div class="themed-card p-5 rounded-xl border border-amber-100 shadow-2xs">
+                    <p class="text-xs font-semibold text-amber-200 uppercase tracking-wider">Class B Count / Value %</p>
+                    <p id="stat-class-b" class="text-2xl font-bold text-amber-200 mt-1">0 (0%)</p>
+                </div>
+                <div class="themed-card p-5 rounded-xl border border-rose-100 shadow-2xs">
+                    <p class="text-xs font-semibold text-rose-200 uppercase tracking-wider">Class C Count / Value %</p>
+                    <p id="stat-class-c" class="text-2xl font-bold text-rose-200 mt-1">0 (0%)</p>
+                </div>
+            </div>
+
+            <div class="themed-card p-6 rounded-xl shadow-xs border border-gray-700">
+                <h2 class="text-lg font-semibold mb-4">Pareto Principle Visualization (ABC Curve)</h2>
+                <div class="relative w-full h-80 sm:h-96 md:h-[450px]">
+                    <canvas id="paretoChart"></canvas>
+                </div>
+            </div>
+
+            <div class="themed-card rounded-xl shadow-xs border border-gray-700 overflow-hidden">
+                <div
+                    class="p-6 border-b border-gray-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <h2 class="text-lg font-semibold">Classification Analytics Output Table</h2>
+                    <div class="flex gap-2">
+                        <button onclick="exportData('csv')" class="export-btn ghost">Export CSV</button>
+                        <button onclick="exportData('xlsx')" class="export-btn primary">Export Excel</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead class="bg-transparent border-b border-gray-400">
+                            <tr>
+                                <th class="p-4 font-semibold text-muted tracking-wider">Rank</th>
+                                <th class="p-4 font-semibold text-muted tracking-wider">Item/SKU Identifier</th>
+                                <th class="p-4 font-semibold text-muted tracking-wider text-right">Calculated Value ($)
+                                </th>
+                                <th class="p-4 font-semibold text-muted tracking-wider text-right">Individual % Share
+                                </th>
+                                <th class="p-4 font-semibold text-muted tracking-wider text-right">Cumulative %</th>
+                                <th class="p-4 font-semibold text-muted tracking-wider text-center">ABC Class</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-tbody" class="divide-y divide-gray-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="ABC_Analysis.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,434 @@
+/* ABC_Analysis.css
+   External stylesheet for ABC_Analysis.html
+   Tailwind utility classes are used extensively; keep this file for custom overrides.
+
+   This stylesheet intentionally uses the site's theme variables from the root
+   `CSS.css` (e.g. --primary-color, --text-light) so the ABC page matches the
+   main site's theme and text colors.
+*/
+
+:root {
+  --abc-card-bg: rgba(20, 24, 28, 0.72);
+  --abc-card-border: rgba(255, 255, 255, 0.04);
+}
+
+/* Ensure font smoothing + base helpers */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.shadow-xs {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.shadow-2xs {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* Use site fonts and colors (CSS variables provided by ../CSS.css) */
+.abc-page,
+.abc-page body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-darker);
+  /* Default text color: Tailwind gray-200 for improved readability */
+  color: #e5e7eb !important; /* gray-200 */
+}
+
+/* Align main content with the site's left sidebar spacing for visual consistency */
+.abc-page main {
+  margin-left: var(--sidebar-width);
+  padding-left: var(--spacing-xl);
+  padding-right: var(--spacing-xl);
+  min-height: 100vh;
+}
+
+/* Replace white card backgrounds with themed cards for contrast on dark background */
+.abc-page .bg-white {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0.01)
+  );
+  color: var(--text-light) !important;
+  border: 1px solid var(--abc-card-border) !important;
+}
+
+/* Headings inherit gradient accent from site */
+.abc-page h1,
+.abc-page h2,
+.abc-page h3 {
+  font-family: "Patua One", cursive;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Buttons use project-button style when present */
+.abc-page .project-button,
+.abc-page .btn-indigo {
+  padding: 0.5rem 1.25rem;
+  font-weight: 700;
+  color: var(--bg-darker);
+  border-radius: 0.6rem;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+}
+
+/* Hover effect to match root page: gradient swap + subtle lift */
+.abc-page .project-button {
+  transition: background var(--transition-slow);
+}
+.abc-page .project-button:hover {
+  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color)) !important;
+  color: var(--bg-darker) !important;
+}
+
+/* Responsive tweaks: ensure grid collapses nicely on small screens */
+@media (max-width: 768px) {
+  .max-w-7xl {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .lg\:col-span-2 {
+    grid-column: span 1 / span 1;
+  }
+  .lg\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  nav.menu {
+    display: none;
+  }
+}
+
+/* Themed card matching left navigation bar from site */
+.abc-page .themed-card {
+  background: linear-gradient(
+    180deg,
+    rgba(36, 41, 46, 0.9),
+    rgba(36, 41, 46, 0.8)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: var(--text-light) !important;
+}
+.abc-page .themed-card h2,
+.abc-page .themed-card h3 {
+  color: var(--text-light) !important;
+}
+
+/* Pareto chart heading: use gray-200 for better contrast */
+.abc-page .themed-card h2 {
+  color: #e5e7eb !important; /* gray-200 */
+}
+.abc-page .themed-card .text-gray-600,
+.abc-page .themed-card .text-gray-700,
+.abc-page .themed-card .text-gray-500 {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Normalize utility color classes to the page's gray-200 for consistency */
+.abc-page .text-gray-700,
+.abc-page .text-gray-600,
+.abc-page .text-gray-500,
+.abc-page .text-gray-400,
+.abc-page .text-gray-200 {
+  color: #e5e7eb !important; /* enforce gray-200 */
+}
+
+/* Make lightweight backgrounds (e.g., bg-gray-50) subtle on dark theme */
+.abc-page .bg-gray-50 {
+  background: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Keep the drop-zone icon color stable (avoid large contrast jumps on hover) */
+#drop-zone svg,
+.abc-page .group-hover\:text-indigo-600 {
+  color: rgba(99, 102, 241, 0.7) !important; /* subdued indigo */
+}
+.abc-page .group:hover .group-hover\:text-indigo-600 {
+  color: rgba(99, 102, 241, 0.9) !important;
+}
+
+/* Table headers: ensure manual table header isn't too bright */
+.abc-page table thead.bg-gray-50 {
+  background: rgba(255, 255, 255, 0.02) !important;
+  color: #e5e7eb !important;
+}
+.abc-page .themed-card input,
+.abc-page .themed-card select,
+.abc-page .themed-card button {
+  color: var(--text-dark);
+}
+
+/* Top navigation matching site sidebar palette but horizontal */
+.abc-page .abc-topnav {
+  background: linear-gradient(90deg, var(--bg-darker), var(--bg-dark));
+  color: var(--text-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  padding: 1rem 1.25rem;
+}
+.abc-page .abc-topnav h1 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.abc-page .abc-topnav span {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+}
+
+/* Form elements styled for dark theme */
+.abc-page input,
+.abc-page select,
+.abc-page textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-light);
+}
+.abc-page input::placeholder,
+.abc-page textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Tables */
+.abc-page table thead {
+  background: rgba(255, 255, 255, 0.02);
+}
+.abc-page table th {
+  color: rgba(255, 255, 255, 0.85);
+}
+.abc-page table td {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Specifically ensure the Calculated Value column in the results table is gray-200 */
+#results-tbody td:nth-child(3) {
+  color: #e5e7eb !important; /* gray-200 */
+  text-align: right;
+}
+
+/* Target the main tables used on the page and make their cell values gray-200 */
+.abc-page table.w-full.text-left.border-collapse.text-sm td {
+  color: #e5e7eb !important; /* gray-200 */
+}
+
+/* When the output dashboard is visible (after processing uploaded data),
+   ensure the entire results table uses gray-200 for improved readability */
+#output-dashboard table th,
+#output-dashboard table td {
+  color: #e5e7eb !important; /* gray-200 */
+}
+
+/* Remove hover effects for the Classification Analytics Output Table
+   Ensure row hover does not change text color or background */
+#output-dashboard table tr:hover td,
+#output-dashboard table tbody tr:hover td {
+  color: #e5e7eb !important; /* enforce gray-200 */
+  background: transparent !important;
+}
+
+/* Stronger overrides to neutralize any hover coming from external libraries
+   Target cells, rows, and links inside the Classification Analytics Output Table */
+#output-dashboard .themed-card table tr:hover,
+#output-dashboard .themed-card table tbody tr:hover,
+#output-dashboard table tr:hover,
+#output-dashboard table tbody tr:hover {
+  background-color: transparent !important;
+  color: #e5e7eb !important; /* keep gray-200 */
+  transition: none !important;
+}
+
+#output-dashboard table tr:hover td,
+#output-dashboard table tr td:hover,
+#output-dashboard table td:hover {
+  background-color: transparent !important;
+  color: #e5e7eb !important;
+}
+
+/* Make sure links/buttons inside rows don't change color on row hover */
+#output-dashboard table tr:hover a,
+#output-dashboard table tr a:hover {
+  color: inherit !important;
+}
+
+/* Prevent pointer cursor on rows (avoid implying interactivity) */
+#output-dashboard table tbody tr {
+  cursor: default !important;
+}
+
+/* Quick Manual Entry table: make headers and cell values gray-200 */
+.max-h-60 table thead th,
+#manual-tbody td {
+  color: #e5e7eb !important; /* gray-200 */
+}
+
+/* Export buttons */
+.abc-page .export-btn {
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.9rem;
+}
+.abc-page .export-btn.primary {
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  color: var(--bg-darker);
+}
+.abc-page .export-btn.ghost {
+  /* Match primary style so both export buttons appear identical */
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  color: var(--bg-darker);
+  border: none;
+}
+
+/* Hover effect for export buttons: gradient swap to match project-button */
+.abc-page .export-btn.primary,
+.abc-page .export-btn.ghost {
+  transition: background var(--transition-slow), color var(--transition-slow);
+}
+.abc-page .export-btn.primary:hover,
+.abc-page .export-btn.ghost:hover {
+  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color)) !important;
+  color: var(--bg-darker) !important;
+}
+
+/* Small utility to ensure contrast on small text */
+.abc-page .text-muted {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.abc-page .text-light {
+  color: var(--text-light) !important;
+}
+
+/* Themed inputs (dropdowns/selects) used in mapping and parameters */
+.abc-page .themed-input {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: var(--text-light) !important;
+  border-radius: 0.5rem;
+}
+.abc-page .themed-input:focus {
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+  border-color: rgba(79, 70, 229, 0.6);
+  outline: none;
+}
+
+/* Align small badges and in-text accents */
+.abc-page .font-semibold.text-indigo-600,
+.abc-page .font-semibold.text-emerald-600 {
+  color: var(--primary-color) !important;
+}
+
+/* Make drop-zone text darker on hover / focus for improved contrast */
+#drop-zone p,
+#drop-zone p span {
+  transition: color;
+}
+
+#drop-zone:hover p,
+#drop-zone:focus-within p {
+  /* dark text for better contrast against the light hover background */
+  color: rgba(17, 24, 39, 0.92) !important;
+}
+
+#drop-zone:hover p span,
+#drop-zone:focus-within p span {
+  /* keep emphasized spans in an indigo tone but darker */
+  color: rgba(49, 46, 129, 0.95) !important;
+  font-weight: 700 !important;
+}
+
+/* Make select option text use Tailwind gray-500 for readability */
+.abc-page .themed-input option {
+  color: #6b7280; /* gray-500 */
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Some browsers require styling the select itself for consistent appearance */
+.abc-page .themed-input {
+  color: #6b7280; /* ensure selected option text shows gray-500 */
+}
+
+/* Make the Class threshold input value text use Tailwind gray-200 for readability */
+/* Make the Class threshold input value text use Tailwind gray-200 for readability */
+#threshold-a,
+#threshold-b,
+#threshold-a:focus,
+#threshold-b:focus {
+  color: #e5e7eb !important; /* gray-200 */
+}
+
+/* Additional responsive fixes */
+@media (max-width: 768px) {
+  /* Remove left sidebar offset on small screens */
+  .abc-page main {
+    margin-left: 0 !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Stack top nav content vertically for narrow viewports */
+  .abc-page .abc-topnav .max-w-7xl {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem; /* increased vertical spacing */
+    align-items: flex-start;
+  }
+
+  .abc-page .abc-topnav a.project-button {
+    padding: 0.45rem 0.9rem;
+    align-self: flex-end;
+    margin-bottom: 0.5rem; /* extra space below the link on mobile */
+  }
+
+  /* Make the two-column grid collapse to one column */
+  .lg\:col-span-2 {
+    grid-column: span 1 / span 1;
+  }
+
+  /* Reduce chart container height on small screens */
+  .abc-page .relative.w-full h-80,
+  .abc-page .relative.w-full.sm\:h-96 {
+    height: auto !important;
+  }
+  .abc-page .relative.w-full canvas {
+    max-height: 320px;
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Make flipcards full width on very small screens */
+  .flipcards {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0.75rem 0 !important;
+  }
+  .front-container,
+  .back-container {
+    padding: 0.75rem !important;
+  }
+  .project-button {
+    width: 100% !important;
+    padding: 0.6rem !important;
+  }
+  /* Ensure mapping selects wrap nicely */
+  .grid.grid-cols-1.md\:grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+}
