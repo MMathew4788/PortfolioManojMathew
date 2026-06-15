@@ -2,6 +2,8 @@
 let uploadedRawData = null;
 let finalAnalysisResults = [];
 let paretoChartInstance = null;
+const ALLOWED_FILE_EXTENSIONS = [".csv", ".xlsx", ".xls"];
+const MAX_UPLOAD_SIZE_BYTES = 5 * 1024 * 1024;
 
 // UI Element References
 const dropZone = document.getElementById("drop-zone");
@@ -31,12 +33,51 @@ function addManualRow(item = "", val1 = "", val2 = "") {
 
   const isMultiply = calcMethodSelect.value === "multiply";
 
-  row.innerHTML = `
-        <td class="p-2"><input type="text" value="${item}" placeholder="e.g. SKU-${Math.floor(1000 + Math.random() * 9000)}" class="w-full border border-gray-200 rounded px-2 py-1 text-sm manual-item"></td>
-        <td class="p-2"><input type="number" value="${val1}" min="0" step="any" placeholder="0.00" class="w-full border border-gray-200 rounded px-2 py-1 text-sm manual-val1"></td>
-        <td class="p-2 ${isMultiply ? "" : "hidden"} manual-val2-cell"><input type="number" value="${val2}" min="0" step="any" placeholder="0.00" class="w-full border border-gray-200 rounded px-2 py-1 text-sm manual-val2"></td>
-        <td class="p-2 text-center"><button onclick="this.closest('tr').remove()" class="text-gray-400 hover:text-rose-600 opacity-0 group-hover:opacity-100 transition-opacity font-medium">✕</button></td>
-    `;
+  const itemCell = document.createElement("td");
+  itemCell.className = "p-2";
+  const itemInput = document.createElement("input");
+  itemInput.type = "text";
+  itemInput.value = item;
+  itemInput.placeholder = `e.g. SKU-${Math.floor(1000 + Math.random() * 9000)}`;
+  itemInput.className =
+    "w-full border border-gray-200 rounded px-2 py-1 text-sm manual-item";
+  itemCell.appendChild(itemInput);
+
+  const val1Cell = document.createElement("td");
+  val1Cell.className = "p-2";
+  const val1Input = document.createElement("input");
+  val1Input.type = "number";
+  val1Input.value = val1;
+  val1Input.min = "0";
+  val1Input.step = "any";
+  val1Input.placeholder = "0.00";
+  val1Input.className =
+    "w-full border border-gray-200 rounded px-2 py-1 text-sm manual-val1";
+  val1Cell.appendChild(val1Input);
+
+  const val2Cell = document.createElement("td");
+  val2Cell.className = `p-2 ${isMultiply ? "" : "hidden"} manual-val2-cell`;
+  const val2Input = document.createElement("input");
+  val2Input.type = "number";
+  val2Input.value = val2;
+  val2Input.min = "0";
+  val2Input.step = "any";
+  val2Input.placeholder = "0.00";
+  val2Input.className =
+    "w-full border border-gray-200 rounded px-2 py-1 text-sm manual-val2";
+  val2Cell.appendChild(val2Input);
+
+  const actionCell = document.createElement("td");
+  actionCell.className = "p-2 text-center";
+  const removeButton = document.createElement("button");
+  removeButton.type = "button";
+  removeButton.className =
+    "text-gray-400 hover:text-rose-600 opacity-0 group-hover:opacity-100 transition-opacity font-medium";
+  removeButton.textContent = "x";
+  removeButton.addEventListener("click", () => row.remove());
+  actionCell.appendChild(removeButton);
+
+  row.append(itemCell, val1Cell, val2Cell, actionCell);
   manualTbody.appendChild(row);
 }
 
@@ -104,23 +145,99 @@ function setupDragAndDrop() {
 // File loading extraction using SheetJS
 function handleFileSelection(file) {
   if (!file) return;
+
+  const fileName = file.name.toLowerCase();
+  const isAllowedFileType = ALLOWED_FILE_EXTENSIONS.some((extension) =>
+    fileName.endsWith(extension),
+  );
+
+  if (!isAllowedFileType) {
+    alert("Please upload a valid CSV, XLS, or XLSX file.");
+    fileInput.value = "";
+    return;
+  }
+
+  if (file.size > MAX_UPLOAD_SIZE_BYTES) {
+    alert("File is too large. Please upload a file under 5 MB.");
+    fileInput.value = "";
+    return;
+  }
+
   const reader = new FileReader();
   reader.onload = function (e) {
-    const data = new Uint8Array(e.target.result);
-    const workbook = XLSX.read(data, { type: "array" });
-    const firstSheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[firstSheetName];
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const firstSheetName = workbook.SheetNames && workbook.SheetNames[0];
 
-    // Parse matrix rows into structural JSON arrays
-    uploadedRawData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
-    if (uploadedRawData.length === 0) {
-      alert("File appears to be empty!");
-      return;
+      if (!firstSheetName) {
+        throw new Error("Workbook does not contain any sheets.");
+      }
+
+      const worksheet = workbook.Sheets[firstSheetName];
+      if (!worksheet || !worksheet["!ref"]) {
+        throw new Error("First sheet is empty.");
+      }
+
+      const rawRows = XLSX.utils.sheet_to_json(worksheet, {
+        defval: "",
+        header: 1,
+      });
+      const headerRow = rawRows.find((row) =>
+        row.some((cell) => String(cell).trim() !== ""),
+      );
+
+      if (!headerRow) {
+        throw new Error("File does not contain a header row.");
+      }
+
+      const headers = headerRow
+        .map((header) => String(header).trim())
+        .filter((header) => header !== "");
+
+      if (headers.length < 2) {
+        throw new Error("File needs at least two usable columns.");
+      }
+
+      // Parse rows using the first non-empty row as headers.
+      uploadedRawData = XLSX.utils
+        .sheet_to_json(worksheet, {
+          defval: "",
+          range: rawRows.indexOf(headerRow),
+        })
+        .filter((row) =>
+          Object.values(row).some((value) => String(value).trim() !== ""),
+        );
+
+      if (uploadedRawData.length === 0) {
+        throw new Error("File does not contain data rows below the header.");
+      }
+
+      populateColumnMappingSelectors(Object.keys(uploadedRawData[0]));
+    } catch (error) {
+      uploadedRawData = null;
+      mappingSection.classList.add("hidden");
+      fileInput.value = "";
+      alert(
+        "We could not read this file. Please upload a valid CSV, XLS, or XLSX file with a header row and at least one data row.",
+      );
     }
-
-    populateColumnMappingSelectors(Object.keys(uploadedRawData[0]));
   };
-  reader.readAsArrayBuffer(file);
+  reader.onerror = function () {
+    uploadedRawData = null;
+    mappingSection.classList.add("hidden");
+    fileInput.value = "";
+    alert("We could not read this file. Please try again.");
+  };
+
+  try {
+    reader.readAsArrayBuffer(file);
+  } catch (error) {
+    uploadedRawData = null;
+    mappingSection.classList.add("hidden");
+    fileInput.value = "";
+    alert("We could not read this file. Please try again.");
+  }
 }
 
 // Expose dynamic dropdown settings options maps
@@ -304,14 +421,44 @@ function renderDashboardOutputs(totalSum, datasets) {
       badgeStyle = "bg-emerald-100 text-emerald-800 font-bold";
     if (row.class === "B") badgeStyle = "bg-amber-100 text-amber-800 font-bold";
 
-    tr.innerHTML = `
-            <td class="p-4 font-medium text-gray-500">${row.rank}</td>
-            <td class="p-4 font-semibold text-gray-800">${row.name}</td>
-            <td class="p-4 text-right font-mono">${row.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-            <td class="p-4 text-right font-mono text-gray-600">${(row.percent * 100).toFixed(2)}%</td>
-            <td class="p-4 text-right font-mono text-gray-600 font-medium">${(row.cumulative * 100).toFixed(2)}%</td>
-            <td class="p-4 text-center"><span class="px-3 py-1 rounded text-xs tracking-wider uppercase ${badgeStyle}">${row.class}</span></td>
-        `;
+    const rankCell = document.createElement("td");
+    rankCell.className = "p-4 font-medium text-gray-500";
+    rankCell.textContent = row.rank;
+
+    const nameCell = document.createElement("td");
+    nameCell.className = "p-4 font-semibold text-gray-800";
+    nameCell.textContent = row.name;
+
+    const valueCell = document.createElement("td");
+    valueCell.className = "p-4 text-right font-mono";
+    valueCell.textContent = row.value.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    const percentCell = document.createElement("td");
+    percentCell.className = "p-4 text-right font-mono text-gray-600";
+    percentCell.textContent = `${(row.percent * 100).toFixed(2)}%`;
+
+    const cumulativeCell = document.createElement("td");
+    cumulativeCell.className = "p-4 text-right font-mono text-gray-600 font-medium";
+    cumulativeCell.textContent = `${(row.cumulative * 100).toFixed(2)}%`;
+
+    const classCell = document.createElement("td");
+    classCell.className = "p-4 text-center";
+    const classBadge = document.createElement("span");
+    classBadge.className = `px-3 py-1 rounded text-xs tracking-wider uppercase ${badgeStyle}`;
+    classBadge.textContent = row.class;
+    classCell.appendChild(classBadge);
+
+    tr.append(
+      rankCell,
+      nameCell,
+      valueCell,
+      percentCell,
+      cumulativeCell,
+      classCell,
+    );
     tbody.appendChild(tr);
   });
 
