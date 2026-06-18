@@ -16,6 +16,7 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 .shadow-xs {
@@ -131,6 +132,108 @@ html {
 .abc-page .themed-card .text-gray-700,
 .abc-page .themed-card .text-gray-500 {
   color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.abc-page #abc-tool,
+.abc-page #data-import,
+.abc-page #manual-entry,
+.abc-page #parameters-settings,
+.abc-page #about-abc,
+.abc-page #output-dashboard {
+  scroll-margin-top: 6rem;
+}
+
+.abc-page .abc-side-nav {
+  position: sticky;
+  top: 1.5rem;
+}
+
+.abc-page .abc-side-nav h2 {
+  margin-bottom: 1rem;
+}
+
+.abc-page .abc-side-nav nav {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.abc-page .abc-side-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 2.35rem;
+  padding: 0.55rem 0.75rem;
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background var(--transition-slow),
+    border-color var(--transition-slow),
+    color var(--transition-slow);
+}
+
+.abc-page .abc-side-nav a:hover,
+.abc-page .abc-side-nav a:focus {
+  color: var(--bg-darker);
+  border-color: transparent;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  outline: none;
+}
+
+.abc-page .abc-info-block {
+  min-height: 8rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.abc-page .abc-info-block span {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--primary-color);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.abc-page .abc-info-block p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.abc-page .abc-calculation-note {
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.abc-page .abc-calculation-note h3 {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.abc-page .abc-calculation-note ol {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+.abc-page .abc-calculation-note li {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.875rem;
+  line-height: 1.55;
 }
 
 /* Normalize utility color classes to the page's gray-200 for consistency */
@@ -398,6 +501,10 @@ html {
   /* Make the two-column grid collapse to one column */
   .lg\:col-span-2 {
     grid-column: span 1 / span 1;
+  }
+
+  .abc-page .abc-side-nav {
+    position: static;
   }
 
   /* Reduce chart container height on small screens */
