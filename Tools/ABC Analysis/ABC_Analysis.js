@@ -4,6 +4,18 @@ let finalAnalysisResults = [];
 let paretoChartInstance = null;
 const ALLOWED_FILE_EXTENSIONS = [".csv", ".xlsx", ".xls"];
 const MAX_UPLOAD_SIZE_BYTES = 5 * 1024 * 1024;
+const SAMPLE_INVENTORY_ITEMS = [
+  { name: "Laptop Docking Station", quantity: 120, unitPrice: 155 },
+  { name: "Industrial Safety Gloves", quantity: 950, unitPrice: 15 },
+  { name: "Barcode Scanner", quantity: 40, unitPrice: 320 },
+  { name: "Printer Toner Cartridge", quantity: 160, unitPrice: 60 },
+  { name: "Packing Tape Rolls", quantity: 740, unitPrice: 10 },
+  { name: "Wireless Keyboard", quantity: 150, unitPrice: 41 },
+  { name: "Shipping Labels", quantity: 1300, unitPrice: 4 },
+  { name: "USB-C Cable", quantity: 410, unitPrice: 10 },
+  { name: "Desk Organizer Tray", quantity: 175, unitPrice: 16 },
+  { name: "Replacement Mouse Pads", quantity: 270, unitPrice: 5 },
+];
 
 // UI Element References
 const dropZone = document.getElementById("drop-zone");
@@ -25,6 +37,57 @@ function initializeManualInputTable() {
   for (let i = 0; i < 5; i++) {
     addManualRow();
   }
+}
+
+function resetOutputState() {
+  finalAnalysisResults = [];
+  resultsDashboard.classList.add("hidden");
+  document.getElementById("results-tbody").innerHTML = "";
+  document.getElementById("stat-total-value").innerText = "$0.00";
+  document.getElementById("stat-class-a").innerText = "0 (0%)";
+  document.getElementById("stat-class-b").innerText = "0 (0%)";
+  document.getElementById("stat-class-c").innerText = "0 (0%)";
+
+  if (paretoChartInstance) {
+    paretoChartInstance.destroy();
+    paretoChartInstance = null;
+  }
+}
+
+function resetImportedFileState() {
+  uploadedRawData = null;
+  fileInput.value = "";
+  mappingSection.classList.add("hidden");
+  ["map-item", "map-val1", "map-val2"].forEach((selectId) => {
+    document.getElementById(selectId).innerHTML = "";
+  });
+}
+
+function clearAllData() {
+  resetImportedFileState();
+  resetOutputState();
+  clearThresholdWarning();
+  calcMethodSelect.value = "single";
+  calcMethodSelect.dispatchEvent(new Event("change"));
+  document.getElementById("threshold-a").value = "80";
+  document.getElementById("threshold-b").value = "95";
+  initializeManualInputTable();
+}
+
+function loadSampleData() {
+  resetImportedFileState();
+  resetOutputState();
+  clearThresholdWarning();
+  calcMethodSelect.dispatchEvent(new Event("change"));
+  manualTbody.innerHTML = "";
+  SAMPLE_INVENTORY_ITEMS.forEach((item) => {
+    if (calcMethodSelect.value === "multiply") {
+      addManualRow(item.name, item.quantity, item.unitPrice);
+      return;
+    }
+
+    addManualRow(item.name, item.quantity * item.unitPrice);
+  });
 }
 
 function addManualRow(item = "", val1 = "", val2 = "") {
@@ -84,6 +147,10 @@ function addManualRow(item = "", val1 = "", val2 = "") {
 document
   .getElementById("btn-add-row")
   .addEventListener("click", () => addManualRow());
+document
+  .getElementById("btn-load-sample")
+  .addEventListener("click", loadSampleData);
+document.getElementById("btn-clear-all").addEventListener("click", clearAllData);
 
 // Respond to structural formulas changing
 calcMethodSelect.addEventListener("change", (e) => {
@@ -299,6 +366,67 @@ document.getElementById("btn-process-file").addEventListener("click", () => {
   );
 });
 
+function showThresholdWarning(message) {
+  const thresholdWarning = document.getElementById("threshold-warning");
+  thresholdWarning.textContent = message;
+  thresholdWarning.classList.remove("hidden");
+}
+
+function clearThresholdWarning() {
+  const thresholdWarning = document.getElementById("threshold-warning");
+  thresholdWarning.textContent = "";
+  thresholdWarning.classList.add("hidden");
+}
+
+function getValidatedThresholds() {
+  const thresholdAValue = parseFloat(
+    document.getElementById("threshold-a").value,
+  );
+  const thresholdBValue = parseFloat(
+    document.getElementById("threshold-b").value,
+  );
+
+  if (!Number.isFinite(thresholdAValue) || !Number.isFinite(thresholdBValue)) {
+    return {
+      isValid: false,
+      message: "Please enter valid numeric threshold percentages for Class A and Class B.",
+    };
+  }
+
+  if (
+    thresholdAValue < 0 ||
+    thresholdAValue > 100 ||
+    thresholdBValue < 0 ||
+    thresholdBValue > 100
+  ) {
+    return {
+      isValid: false,
+      message: "Class A and Class B thresholds must both be between 0% and 100%.",
+    };
+  }
+
+  if (thresholdAValue >= thresholdBValue) {
+    return {
+      isValid: false,
+      message: "Class A threshold must be less than Class B threshold.",
+    };
+  }
+
+  return {
+    isValid: true,
+    thresholdA: thresholdAValue / 100,
+    thresholdB: thresholdBValue / 100,
+  };
+}
+
+["threshold-a", "threshold-b"].forEach((inputId) => {
+  document.getElementById(inputId).addEventListener("input", () => {
+    if (getValidatedThresholds().isValid) {
+      clearThresholdWarning();
+    }
+  });
+});
+
 // Core Mathematical Processing Engine
 document.getElementById("btn-calculate").addEventListener("click", () => {
   const dataToProcess = [];
@@ -307,6 +435,14 @@ document.getElementById("btn-calculate").addEventListener("click", () => {
   const items = document.querySelectorAll(".manual-item");
   const val1s = document.querySelectorAll(".manual-val1");
   const val2s = document.querySelectorAll(".manual-val2");
+  const thresholdConfig = getValidatedThresholds();
+
+  if (!thresholdConfig.isValid) {
+    showThresholdWarning(thresholdConfig.message);
+    return;
+  }
+
+  clearThresholdWarning();
 
   // 1. Gather raw context inputs
   items.forEach((elem, index) => {
@@ -344,10 +480,7 @@ document.getElementById("btn-calculate").addEventListener("click", () => {
   }
 
   // 4. Threshold parsing configurations variables maps
-  const thresholdA =
-    parseFloat(document.getElementById("threshold-a").value) / 100;
-  const thresholdB =
-    parseFloat(document.getElementById("threshold-b").value) / 100;
+  const { thresholdA, thresholdB } = thresholdConfig;
 
   let runningSum = 0;
   finalAnalysisResults = dataToProcess.map((item, index) => {

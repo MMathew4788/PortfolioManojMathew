@@ -139,6 +139,8 @@ html {
 .abc-page #manual-entry,
 .abc-page #parameters-settings,
 .abc-page #about-abc,
+.abc-page #abc-guidance,
+.abc-page #faq,
 .abc-page #output-dashboard {
   scroll-margin-top: 6rem;
 }
@@ -211,6 +213,29 @@ html {
   line-height: 1.55;
 }
 
+.abc-page .abc-privacy-note {
+  margin-top: 1rem;
+  padding: 0.75rem 0.9rem;
+  color: #d1fae5;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 0.5rem;
+  background: rgba(16, 185, 129, 0.1);
+  font-size: 0.825rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.abc-page .abc-threshold-warning {
+  padding: 0.75rem 0.9rem;
+  color: #fecdd3;
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  border-radius: 0.5rem;
+  background: rgba(244, 63, 94, 0.12);
+  font-size: 0.825rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
 .abc-page .abc-calculation-note {
   padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -234,6 +259,96 @@ html {
   color: rgba(255, 255, 255, 0.74);
   font-size: 0.875rem;
   line-height: 1.55;
+}
+
+.abc-page .abc-class-actions,
+.abc-page .abc-use-cases,
+.abc-page .abc-audience,
+.abc-page .abc-benefits,
+.abc-page .abc-faq {
+  display: grid;
+  gap: 1rem;
+}
+
+.abc-page .abc-class-actions h3,
+.abc-page .abc-use-cases h3,
+.abc-page .abc-audience h3,
+.abc-page .abc-benefits h3,
+.abc-page .abc-faq h3 {
+  font-size: 1rem;
+}
+
+.abc-page .abc-action-card,
+.abc-page .abc-use-card,
+.abc-page .abc-content-card {
+  min-height: 12rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.abc-page .abc-action-card span,
+.abc-page .abc-use-card span,
+.abc-page .abc-content-card span {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: var(--primary-color);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.abc-page .abc-action-card p,
+.abc-page .abc-use-card p,
+.abc-page .abc-content-card p,
+.abc-page .abc-content-card li {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.875rem;
+  line-height: 1.58;
+}
+
+.abc-page .abc-content-card {
+  min-height: 9rem;
+}
+
+.abc-page .abc-content-card p + p {
+  margin-top: 0.65rem;
+}
+
+.abc-page .abc-content-card ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.abc-page .abc-faq details {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.abc-page .abc-faq summary {
+  cursor: pointer;
+  padding: 0.9rem 1rem;
+  color: #e5e7eb;
+  font-size: 0.925rem;
+  font-weight: 700;
+}
+
+.abc-page .abc-faq summary:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.abc-page .abc-faq details p {
+  margin: 0;
+  padding: 0 1rem 1rem;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.875rem;
+  line-height: 1.58;
 }
 
 /* Normalize utility color classes to the page's gray-200 for consistency */
@@ -504,7 +619,7 @@ html {
   }
 
   .abc-page .abc-side-nav {
-    position: static;
+    display: none;
   }
 
   /* Reduce chart container height on small screens */

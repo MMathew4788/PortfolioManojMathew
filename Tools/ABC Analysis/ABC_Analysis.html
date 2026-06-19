@@ -59,6 +59,14 @@
                         <input type="file" id="file-input" class="hidden" accept=".csv, .xlsx, .xls">
                     </div>
 
+                    <div class="abc-privacy-note" role="note">
+                        Data is processed locally in the browser and is not uploaded to a server.
+                    </div>
+
+                    <button id="btn-load-sample"
+                        class="mt-4 text-xs bg-indigo-50 text-indigo-700 border border-indigo-300 hover:bg-indigo-100 px-3 py-1 rounded font-medium transition-colors">Load
+                        Sample Data</button>
+
                     <div class="mt-6 pt-6 border-t border-transparent">
                         <label class="block text-sm font-medium mb-2">Calculation Method</label>
                         <select id="calc-method" class="w-full themed-input p-2.5 text-sm outline-none">
@@ -91,11 +99,16 @@
                 </div>
 
                 <div id="manual-entry" class="bg-white themed-card p-6 rounded-xl shadow-xs border border-gray-100">
-                    <div class="flex justify-between items-center mb-4">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
                         <h2 class="text-lg font-semibold text-gray-700">2. Quick Manual Entry</h2>
-                        <button id="btn-add-row"
-                            class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100 px-3 py-1 rounded font-medium transition-colors">+
-                            Add Row</button>
+                        <div class="flex flex-wrap gap-2">
+                            <button id="btn-clear-all"
+                                class="text-xs bg-rose-50 text-rose-700 border border-rose-300 hover:bg-rose-100 px-3 py-1 rounded font-medium transition-colors">Clear
+                                All</button>
+                            <button id="btn-add-row"
+                                class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100 px-3 py-1 rounded font-medium transition-colors">+
+                                Add Row</button>
+                        </div>
                     </div>
                     <div class="max-h-60 overflow-y-auto border border-gray-200 rounded-lg">
                         <table class="w-full text-left border-collapse text-sm">
@@ -126,17 +139,18 @@
                             <div class="flex items-center space-x-3">
                                 <span class="w-8 text-center font-bold text-emerald-600 text-sm">Class A</span>
                                 <span class="text-xs text-gray-400">Up to</span>
-                                <input type="number" id="threshold-a" value="80" min="1" max="99"
+                                <input type="number" id="threshold-a" value="80" min="0" max="100"
                                     class="w-20 border border-gray-300 rounded p-1.5 text-center text-sm font-semibold">
                                 <span class="text-sm text-gray-500">&nbsp; %</span>
                             </div>
                             <div class="flex items-center space-x-3">
                                 <span class="w-8 text-center font-bold text-amber-500 text-sm">Class B</span>
                                 <span class="text-xs text-gray-400">Up to</span>
-                                <input type="number" id="threshold-b" value="95" min="2" max="100"
+                                <input type="number" id="threshold-b" value="95" min="0" max="100"
                                     class="w-20 border border-gray-300 rounded p-1.5 text-center text-sm font-semibold">
                                 <span class="text-sm text-gray-500">&nbsp;%</span>
                             </div>
+                            <div id="threshold-warning" class="abc-threshold-warning hidden" role="alert"></div>
                             <div
                                 class="text-xs text-gray-400 bg-gray-50 p-2.5 rounded border border-gray-100 leading-relaxed">
                                 <strong>Class C</strong> accounts for everything remaining from Class B threshold up to
@@ -157,8 +171,9 @@
                     <a href="#manual-entry">Manual Entry</a>
                     <a href="#parameters-settings">Settings</a>
                     <a href="#about-abc">About ABC</a>
+                    <a href="#abc-guidance">Guidance</a>
+                    <a href="#faq">FAQ</a>
                     <a href="#output-dashboard">Results</a>
-                    <a href="../tools.html">More Tools</a>
                 </nav>
             </aside>
         </div>
@@ -255,6 +270,168 @@
                     <p>Lower-value items where simpler controls often make sense.</p>
                 </div>
             </div>
+        </section>
+
+        <section id="abc-guidance" class="themed-card p-6 rounded-xl shadow-xs border border-gray-700 space-y-4">
+            <h2 class="text-lg font-semibold">Practical Guidance</h2>
+            <div class="abc-class-actions">
+                <h3>What to Do With Each ABC Class</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="abc-action-card">
+                        <span>A Items: High Priority</span>
+                        <p>
+                            Review these items often, keep stock control tight, and watch stockout risk closely.
+                            Use detailed forecasting, focus supplier conversations on reliability, and tune reorder
+                            points so important items stay available without tying up excess inventory.
+                        </p>
+                    </div>
+                    <div class="abc-action-card">
+                        <span>B Items: Medium Priority</span>
+                        <p>
+                            Manage these with standard reorder points, planned replenishment, and periodic review.
+                            They need steady attention, but usually do not require the same level of control as
+                            high-priority A items.
+                        </p>
+                    </div>
+                    <div class="abc-action-card">
+                        <span>C Items: Low Priority</span>
+                        <p>
+                            Keep controls simple with min/max rules, less frequent counts, and bulk ordering where it
+                            is practical. The goal is to reduce handling effort while still keeping enough stock for
+                            normal demand.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="abc-use-cases">
+                <h3>When to Use This Tool</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <div class="abc-use-card">
+                        <span>Inventory Managers</span>
+                        <p>
+                            Prioritise SKUs for cycle counts, stock reviews, and demand planning so effort is focused
+                            where inventory value is highest.
+                        </p>
+                    </div>
+                    <div class="abc-use-card">
+                        <span>Warehouse Planners</span>
+                        <p>
+                            Use the results to support slotting choices and keep important items in pick locations that
+                            are easier and faster to access.
+                        </p>
+                    </div>
+                    <div class="abc-use-card">
+                        <span>Purchasing Teams</span>
+                        <p>
+                            Apply different reorder policies by class and direct supplier conversations toward the SKUs
+                            that have the greatest value impact.
+                        </p>
+                    </div>
+                    <div class="abc-use-card">
+                        <span>Supply Chain Analysts</span>
+                        <p>
+                            Find items that may need tighter control, simpler replenishment, vendor-managed inventory,
+                            or consignment stock arrangements.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="abc-audience">
+                <h3>Who Can Use This Tool?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="abc-content-card">
+                        <span>Retailers and E-commerce Sellers</span>
+                        <p>
+                            Use ABC analysis to identify the products that deserve the closest attention, especially
+                            when managing many SKUs across stores, marketplaces, or fulfilment channels.
+                        </p>
+                        <p>
+                            It helps teams focus replenishment, availability checks, and margin protection on items
+                            that have the strongest impact on inventory value.
+                        </p>
+                    </div>
+                    <div class="abc-content-card">
+                        <span>Warehouse and Inventory Managers</span>
+                        <ul>
+                            <li>Plan cycle counts around the items that matter most.</li>
+                            <li>Support slotting decisions for faster picking and better control.</li>
+                            <li>Review high-value stock more often without overchecking every SKU.</li>
+                        </ul>
+                    </div>
+                    <div class="abc-content-card">
+                        <span>Procurement and Supply Chain Teams</span>
+                        <p>
+                            Apply different reorder policies by class, then use the results to guide supplier reviews,
+                            lead-time discussions, and service-level decisions.
+                        </p>
+                    </div>
+                    <div class="abc-content-card">
+                        <span>Finance and Operations Teams</span>
+                        <ul>
+                            <li>Understand where inventory value is concentrated.</li>
+                            <li>Target working-capital improvements without treating all stock equally.</li>
+                            <li>Connect operational controls with cost and cash-flow priorities.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="abc-benefits">
+                <h3>Why ABC Analysis Matters</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <div class="abc-content-card">
+                        <span>Improves Inventory Control</span>
+                        <p>It separates high-impact items from routine stock, making control effort easier to target.</p>
+                    </div>
+                    <div class="abc-content-card">
+                        <span>Supports Better Forecasting</span>
+                        <p>Priority items can receive more detailed demand review, helping reduce avoidable surprises.</p>
+                    </div>
+                    <div class="abc-content-card">
+                        <span>Optimises Resource Allocation</span>
+                        <p>Teams can spend time, analysis, and management attention where the return is strongest.</p>
+                    </div>
+                    <div class="abc-content-card">
+                        <span>Reduces Storage and Holding Costs</span>
+                        <p>Clearer priorities help avoid overstocking low-impact items while protecting important ones.</p>
+                    </div>
+                    <div class="abc-content-card">
+                        <span>Improves Cycle Counting Efficiency</span>
+                        <p>Count frequency can be matched to item importance instead of using one schedule for all SKUs.</p>
+                    </div>
+                    <div class="abc-content-card">
+                        <span>Supports Product Lifecycle Management</span>
+                        <p>Classification changes can highlight items that are growing, declining, or becoming obsolete.</p>
+                    </div>
+                    <div class="abc-content-card">
+                        <span>Enables Leaner Operations</span>
+                        <p>Simple, class-based policies reduce unnecessary checks and make inventory routines easier to run.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="abc-faq themed-card p-6 rounded-xl shadow-xs border border-gray-700">
+            <h2 class="text-lg font-semibold">FAQ</h2>
+            <details>
+                <summary>How often should I run ABC analysis?</summary>
+                <p>Run it monthly or quarterly for active inventory. Fast-moving or seasonal businesses may benefit from running it more often.</p>
+            </details>
+            <details>
+                <summary>Can an item change classification over time?</summary>
+                <p>Yes. Demand, price, supply risk, and lifecycle stage can all move an item between A, B, and C classes.</p>
+            </details>
+            <details>
+                <summary>How does ABC analysis affect cycle counting?</summary>
+                <p>A items are usually counted more often, B items on a regular schedule, and C items less frequently with simpler checks.</p>
+            </details>
+            <details>
+                <summary>What are the thresholds for A, B, and C?</summary>
+                <p>A common starting point is A up to 80% of cumulative value and B up to 95%, with C covering the rest. Adjust these thresholds to fit your business.</p>
+            </details>
+            <details>
+                <summary>Can ABC analysis be used outside physical inventory?</summary>
+                <p>Yes. The same ranking approach can help prioritise customers, suppliers, service parts, support tickets, or any list with measurable value.</p>
+            </details>
         </section>
     </main>
 
