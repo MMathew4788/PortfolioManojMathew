@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Kraljic Matrix Tool</title>
+  <link rel="stylesheet" href="../../CSS.css" />
+  <link rel="stylesheet" href="Kraljic_Matrix.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="kraljic-page">
+  <nav class="tool-topnav">
+    <h1>Kraljic Matrix Tool</h1>
+    <a href="../tools.html" class="project-button">Back to Tools and utilities</a>
+  </nav>
+
+  <main class="container">
+    <header class="tool-header">
+      <h2>Free Kraljic Matrix Tool</h2>
+      <p>Map purchases by supply risk and profit impact, then export the results locally.</p>
+    </header>
+
+    <!-- INPUT -->
+    <div class="panel input-panel">
+      <input id="name" type="text" placeholder="Item Name" aria-label="Item name" />
+
+      <div class="range-group">
+        <label for="risk">Supply Risk</label>
+        <input type="range" id="risk" min="1" max="5" value="3" />
+        <div id="riskVal" class="value-label"></div>
+      </div>
+
+      <div class="range-group">
+        <label for="impact">Profit Impact</label>
+        <input type="range" id="impact" min="1" max="5" value="3" />
+        <div id="impactVal" class="value-label"></div>
+      </div>
+
+      <button id="addBtn">Add</button>
+      <button class="reset" id="resetBtn">Reset</button>
+      <button class="export" id="csvBtn">Export CSV</button>
+      <button class="export" id="imgBtn">Export Image</button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="panel">
+      <input id="searchInput" class="search" placeholder="Search..." aria-label="Search items" />
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Supply Risk</th>
+            <th>Profit Impact</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="table"></tbody>
+      </table>
+    </div>
+
+    <!-- MATRIX EXPORT AREA -->
+    <div class="panel" id="exportArea">
+      <div class="matrix-wrapper">
+        <div class="y-axis">
+          <div class="arrow-up">&uarr;</div>
+          <div class="y-axis-text">Supply Risk</div>
+        </div>
+
+        <div class="matrix" id="matrix">
+          <!-- Correct visual quadrant order -->
+          <div class="quadrant bottleneck">Bottleneck</div>
+          <div class="quadrant strategic">Strategic</div>
+          <div class="quadrant non-critical">Non-Critical</div>
+          <div class="quadrant leverage">Leverage</div>
+        </div>
+      </div>
+
+      <div class="x-axis">Profit Impact &rarr;</div>
+      <div id="summary" class="summary"></div>
+      <div class="small-note">Scale: 1 = Very Low, 5 = Very High</div>
+    </div>
+  </main>
+
+  <script src="Kraljic_Matrix.js"></script>
+</body>
+</html>
