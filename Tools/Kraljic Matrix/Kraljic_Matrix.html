@@ -9,77 +9,199 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body class="kraljic-page">
   <nav class="tool-topnav">
-    <h1>Kraljic Matrix Tool</h1>
-    <a href="../tools.html" class="project-button">Back to Tools and utilities</a>
+    <div class="tool-topnav-inner">
+      <h1>Kraljic Matrix Tool</h1>
+      <a href="../tools.html" class="project-button">Back to Tools and utilities</a>
+    </div>
   </nav>
 
   <main class="container">
-    <header class="tool-header">
-      <h2>Free Kraljic Matrix Tool</h2>
-      <p>Map purchases by supply risk and profit impact, then export the results locally.</p>
-    </header>
+    <div class="kraljic-layout">
+      <div class="kraljic-content">
+        <!-- INPUT -->
+        <section class="panel data-import-panel" id="data-entry">
+          <h2>1. Data Import</h2>
+          <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="Upload Excel or CSV file">
+            <svg class="upload-icon" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+              </path>
+            </svg>
+            <p>Drag & drop your <strong>Excel (.xlsx, .xls)</strong> or <strong>CSV</strong> here</p>
+            <p>Or click to browse files from your computer</p>
+            <input type="file" id="file-input" accept=".csv,.xlsx,.xls" />
+          </div>
 
-    <!-- INPUT -->
-    <div class="panel input-panel">
-      <input id="name" type="text" placeholder="Item Name" aria-label="Item name" />
+          <div class="privacy-note" role="note">
+            Data is processed locally in the browser and is not uploaded to a server.
+          </div>
 
-      <div class="range-group">
-        <label for="risk">Supply Risk</label>
-        <input type="range" id="risk" min="1" max="5" value="3" />
-        <div id="riskVal" class="value-label"></div>
+          <button id="sampleBtn">Load Sample Data</button>
+
+          <div id="mapping-section" class="mapping-section hidden">
+            <h3>Map Your Columns</h3>
+            <div class="mapping-grid">
+              <div>
+                <label for="categoryColumn">Category</label>
+                <select id="categoryColumn"></select>
+              </div>
+              <div>
+                <label for="supplierColumn">Supplier</label>
+                <select id="supplierColumn"></select>
+              </div>
+              <div>
+                <label for="spendColumn">Annual Spend</label>
+                <select id="spendColumn"></select>
+              </div>
+            </div>
+            <button id="processBtn">Aggregate Categories</button>
+          </div>
+
+          <div id="risk-entry" class="risk-entry hidden">
+            <h3>Set Supply Risk</h3>
+            <div class="risk-entry-grid">
+              <div>
+                <label for="categorySelect">Category</label>
+                <select id="categorySelect"></select>
+              </div>
+              <div class="range-group">
+                <label for="risk">Supply Risk</label>
+                <input type="range" id="risk" min="1" max="5" value="3" />
+                <div id="riskVal" class="value-label"></div>
+              </div>
+              <button id="addBtn">Update Supply Risk</button>
+              <button id="updateMatrixBtn">Update Matrix</button>
+            </div>
+          </div>
+
+          <button class="reset" id="resetBtn">Reset</button>
+        </section>
+
+        <!-- TABLE -->
+        <section class="panel" id="item-list">
+          <h2>Item List</h2>
+          <input id="searchInput" class="search" placeholder="Search..." aria-label="Search items" />
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Suppliers</th>
+                <th>Annual Spend</th>
+                <th>Supply Risk</th>
+                <th>Profit Impact</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody id="table"></tbody>
+          </table>
+        </section>
+
+        <!-- MATRIX EXPORT AREA -->
+        <section class="panel" id="exportArea">
+          <h2>Matrix Output</h2>
+          <div class="matrix-wrapper">
+            <div class="y-axis">
+              <div class="arrow-up">&uarr;</div>
+              <div class="y-axis-text">Supply Risk</div>
+            </div>
+
+            <div class="matrix" id="matrix">
+              <!-- Correct visual quadrant order -->
+              <div class="quadrant bottleneck">Bottleneck</div>
+              <div class="quadrant strategic">Strategic</div>
+              <div class="quadrant non-critical">Non-Critical</div>
+              <div class="quadrant leverage">Leverage</div>
+            </div>
+          </div>
+
+          <div class="x-axis">Profit Impact &rarr;</div>
+          <div id="summary" class="summary"></div>
+          <div class="matrix-actions">
+            <button class="export" id="csvBtn">Export CSV</button>
+            <button class="export" id="imgBtn">Export Image</button>
+          </div>
+        </section>
+
+        <section class="panel content-section" id="about-kraljic">
+          <h2>About Kraljic Matrix Analysis</h2>
+          <p>
+            The Kraljic Matrix is a procurement planning method that helps teams decide how much attention, control,
+            and supplier management effort different purchases need. It compares each item against two practical
+            questions: how much the item affects business performance, and how difficult or risky it is to secure supply.
+          </p>
+          <p>
+            In this tool, profit impact is plotted from left to right and supply risk is plotted from bottom to top.
+            The resulting position places each item into one of four categories, giving procurement teams a clear way to
+            prioritise sourcing strategy, supplier conversations, and risk mitigation.
+          </p>
+        </section>
+
+        <section class="panel content-section" id="how-to-use">
+          <h2>How to Use This Tool</h2>
+          <ol class="method-list">
+            <li>Upload a CSV or Excel file that includes category, supplier, and annual spend fields.</li>
+            <li>Map the imported columns so the tool can aggregate annual spend by category.</li>
+            <li>Review the calculated profit impact score, which is based on each category's annual spend.</li>
+            <li>Set supply risk manually for each category using your procurement judgement.</li>
+            <li>Export the table or matrix image when you want to share the analysis with stakeholders.</li>
+          </ol>
+        </section>
+
+        <section class="panel content-section" id="category-guidance">
+          <h2>Category Guidance</h2>
+          <div class="guidance-grid">
+            <div class="guidance-card">
+              <span>Strategic</span>
+              <p>High impact and high risk. Build close supplier relationships, plan early, monitor risk, and consider long-term agreements.</p>
+            </div>
+            <div class="guidance-card">
+              <span>Leverage</span>
+              <p>High impact and lower risk. Use competition, volume consolidation, and negotiation to improve value without overcomplicating supply.</p>
+            </div>
+            <div class="guidance-card">
+              <span>Bottleneck</span>
+              <p>Lower impact but high risk. Focus on availability, backup options, specifications, and practical ways to reduce supply exposure.</p>
+            </div>
+            <div class="guidance-card">
+              <span>Non-Critical</span>
+              <p>Lower impact and lower risk. Keep the buying process simple with standard terms, catalogues, automation, or reduced administration.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel content-section faq-section" id="faq">
+          <h2>FAQ</h2>
+          <details>
+            <summary>How should I score supply risk?</summary>
+            <p>Consider the number of suitable suppliers, switching effort, lead-time volatility, technical constraints, and exposure to disruption.</p>
+          </details>
+          <details>
+            <summary>How should I score profit impact?</summary>
+            <p>The tool calculates profit impact from annual spend after aggregating the imported data by category. Higher annual spend produces a higher impact score.</p>
+          </details>
+          <details>
+            <summary>Should every item be reviewed at the same level of detail?</summary>
+            <p>No. The matrix is useful because it separates routine purchases from items that deserve deeper supplier and risk management work.</p>
+          </details>
+        </section>
       </div>
 
-      <div class="range-group">
-        <label for="impact">Profit Impact</label>
-        <input type="range" id="impact" min="1" max="5" value="3" />
-        <div id="impactVal" class="value-label"></div>
-      </div>
-
-      <button id="addBtn">Add</button>
-      <button class="reset" id="resetBtn">Reset</button>
-      <button class="export" id="csvBtn">Export CSV</button>
-      <button class="export" id="imgBtn">Export Image</button>
-    </div>
-
-    <!-- TABLE -->
-    <div class="panel">
-      <input id="searchInput" class="search" placeholder="Search..." aria-label="Search items" />
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Supply Risk</th>
-            <th>Profit Impact</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody id="table"></tbody>
-      </table>
-    </div>
-
-    <!-- MATRIX EXPORT AREA -->
-    <div class="panel" id="exportArea">
-      <div class="matrix-wrapper">
-        <div class="y-axis">
-          <div class="arrow-up">&uarr;</div>
-          <div class="y-axis-text">Supply Risk</div>
-        </div>
-
-        <div class="matrix" id="matrix">
-          <!-- Correct visual quadrant order -->
-          <div class="quadrant bottleneck">Bottleneck</div>
-          <div class="quadrant strategic">Strategic</div>
-          <div class="quadrant non-critical">Non-Critical</div>
-          <div class="quadrant leverage">Leverage</div>
-        </div>
-      </div>
-
-      <div class="x-axis">Profit Impact &rarr;</div>
-      <div id="summary" class="summary"></div>
-      <div class="small-note">Scale: 1 = Very Low, 5 = Very High</div>
+      <aside class="kraljic-side-nav panel">
+        <h2>Navigation</h2>
+        <nav aria-label="Kraljic Matrix page sections">
+          <a href="#data-entry">Data Import</a>
+          <a href="#item-list">Item List</a>
+          <a href="#exportArea">Matrix Output</a>
+          <a href="#about-kraljic">About</a>
+          <a href="#how-to-use">How to Use</a>
+          <a href="#category-guidance">Guidance</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </aside>
     </div>
   </main>
 

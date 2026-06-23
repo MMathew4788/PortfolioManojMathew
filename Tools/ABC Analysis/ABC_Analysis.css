@@ -488,6 +488,95 @@ html {
   color: #e5e7eb !important; /* gray-200 */
 }
 
+.abc-page .abc-manual-search {
+  margin-bottom: 10px;
+}
+
+.abc-page #manual-search {
+  color: #e5e7eb !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+  border-radius: var(--border-radius-sm);
+  box-sizing: border-box;
+}
+
+.abc-page #manual-search::placeholder {
+  color: rgba(255, 255, 255, 0.48) !important;
+}
+
+.abc-page .abc-manual-table {
+  table-layout: fixed;
+  min-width: 0;
+}
+
+.abc-page .abc-manual-table thead {
+  background: #2b3137 !important;
+}
+
+.abc-page .abc-manual-table th {
+  padding: 0.55rem !important;
+  color: rgba(255, 255, 255, 0.86) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #2b3137 !important;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.abc-page .abc-manual-table th:last-child {
+  width: 5rem;
+}
+
+.abc-page .abc-manual-table td {
+  padding: 0.55rem !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+.abc-page .abc-manual-table input {
+  color: #e5e7eb !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  border-radius: var(--border-radius-sm);
+  text-align: inherit;
+}
+
+.abc-page .abc-manual-table input::placeholder {
+  color: rgba(255, 255, 255, 0.48) !important;
+}
+
+.abc-page .abc-manual-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.abc-page .manual-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2rem;
+  color: var(--bg-darker) !important;
+  border: none;
+  border-radius: 0.45rem;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  font-weight: 700;
+  line-height: 1;
+  transition:
+    transform var(--transition-slow),
+    background var(--transition-slow);
+}
+
+.abc-page .manual-delete-btn:hover,
+.abc-page .manual-delete-btn:focus {
+  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+  outline: none;
+  transform: translateY(-1px);
+}
+
 /* Export buttons */
 .abc-page .export-btn {
   border-radius: 0.6rem;

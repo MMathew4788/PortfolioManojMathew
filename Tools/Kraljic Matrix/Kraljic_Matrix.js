@@ -6,6 +6,15 @@ const scaleLabels = {
   5: "Very High"
 };
 
+const sampleSpendRows = [
+  { Category: "Item-1", Supplier: "Supplier-1", "Annual Spend": "250,000" },
+  { Category: "Item-2", Supplier: "Supplier-2", "Annual Spend": "4,500,000" },
+  { Category: "Item-3", Supplier: "Supplier-3", "Annual Spend": "1,800,000" },
+  { Category: "Item-4", Supplier: "Supplier-4", "Annual Spend": "25,000" }
+];
+
+let uploadedRawData = null;
+
 function loadItems() {
   try {
     const savedItems = JSON.parse(localStorage.getItem("kraljic"));
@@ -18,17 +27,18 @@ function loadItems() {
       .filter(item => (
         item &&
         typeof item.name === "string" &&
-        Number.isInteger(item.risk) &&
+        (item.risk === null || Number.isInteger(item.risk)) &&
         Number.isInteger(item.impact) &&
-        item.risk >= 1 &&
-        item.risk <= 5 &&
+        (item.risk === null || (item.risk >= 1 && item.risk <= 5)) &&
         item.impact >= 1 &&
         item.impact <= 5
       ))
       .map(item => ({
         name: item.name.trim(),
         risk: item.risk,
-        impact: item.impact
+        impact: item.impact,
+        annualSpend: Number(item.annualSpend) || 0,
+        suppliers: Array.isArray(item.suppliers) ? item.suppliers.filter(Boolean) : []
       }))
       .filter(item => item.name);
   } catch (error) {
@@ -39,12 +49,20 @@ function loadItems() {
 
 let items = loadItems();
 
-const nameInput = document.getElementById("name");
+const dropZone = document.getElementById("drop-zone");
+const fileInput = document.getElementById("file-input");
+const sampleBtn = document.getElementById("sampleBtn");
+const mappingSection = document.getElementById("mapping-section");
+const categoryColumn = document.getElementById("categoryColumn");
+const supplierColumn = document.getElementById("supplierColumn");
+const spendColumn = document.getElementById("spendColumn");
+const processBtn = document.getElementById("processBtn");
+const riskEntry = document.getElementById("risk-entry");
+const categorySelect = document.getElementById("categorySelect");
 const riskInput = document.getElementById("risk");
-const impactInput = document.getElementById("impact");
 const riskVal = document.getElementById("riskVal");
-const impactVal = document.getElementById("impactVal");
 const addBtn = document.getElementById("addBtn");
+const updateMatrixBtn = document.getElementById("updateMatrixBtn");
 const resetBtn = document.getElementById("resetBtn");
 const csvBtn = document.getElementById("csvBtn");
 const imgBtn = document.getElementById("imgBtn");
@@ -55,11 +73,9 @@ const searchInput = document.getElementById("searchInput");
 
 function updateSliderLabels() {
   riskVal.textContent = scaleLabels[riskInput.value];
-  impactVal.textContent = scaleLabels[impactInput.value];
 }
 
 riskInput.addEventListener("input", updateSliderLabels);
-impactInput.addEventListener("input", updateSliderLabels);
 updateSliderLabels();
 
 function save() {
@@ -73,6 +89,7 @@ function escapeHtml(text) {
 }
 
 function classifyItem(item) {
+  if (!Number.isInteger(item.risk)) return null;
   if (item.impact > 2 && item.risk > 2) return "strategic";
   if (item.impact <= 2 && item.risk > 2) return "bottleneck";
   if (item.impact > 2 && item.risk <= 2) return "leverage";
@@ -113,36 +130,277 @@ function getPointOffset(index) {
   return offsetPattern[index % offsetPattern.length];
 }
 
-function addItem() {
-  const nameVal = nameInput.value.trim();
-  const riskValNum = Number(riskInput.value);
-  const impactValNum = Number(impactInput.value);
+function parseSpend(value) {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : 0;
+  }
 
-  if (!nameVal) {
-    alert("Enter item name");
+  const cleaned = String(value || "")
+    .replace(/[^0-9.-]/g, "")
+    .trim();
+
+  const parsed = Number(cleaned);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+    maximumFractionDigits: 0
+  }).format(value || 0);
+}
+
+function calculateImpactScores(aggregatedItems) {
+  const spends = aggregatedItems.map(item => item.annualSpend);
+  const minSpend = Math.min(...spends);
+  const maxSpend = Math.max(...spends);
+
+  return aggregatedItems.map(item => {
+    if (maxSpend === minSpend) {
+      return { ...item, impact: 3 };
+    }
+
+    const normalized = (item.annualSpend - minSpend) / (maxSpend - minSpend);
+    return {
+      ...item,
+      impact: Math.min(5, Math.max(1, Math.round(normalized * 4) + 1))
+    };
+  });
+}
+
+function populateColumnSelectors(headers) {
+  [categoryColumn, supplierColumn, spendColumn].forEach(select => {
+    select.innerHTML = "";
+    headers.forEach(header => {
+      const option = document.createElement("option");
+      option.value = header;
+      option.textContent = header;
+      select.appendChild(option);
+    });
+  });
+
+  selectLikelyColumn(categoryColumn, headers, ["category", "commodity", "group"]);
+  selectLikelyColumn(supplierColumn, headers, ["supplier", "vendor"]);
+  selectLikelyColumn(spendColumn, headers, ["annual spend", "spend", "value", "cost"]);
+  mappingSection.classList.remove("hidden");
+}
+
+function selectLikelyColumn(select, headers, keywords) {
+  const match = headers.find(header => {
+    const normalized = header.toLowerCase();
+    return keywords.some(keyword => normalized.includes(keyword));
+  });
+
+  if (match) {
+    select.value = match;
+  }
+}
+
+function setUploadedData(rows, showMapping = true) {
+  uploadedRawData = rows;
+  const headers = Object.keys(rows[0] || {});
+
+  if (!headers.length) {
+    alert("No usable columns were found. Please use a file with a header row.");
     return;
   }
 
-  items.push({
-    name: nameVal,
-    risk: riskValNum,
-    impact: impactValNum
+  if (showMapping) {
+    populateColumnSelectors(headers);
+  }
+}
+
+function loadSampleData() {
+  mappingSection.classList.add("hidden");
+  uploadedRawData = sampleSpendRows;
+  aggregateRows("Category", "Supplier", "Annual Spend");
+}
+
+function handleFile(file) {
+  if (!file) {
+    return;
+  }
+
+  const extension = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
+  const allowedExtensions = [".csv", ".xlsx", ".xls"];
+
+  if (!allowedExtensions.includes(extension)) {
+    alert("Please upload a valid CSV, XLS, or XLSX file.");
+    fileInput.value = "";
+    return;
+  }
+
+  if (typeof XLSX === "undefined") {
+    alert("The spreadsheet parser is not available. Please check your connection and reload the page.");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = event => {
+    try {
+      const data = new Uint8Array(event.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const firstSheetName = workbook.SheetNames && workbook.SheetNames[0];
+
+      if (!firstSheetName) {
+        throw new Error("Workbook does not contain any sheets.");
+      }
+
+      const worksheet = workbook.Sheets[firstSheetName];
+      const rawRows = XLSX.utils.sheet_to_json(worksheet, {
+        defval: "",
+        header: 1
+      });
+      const headerRow = rawRows.find(row => row.some(cell => String(cell).trim()));
+
+      if (!headerRow) {
+        throw new Error("No header row found.");
+      }
+
+      const parsedRows = XLSX.utils.sheet_to_json(worksheet, {
+        defval: "",
+        range: rawRows.indexOf(headerRow)
+      });
+
+      if (!parsedRows.length) {
+        throw new Error("No data rows found.");
+      }
+
+      setUploadedData(parsedRows, true);
+    } catch (error) {
+      console.error("Unable to read file.", error);
+      uploadedRawData = null;
+      mappingSection.classList.add("hidden");
+      fileInput.value = "";
+      alert("We could not read this file. Please upload a CSV, XLS, or XLSX file with a header row and data rows.");
+    }
+  };
+
+  reader.onerror = () => {
+    uploadedRawData = null;
+    mappingSection.classList.add("hidden");
+    fileInput.value = "";
+    alert("We could not read this file. Please try again.");
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+
+function aggregateMappedData() {
+  if (!uploadedRawData || !uploadedRawData.length) {
+    alert("Upload a file or load sample data first.");
+    return;
+  }
+
+  aggregateRows(categoryColumn.value, supplierColumn.value, spendColumn.value);
+}
+
+function aggregateRows(categoryKey, supplierKey, spendKey) {
+  const previousRiskByName = new Map(items.map(item => [item.name, item.risk]));
+  const groups = new Map();
+
+  uploadedRawData.forEach(row => {
+    const category = String(row[categoryKey] || "").trim();
+    const supplier = String(row[supplierKey] || "").trim();
+    const annualSpend = parseSpend(row[spendKey]);
+
+    if (!category || annualSpend <= 0) {
+      return;
+    }
+
+    if (!groups.has(category)) {
+      groups.set(category, {
+        name: category,
+        annualSpend: 0,
+        suppliers: new Set(),
+        risk: previousRiskByName.has(category) ? previousRiskByName.get(category) : null,
+        impact: 3
+      });
+    }
+
+    const group = groups.get(category);
+    group.annualSpend += annualSpend;
+    if (supplier) {
+      group.suppliers.add(supplier);
+    }
   });
 
-  nameInput.value = "";
+  const aggregatedItems = Array.from(groups.values())
+    .map(item => ({
+      ...item,
+      suppliers: Array.from(item.suppliers).sort()
+    }))
+    .sort((a, b) => b.annualSpend - a.annualSpend);
+
+  if (!aggregatedItems.length) {
+    alert("No valid category and annual spend rows were found.");
+    return;
+  }
+
+  items = calculateImpactScores(aggregatedItems);
   save();
-  render();
+  populateCategoryRiskSelector();
+  riskEntry.classList.remove("hidden");
+  renderTable();
+  clearMatrix();
+}
+
+function populateCategoryRiskSelector() {
+  categorySelect.innerHTML = "";
+
+  items.forEach(item => {
+    const option = document.createElement("option");
+    option.value = item.name;
+    option.textContent = `${item.name} (${formatCurrency(item.annualSpend)})`;
+    categorySelect.appendChild(option);
+  });
+
+  syncRiskInputToSelectedCategory();
+}
+
+function syncRiskInputToSelectedCategory() {
+  const selectedItem = items.find(item => item.name === categorySelect.value);
+
+  if (!selectedItem) {
+    return;
+  }
+
+  riskInput.value = Number.isInteger(selectedItem.risk) ? selectedItem.risk : 3;
+  updateSliderLabels();
+}
+
+function updateSelectedRisk() {
+  const selectedItem = items.find(item => item.name === categorySelect.value);
+
+  if (!selectedItem) {
+    alert("Select a category first.");
+    return;
+  }
+
+  selectedItem.risk = Number(riskInput.value);
+  save();
+  renderTable();
 }
 
 function removeItem(index) {
   items.splice(index, 1);
   save();
+  populateCategoryRiskSelector();
+  if (!items.length) {
+    riskEntry.classList.add("hidden");
+  }
   render();
 }
 
 function resetAll() {
   if (confirm("Clear all?")) {
     items = [];
+    uploadedRawData = null;
+    fileInput.value = "";
+    mappingSection.classList.add("hidden");
+    riskEntry.classList.add("hidden");
     save();
     render();
   }
@@ -156,18 +414,19 @@ function filterTable(text) {
 }
 
 function exportCSV() {
-  let csv = "Name,Risk,Impact,Category\n";
+  let csv = "Category,Suppliers,Annual Spend,Risk,Impact,Matrix Category\n";
 
   items.forEach(item => {
     const category = classifyItem(item);
-    csv += `"${item.name.replace(/"/g, '""')}",${item.risk},${item.impact},${category}\n`;
+    const suppliers = (item.suppliers || []).join("; ");
+    csv += `"${item.name.replace(/"/g, '""')}","${suppliers.replace(/"/g, '""')}",${item.annualSpend || 0},${item.risk},${item.impact},${category}\n`;
   });
 
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const a = document.createElement("a");
   const url = URL.createObjectURL(blob);
   a.href = url;
-  a.download = "matrix.csv";
+  a.download = "kraljic_matrix.csv";
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -178,7 +437,7 @@ function exportImage() {
   try {
     const canvas = document.createElement("canvas");
     canvas.width = 1100;
-    canvas.height = 820;
+    canvas.height = 780;
 
     const ctx = canvas.getContext("2d");
     const matrixX = 190;
@@ -234,10 +493,6 @@ function exportImage() {
     ctx.font = "700 18px Arial, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText(summary.textContent, canvas.width / 2, matrixY + matrixH + 92);
-
-    ctx.fillStyle = "#5b6470";
-    ctx.font = "14px Arial, sans-serif";
-    ctx.fillText("Scale: 1 = Very Low, 5 = Very High", canvas.width / 2, matrixY + matrixH + 122);
 
     const a = document.createElement("a");
     a.download = "kraljic_matrix.png";
@@ -317,11 +572,19 @@ function createTableRow(item, index) {
   const nameTd = document.createElement("td");
   nameTd.textContent = item.name;
 
+  const suppliersTd = document.createElement("td");
+  suppliersTd.textContent = item.suppliers && item.suppliers.length
+    ? item.suppliers.join(", ")
+    : "-";
+
+  const spendTd = document.createElement("td");
+  spendTd.textContent = formatCurrency(item.annualSpend);
+
   const riskTd = document.createElement("td");
-  riskTd.textContent = scaleLabels[item.risk];
+  riskTd.textContent = Number.isInteger(item.risk) ? scaleLabels[item.risk] : "Not set";
 
   const impactTd = document.createElement("td");
-  impactTd.textContent = scaleLabels[item.impact];
+  impactTd.textContent = `${scaleLabels[item.impact]} (${formatCurrency(item.annualSpend)})`;
 
   const deleteTd = document.createElement("td");
   const delBtn = document.createElement("button");
@@ -332,6 +595,8 @@ function createTableRow(item, index) {
   deleteTd.appendChild(delBtn);
 
   tr.appendChild(nameTd);
+  tr.appendChild(suppliersTd);
+  tr.appendChild(spendTd);
   tr.appendChild(riskTd);
   tr.appendChild(impactTd);
   tr.appendChild(deleteTd);
@@ -340,8 +605,24 @@ function createTableRow(item, index) {
 }
 
 function render() {
+  renderTable();
+  renderMatrix();
+}
+
+function clearMatrix() {
+  matrix.querySelectorAll(".point").forEach(p => p.remove());
+  summary.textContent = "Set supply risk, then click Update Matrix.";
+}
+
+function renderTable() {
   tableBody.innerHTML = "";
 
+  items.forEach((item, index) => {
+    tableBody.appendChild(createTableRow(item, index));
+  });
+}
+
+function renderMatrix() {
   matrix.querySelectorAll(".point").forEach(p => p.remove());
 
   const rect = matrix.getBoundingClientRect();
@@ -356,22 +637,23 @@ function render() {
   };
   const coordinateCounts = {};
 
-  items.forEach((item, index) => {
-    tableBody.appendChild(createTableRow(item, index));
-
+  items
+    .filter(item => Number.isInteger(item.risk))
+    .forEach(item => {
     const category = classifyItem(item);
+    if (!category) {
+      return;
+    }
     counts[category]++;
 
     const p = document.createElement("div");
     p.className = `point ${getPointClass(category)}`;
 
-    // coordinate placement: x increases right, y increases upward
     const coordinateKey = `${item.impact}-${item.risk}`;
     const duplicateIndex = coordinateCounts[coordinateKey] || 0;
     coordinateCounts[coordinateKey] = duplicateIndex + 1;
 
     const offset = getPointOffset(duplicateIndex);
-
     const x = ((item.impact - 1) / 4) * (w - 120) + 60 + offset[0];
     const y = h - ((item.risk - 1) / 4) * (h - 120) - 60 + offset[1];
 
@@ -383,8 +665,8 @@ function render() {
       R: ${scaleLabels[item.risk]}<br>
       I: ${scaleLabels[item.impact]}
     `;
-    p.setAttribute("title", `${item.name}: ${scaleLabels[item.risk]} supply risk, ${scaleLabels[item.impact]} profit impact`);
-    p.setAttribute("aria-label", `${item.name}: ${scaleLabels[item.risk]} supply risk, ${scaleLabels[item.impact]} profit impact`);
+    p.setAttribute("title", `${item.name}: ${scaleLabels[item.risk]} supply risk, ${scaleLabels[item.impact]} profit impact from ${formatCurrency(item.annualSpend)} annual spend`);
+    p.setAttribute("aria-label", `${item.name}: ${scaleLabels[item.risk]} supply risk, ${scaleLabels[item.impact]} profit impact from annual spend`);
 
     matrix.appendChild(p);
   });
@@ -393,10 +675,56 @@ function render() {
     `Non-critical: ${counts["non-critical"]} | Leverage: ${counts["leverage"]} | Bottleneck: ${counts["bottleneck"]} | Strategic: ${counts["strategic"]}`;
 }
 
-addBtn.addEventListener("click", addItem);
+function updateMatrix() {
+  if (!items.length) {
+    alert("Load or upload data first.");
+    return;
+  }
+
+  const missingRiskItems = items.filter(item => !Number.isInteger(item.risk));
+
+  if (missingRiskItems.length) {
+    alert("Please set supply risk for each category first, then click Update Matrix.");
+    return;
+  }
+
+  renderMatrix();
+}
+
+dropZone.addEventListener("click", () => fileInput.click());
+dropZone.addEventListener("keydown", event => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    fileInput.click();
+  }
+});
+dropZone.addEventListener("dragover", event => {
+  event.preventDefault();
+  dropZone.classList.add("drag-over");
+});
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("drag-over");
+});
+dropZone.addEventListener("drop", event => {
+  event.preventDefault();
+  dropZone.classList.remove("drag-over");
+  handleFile(event.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener("change", event => handleFile(event.target.files[0]));
+sampleBtn.addEventListener("click", loadSampleData);
+processBtn.addEventListener("click", aggregateMappedData);
+categorySelect.addEventListener("change", syncRiskInputToSelectedCategory);
+addBtn.addEventListener("click", updateSelectedRisk);
+updateMatrixBtn.addEventListener("click", updateMatrix);
 resetBtn.addEventListener("click", resetAll);
 csvBtn.addEventListener("click", exportCSV);
 imgBtn.addEventListener("click", exportImage);
-searchInput.addEventListener("input", e => filterTable(e.target.value));
+searchInput.addEventListener("input", event => filterTable(event.target.value));
+
+if (items.length) {
+  populateCategoryRiskSelector();
+  riskEntry.classList.remove("hidden");
+}
 
 render();

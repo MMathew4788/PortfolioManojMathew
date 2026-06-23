@@ -24,27 +24,36 @@
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1220px;
   margin: 0 auto;
   padding: 2rem 5% 3rem;
 }
 
 .tool-topnav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 5%;
+  padding: 0;
   background: linear-gradient(90deg, var(--bg-darker), var(--bg-dark));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
+.tool-topnav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+}
+
 .tool-topnav h1 {
   margin: 0;
-  color: var(--text-light);
   font-family: "Patua One", cursive;
   font-size: 1.25rem;
   letter-spacing: 0;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .tool-topnav .project-button {
@@ -87,6 +96,82 @@
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
 }
 
+.panel h2 {
+  margin: 0 0 1rem;
+  font-family: "Patua One", cursive;
+  font-size: 1.25rem;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.kraljic-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  grid-template-areas: "content navigation";
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.kraljic-content {
+  grid-area: content;
+  min-width: 0;
+}
+
+.kraljic-page #data-entry,
+.kraljic-page #item-list,
+.kraljic-page #exportArea,
+.kraljic-page #about-kraljic,
+.kraljic-page #how-to-use,
+.kraljic-page #category-guidance,
+.kraljic-page #faq {
+  scroll-margin-top: 6rem;
+}
+
+.kraljic-side-nav {
+  grid-area: navigation;
+  align-self: start;
+  position: sticky;
+  top: 1.5rem;
+  padding: 1rem;
+}
+
+.kraljic-side-nav h2 {
+  margin-bottom: 1rem;
+}
+
+.kraljic-side-nav nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.kraljic-side-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.38rem 0.65rem;
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--border-radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background var(--transition-slow),
+    border-color var(--transition-slow),
+    color var(--transition-slow);
+}
+
+.kraljic-side-nav a:hover,
+.kraljic-side-nav a:focus {
+  color: var(--bg-darker);
+  border-color: transparent;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  outline: none;
+}
+
 #exportArea {
   background: linear-gradient(
     180deg,
@@ -95,11 +180,135 @@
   );
 }
 
-.input-panel {
+.hidden {
+  display: none !important;
+}
+
+.data-import-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.drop-zone {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 11rem;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  border: 2px dashed rgba(153, 169, 255, 0.95);
+  border-radius: var(--border-radius-sm);
+  background: rgba(255, 255, 255, 0.22);
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.drop-zone:hover,
+.drop-zone:focus,
+.drop-zone.drag-over {
+  background: rgba(255, 255, 255, 0.28);
+  border-color: rgba(153, 169, 255, 1);
+  outline: none;
+}
+
+.drop-zone input {
+  display: none;
+}
+
+.drop-zone p {
+  margin: 0.25rem 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.drop-zone strong {
+  color: var(--primary-color);
+}
+
+.upload-icon {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.75rem;
+  color: rgba(99, 102, 241, 0.85);
+}
+
+.data-import-panel > button {
+  justify-self: start;
+}
+
+.privacy-note {
+  padding: 0.75rem 0.9rem;
+  color: #d1fae5;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: var(--border-radius-sm);
+  background: rgba(16, 185, 129, 0.1);
+  font-size: 0.825rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.mapping-section,
+.risk-entry {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--border-radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.mapping-section button,
+.risk-entry button {
+  width: 100%;
+}
+
+.mapping-section h3,
+.risk-entry h3 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
+.mapping-grid,
+.risk-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.risk-entry-grid {
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) auto auto;
+}
+
+.mapping-grid label,
+.risk-entry-grid label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.mapping-grid select,
+.risk-entry-grid select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem;
+  color: var(--text-light);
+  border: 1px solid var(--kraljic-card-border);
+  border-radius: var(--border-radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.mapping-grid option,
+.risk-entry-grid option {
+  color: var(--text-dark);
 }
 
 .range-group {
@@ -174,6 +383,14 @@ button:hover {
 table {
   width: 100%;
   border-collapse: collapse;
+}
+
+#item-list {
+  overflow-x: auto;
+}
+
+#item-list table {
+  min-width: 780px;
 }
 
 th,
@@ -315,6 +532,14 @@ td {
   color: var(--text-light);
 }
 
+.matrix-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
 .small-note {
   text-align: center;
   font-size: 12px;
@@ -322,18 +547,107 @@ td {
   margin-top: 8px;
 }
 
+.content-section {
+  display: grid;
+  gap: 1rem;
+}
+
+.content-section p,
+.method-list li,
+.guidance-card p,
+.faq-section details p {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.content-section p {
+  margin: 0;
+}
+
+.method-list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.guidance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.guidance-card {
+  min-height: 9rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--border-radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.guidance-card span {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: var(--primary-color);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.guidance-card p {
+  margin: 0;
+}
+
+.faq-section {
+  gap: 0.75rem;
+}
+
+.faq-section details {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--border-radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.faq-section summary {
+  cursor: pointer;
+  padding: 0.9rem 1rem;
+  color: #e5e7eb;
+  font-size: 0.925rem;
+  font-weight: 700;
+}
+
+.faq-section summary:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.faq-section details p {
+  margin: 0;
+  padding: 0 1rem 1rem;
+}
+
 @media (max-width: 768px) {
-  .tool-topnav {
+  .tool-topnav-inner {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .tool-topnav .project-button {
+  .tool-topnav-inner .project-button {
     width: auto;
   }
 
   .container {
     padding: 1.25rem 1rem 2rem;
+  }
+
+  .kraljic-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "content";
+  }
+
+  .kraljic-side-nav {
+    display: none;
   }
 
   .tool-header h2 {
@@ -351,9 +665,8 @@ td {
 }
 
 @media (max-width: 560px) {
-  .input-panel {
+  .data-import-panel {
     align-items: stretch;
-    flex-direction: column;
   }
 
   .range-group,
@@ -370,5 +683,14 @@ td {
 
   .matrix {
     min-width: 420px;
+  }
+
+  .guidance-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mapping-grid,
+  .risk-entry-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -23,6 +23,7 @@ const fileInput = document.getElementById("file-input");
 const mappingSection = document.getElementById("mapping-section");
 const calcMethodSelect = document.getElementById("calc-method");
 const manualTbody = document.getElementById("manual-tbody");
+const manualSearchInput = document.getElementById("manual-search");
 const resultsDashboard = document.getElementById("output-dashboard");
 
 // Initial setup hook
@@ -67,6 +68,7 @@ function clearAllData() {
   resetImportedFileState();
   resetOutputState();
   clearThresholdWarning();
+  manualSearchInput.value = "";
   calcMethodSelect.value = "single";
   calcMethodSelect.dispatchEvent(new Event("change"));
   document.getElementById("threshold-a").value = "80";
@@ -78,6 +80,7 @@ function loadSampleData() {
   resetImportedFileState();
   resetOutputState();
   clearThresholdWarning();
+  manualSearchInput.value = "";
   calcMethodSelect.dispatchEvent(new Event("change"));
   manualTbody.innerHTML = "";
   SAMPLE_INVENTORY_ITEMS.forEach((item) => {
@@ -87,6 +90,16 @@ function loadSampleData() {
     }
 
     addManualRow(item.name, item.quantity * item.unitPrice);
+  });
+  applyManualSearchFilter();
+}
+
+function applyManualSearchFilter() {
+  const query = manualSearchInput.value.trim().toLowerCase();
+
+  manualTbody.querySelectorAll("tr").forEach((row) => {
+    const itemName = row.querySelector(".manual-item").value.toLowerCase();
+    row.classList.toggle("hidden", query !== "" && !itemName.includes(query));
   });
 }
 
@@ -135,13 +148,14 @@ function addManualRow(item = "", val1 = "", val2 = "") {
   const removeButton = document.createElement("button");
   removeButton.type = "button";
   removeButton.className =
-    "text-gray-400 hover:text-rose-600 opacity-0 group-hover:opacity-100 transition-opacity font-medium";
+    "manual-delete-btn";
   removeButton.textContent = "x";
   removeButton.addEventListener("click", () => row.remove());
   actionCell.appendChild(removeButton);
 
   row.append(itemCell, val1Cell, val2Cell, actionCell);
   manualTbody.appendChild(row);
+  applyManualSearchFilter();
 }
 
 document
@@ -151,6 +165,7 @@ document
   .getElementById("btn-load-sample")
   .addEventListener("click", loadSampleData);
 document.getElementById("btn-clear-all").addEventListener("click", clearAllData);
+manualSearchInput.addEventListener("input", applyManualSearchFilter);
 
 // Respond to structural formulas changing
 calcMethodSelect.addEventListener("change", (e) => {
