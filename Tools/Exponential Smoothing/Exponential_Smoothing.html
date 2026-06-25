@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Exponential Smoothing Tool</title>
+    <link rel="stylesheet" href="../../CSS.css">
+    <link rel="stylesheet" href="Exponential_Smoothing.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+    <script src="Exponential_Smoothing.js" defer></script>
+</head>
+<body class="forecast-page">
+    <nav class="tool-topnav">
+        <div class="tool-topnav-inner">
+            <h1>Exponential Smoothing Tool</h1>
+            <a href="../tools.html" class="project-button">Back to Tools and utilities</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="forecast-layout">
+            <div class="forecast-content">
+                <section class="panel data-import-panel" id="forecast-input">
+                    <h2>1. Input Data / Data Import</h2>
+
+                    <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="Upload Excel or CSV demand data file">
+                        <svg class="upload-icon" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                            </path>
+                        </svg>
+                        <p>Drag & drop your <strong>Excel (.xlsx, .xls)</strong> or <strong>CSV</strong> demand data here</p>
+                        <p>Or click to browse files from your computer</p>
+                        <input type="file" id="file-input" accept=".csv,.xlsx,.xls">
+                    </div>
+
+                    <div class="privacy-note" role="note">
+                        Data is processed locally in the browser and is not uploaded to a server.
+                    </div>
+
+                    <button id="exampleButton" type="button">Load Sample Data</button>
+
+                    <div id="mapping-section" class="mapping-section hidden">
+                        <h3>Map Your Columns</h3>
+                        <div class="mapping-grid">
+                            <div>
+                                <label for="demandColumn">Demand Value</label>
+                                <select id="demandColumn"></select>
+                            </div>
+                        </div>
+                        <button id="processFileButton" type="button">Process Uploaded Data</button>
+                    </div>
+                </section>
+
+                <section class="panel manual-entry-panel" id="manual-entry">
+                    <div class="manual-entry-header">
+                        <h2>2. Quick Manual Entry</h2>
+                        <button class="small-button" id="addRowButton" type="button">+ Add Row</button>
+                    </div>
+
+                    <div class="table-wrap manual-table-wrap">
+                        <table class="manual-table">
+                            <thead>
+                                <tr>
+                                    <th>Period</th>
+                                    <th>Demand</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="manualTbody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="panel" id="forecast-parameters">
+                    <h2>3. Set Parameters</h2>
+
+                    <label for="alpha">Alpha (0-1):</label>
+                    <input type="number" id="alpha" step="0.01" value="0.3">
+
+                    <label for="method">Method:</label>
+                    <select id="method">
+                        <option value="simple">Simple Exponential Smoothing</option>
+                        <option value="double">Double Exponential (Holt's)</option>
+                    </select>
+
+                    <div id="betaContainer" class="hidden">
+                        <label for="beta">Beta (trend factor):</label>
+                        <input type="number" id="beta" step="0.01" value="0.2">
+                    </div>
+
+                    <div class="error" id="error" role="alert"></div>
+
+                    <div class="actions">
+                        <button id="calculateButton" type="button">Calculate Forecast</button>
+                        <button class="reset" id="clearButton" type="button">Reset</button>
+                    </div>
+                </section>
+
+                <section class="panel hidden" id="forecast-results">
+                    <div class="results-header">
+                        <h2>Results</h2>
+                        <button id="exportButton" type="button">Export CSV</button>
+                    </div>
+                    <div id="finalForecast" class="highlight"></div>
+                    <div id="errorMetric"></div>
+                    <div class="table-wrap">
+                        <table id="resultsTable"></table>
+                    </div>
+                </section>
+
+                <section class="panel chart-card hidden" id="forecast-chart">
+                    <div class="section-header">
+                        <h2>Forecast Chart</h2>
+                        <button id="exportImageButton" type="button">Export Image</button>
+                    </div>
+                    <canvas id="chart"></canvas>
+                </section>
+
+                <section class="panel content-section" id="about-method">
+                    <h2>About Exponential Smoothing</h2>
+                    <p>
+                        Exponential smoothing is a forecasting approach that gives more influence to recent demand while still retaining information from older periods. It is useful when demand changes gradually and the next forecast should react to new data without swinging too sharply after every movement.
+                    </p>
+                    <p>
+                        The method works by blending the latest actual demand with the previous forecast. The smoothing factor controls how quickly the forecast responds. A higher value follows recent changes more closely, while a lower value creates a steadier forecast.
+                    </p>
+                </section>
+
+                <section class="panel content-section" id="how-to-use">
+                    <h2>How to Use This Tool</h2>
+                    <ol class="method-list">
+                        <li>Upload a CSV or Excel file with numeric demand values, or enter demand directly in Quick Manual Entry.</li>
+                        <li>Choose simple smoothing for data without a clear trend, or Holt's method when demand is moving upward or downward over time.</li>
+                        <li>Set alpha to control how much weight recent demand receives.</li>
+                        <li>For Holt's method, set beta to control how quickly the trend estimate updates.</li>
+                        <li>Review the next-period forecast, MAE, table, and chart before exporting the results.</li>
+                    </ol>
+                </section>
+
+                <section class="panel content-section" id="parameter-guidance">
+                    <h2>Parameter Guidance</h2>
+                    <div class="guidance-grid">
+                        <div class="guidance-card">
+                            <span>Alpha</span>
+                            <p>Use a higher alpha when demand has shifted recently and the forecast needs to react faster. Use a lower alpha when demand is noisy and you want a smoother result.</p>
+                        </div>
+                        <div class="guidance-card">
+                            <span>Beta</span>
+                            <p>Beta is used only for Holt's method. It adjusts how strongly the model updates the trend from one period to the next.</p>
+                        </div>
+                        <div class="guidance-card">
+                            <span>Simple Method</span>
+                            <p>Best for stable demand where the main goal is to smooth short-term variation rather than model growth or decline.</p>
+                        </div>
+                        <div class="guidance-card">
+                            <span>Holt's Method</span>
+                            <p>Best when demand has a visible trend and a flat forecast would consistently lag behind the actual pattern.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel content-section faq-section" id="faq">
+                    <h2>FAQ</h2>
+                    <details>
+                        <summary>What does MAE mean?</summary>
+                        <p>MAE stands for mean absolute error. It shows the average size of the forecast misses in the same unit as the demand data.</p>
+                    </details>
+                    <details>
+                        <summary>Can this handle seasonal demand?</summary>
+                        <p>This tool is designed for simple level and trend forecasting. Strong seasonal patterns usually need a seasonal forecasting method.</p>
+                    </details>
+                    <details>
+                        <summary>Should I always use the lowest MAE?</summary>
+                        <p>A lower MAE is helpful, but the forecast should also make business sense. Check whether the chosen settings react appropriately to recent changes.</p>
+                    </details>
+                </section>
+            </div>
+
+            <aside class="forecast-side-nav panel">
+                <h2>Navigation</h2>
+                <nav aria-label="Exponential Smoothing page sections">
+                    <a href="#forecast-input">Data Import</a>
+                    <a href="#manual-entry">Manual Entry</a>
+                    <a href="#forecast-parameters">Parameters</a>
+                    <a href="#forecast-results">Results</a>
+                    <a href="#forecast-chart">Chart</a>
+                    <a href="#about-method">About</a>
+                    <a href="#how-to-use">How to Use</a>
+                    <a href="#parameter-guidance">Guidance</a>
+                    <a href="#faq">FAQ</a>
+                </nav>
+            </aside>
+        </div>
+    </main>
+</body>
+</html>
